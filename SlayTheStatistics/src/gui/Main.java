@@ -27,6 +27,10 @@ public class Main extends JFrame {
 	private final Object[] columnSpecialNames = {"No","Floor","Picked","Not picked","Relic","Special"};
 	private final Object[] columnCardNames = {"No","Floor","Picked","Not picked"};
 	private final Object[] columnRelicNames = {"No","Floor","Relic","Ignored relics"};
+	private final Object[] columnEncountersNames = {"No","Floor","Enemie(s)","Damage","Turns","Healed"};
+	private final Object[] columnRestNames = {"No","Floor","Activity","Item gained/changed"};
+	private final Object[] columnEventNames = {"No","Floor","Name","Choice","Enemie(s)","Damage","Turns","Healed","Relic","Card(s)","Card rem.","Card upgr."};
+	private final Object[] columnShopNames = {"No","Floor","Bought","Removed"};
 	private App myApp;
 	private JRadioButton rdBtnAll;
 	private JRadioButton rdBtnBasic;
@@ -35,7 +39,7 @@ public class Main extends JFrame {
 	private JRadioButton rdBtnRelics;
 	private JRadioButton rdBtnEncounters;
 	private JRadioButton rdBtnRestFloor;
-	private JRadioButton rdBtnChestFloor;
+	private JRadioButton rdBtnEventFloor;
 	private JRadioButton rdBtnShops;
 
 
@@ -170,6 +174,12 @@ public class Main extends JFrame {
 		rdBtnRelics = new JRadioButton("Relics");
 		rdBtnRelics.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (rdBtnRelics.isSelected()) {
+					updateRelicsTable();
+				}
+				else {
+					rdBtnRelics.setSelected(true);
+				}
 			}
 		});
 		GridBagConstraints gbc_rdBtnRelics = new GridBagConstraints();
@@ -181,6 +191,12 @@ public class Main extends JFrame {
 		rdBtnEncounters = new JRadioButton("Encounters");
 		rdBtnEncounters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (rdBtnEncounters.isSelected()) {
+					updateEncountersTable();
+				}
+				else {
+					rdBtnEncounters.setSelected(true);
+				}
 			}
 		});
 		GridBagConstraints gbc_rdBtnEncounters = new GridBagConstraints();
@@ -193,6 +209,12 @@ public class Main extends JFrame {
 		rdBtnRestFloor = new JRadioButton("Campfires");
 		rdBtnRestFloor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (rdBtnRestFloor.isSelected()) {
+					updateRestFloorTable();
+				}
+				else {
+					rdBtnRestFloor.setSelected(true);
+				}
 			}
 		});
 		GridBagConstraints gbc_rdBtnRestFloor = new GridBagConstraints();
@@ -202,20 +224,32 @@ public class Main extends JFrame {
 		gbc_rdBtnRestFloor.gridy = 0;
 		runPannel.add(rdBtnRestFloor, gbc_rdBtnRestFloor);
 		
-		rdBtnChestFloor = new JRadioButton("Chests");
-		rdBtnChestFloor.addActionListener(new ActionListener() {
+		rdBtnEventFloor = new JRadioButton("Events");
+		rdBtnEventFloor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (rdBtnEventFloor.isSelected()) {
+					updateEventFloorTable();
+				}
+				else {
+					rdBtnEventFloor.setSelected(true);
+				}
 			}
 		});
 		GridBagConstraints gbc_rdBtnChestFloor = new GridBagConstraints();
 		gbc_rdBtnChestFloor.insets = new Insets(0, 0, 5, 5);
 		gbc_rdBtnChestFloor.gridx = 7;
 		gbc_rdBtnChestFloor.gridy = 0;
-		runPannel.add(rdBtnChestFloor, gbc_rdBtnChestFloor);
+		runPannel.add(rdBtnEventFloor, gbc_rdBtnChestFloor);
 		
 		rdBtnShops = new JRadioButton("Shops");
 		rdBtnShops.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (rdBtnShops.isSelected()) {
+					updateShopsTable();
+				}
+				else {
+					rdBtnShops.setSelected(true);
+				}
 			}
 		});
 		GridBagConstraints gbc_rdBtnShops = new GridBagConstraints();
@@ -240,14 +274,49 @@ public class Main extends JFrame {
 		updateAllTable();
 	}
 
-	protected void updateCardsTable() {
+	private void updateShopsTable() {
+		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, false, true});
+		Object[][] data = myApp.getShopRunTableData();
+		DefaultTableModel myModel = new DefaultTableModel(data, columnShopNames);
+		table.setModel(myModel);
+	}
+
+	private void updateEventFloorTable() {
+		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, true, false});
+		Object[][] data = myApp.getEventRunTableData();
+		DefaultTableModel myModel = new DefaultTableModel(data, columnEventNames);
+		table.setModel(myModel);
+	}
+
+	private void updateRestFloorTable() {
+		updateRadioButtons(new boolean[] {false, false, false, false, false, false, true, false, false});
+		Object[][] data = myApp.getRestRunTableData();
+		DefaultTableModel myModel = new DefaultTableModel(data, columnRestNames);
+		table.setModel(myModel);
+	}
+
+	private void updateEncountersTable() {
+		updateRadioButtons(new boolean[] {false, false, false, false, false, true, false, false, false});
+		Object[][] data = myApp.getEncountersRunTableData();
+		DefaultTableModel myModel = new DefaultTableModel(data, columnEncountersNames);
+		table.setModel(myModel);
+	}
+
+	private void updateRelicsTable() {
+		updateRadioButtons(new boolean[] {false, false, false, false, true, false, false, false, false});
+		Object[][] data = myApp.getRelicsRunTableData();
+		DefaultTableModel myModel = new DefaultTableModel(data, columnRelicNames);
+		table.setModel(myModel);
+	}
+
+	private void updateCardsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, true, false, false, false, false, false});
 		Object[][] data = myApp.getCardsRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnCardNames);
 		table.setModel(myModel);
 	}
 
-	protected void updateSpecialTable() {
+	private void updateSpecialTable() {
 		updateRadioButtons(new boolean[] {false, false, true, false, false, false, false, false, false});
 		Object[][] data = myApp.getSpecialRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnSpecialNames);
@@ -284,7 +353,7 @@ public class Main extends JFrame {
 		rdBtnRelics.setSelected(onOrOff[4]);
 		rdBtnEncounters.setSelected(onOrOff[5]);
 		rdBtnRestFloor.setSelected(onOrOff[6]);
-		rdBtnChestFloor.setSelected(onOrOff[7]);
+		rdBtnEventFloor.setSelected(onOrOff[7]);
 		rdBtnShops.setSelected(onOrOff[8]);
 	}	
 

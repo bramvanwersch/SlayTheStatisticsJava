@@ -55,8 +55,33 @@ public class App {
 	}
 
 	public Object[][] getCardsRunTableData() {
+		String[] keys = {"","path","picked","notPicked"};
+		return getTableData(keys, "picked");
+	}
+
+	public Object[][] getRelicsRunTableData() {
 		String[] keys = {"","path","relic","notRelic"};
 		return getTableData(keys, "relic");
+	}
+
+	public Object[][] getEncountersRunTableData() {
+		String[] keys = {"","path","enemies","damage","turns","healed"};
+		return getTableData(keys, "enemies");
+	}
+
+	public Object[][] getRestRunTableData() {
+		String[] keys = {"","path","activity","data"};
+		return getTableData(keys,"activity");
+	}
+
+	public Object[][] getEventRunTableData() {
+		String[] keys = {"","path","name","choice","enemies","damage","turns","healed","relic","picked","cardRemoved","cardUpgraded"};
+		return getTableData(keys,"name");
+	}
+
+	public Object[][] getShopRunTableData() {
+		String[] keys = {"","path","purchesed","purged"};
+		return getTableData(keys, "shop");
 	}
 
 }

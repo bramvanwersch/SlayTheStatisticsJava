@@ -10,6 +10,7 @@ import java.util.Map;
 public class GeneralFloor implements Floor{
 	private final Map<String, String> floorDict;
 	private final Floor prevFloor;
+	private boolean errorPrint = false;
 	protected final String floorNo;
 
 	public GeneralFloor(Map<String, String> floorDict, Floor previousFloor,
@@ -75,6 +76,14 @@ public class GeneralFloor implements Floor{
 		return 0;
 	}
 	
+	public String getPotionObtained() {
+		return getStringValue("potion_gained");
+	}
+	
+	public String getPotionUsage() {
+		return getStringValue("potion_floor_usage");
+	}
+	
 	public Map<String,String> getBaseFloorMap(){
 		Map<String, String> floorMap = new HashMap<String,String>();
 		floorMap.put("path", getPath());
@@ -84,6 +93,8 @@ public class GeneralFloor implements Floor{
 		floorMap.put("gold", "" + getGold());
 		floorMap.put("goldChange", "" + getGoldChange());
 		floorMap.put("healed", ""+ getHealed());
+		floorMap.put("potionGain", getPotionObtained());
+		floorMap.put("potionUse", getPotionUsage());
 		return floorMap;	
 	}
 	
@@ -96,19 +107,29 @@ public class GeneralFloor implements Floor{
 		starterString += String.format("Health: %s/%s (%d)\n", getHealth(),getMaxHp(),
 				getHealthChange());
 		starterString += String.format("Gold: %s (%d)\n",getGold(), getGoldChange());
+		if (!getPotionObtained().equals("!") || !getPotionUsage().equals("!")) {
+			starterString += String.format("Potion gained: %s. Potion used: %s",
+					getPotionObtained(),getPotionUsage());
+		}
 		return starterString;
+	}
+	
+	public String getText() {
+		return starterText();
 	}
 	
 //methods for getting dictionary values and returning appropriate format.
 	public boolean getHasKey(String key, String id) {
-		if (!floorDict.containsKey(key) && id.equals("string")) {
-			System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: !", key, floorNo));
-		}
-		else if (!floorDict.containsKey(key) && id.equals("int")) {
-			System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: 0", key, floorNo));
-		}
-		else if (!floorDict.containsKey(key) && id.equals("array")) {
-			System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: []", key, floorNo));
+		if (errorPrint) {
+			if (!floorDict.containsKey(key) && id.equals("string")) {
+				System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: !", key, floorNo));
+			}
+			else if (!floorDict.containsKey(key) && id.equals("int")) {
+				System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: 0", key, floorNo));
+			}
+			else if (!floorDict.containsKey(key) && id.equals("array")) {
+				System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: []", key, floorNo));
+			}
 		}
 		return floorDict.containsKey(key);
 	}
@@ -146,14 +167,16 @@ public class GeneralFloor implements Floor{
 				return true;
 			}
 		}
-		if (id.equals("string")) {
-			System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: !", Arrays.toString(keys), floorNo));
-		}
-		else if (id.equals("int")) {
-			System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: 0", Arrays.toString(keys), floorNo));
-		}
-		else if (id.equals("array")) {
-			System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: []", Arrays.toString(keys), floorNo));
+		if (errorPrint) {
+			if (id.equals("string")) {
+				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: !", Arrays.toString(keys), floorNo));
+			}
+			else if (id.equals("int")) {
+				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: 0", Arrays.toString(keys), floorNo));
+			}
+			else if (id.equals("array")) {
+				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: []", Arrays.toString(keys), floorNo));
+			}
 		}
 		return false;
 	}
@@ -190,10 +213,6 @@ public class GeneralFloor implements Floor{
 			}
 		}
 		return new String[0];
-	}
-	
-	public String getText() {
-		return starterText();
 	}
 
 }

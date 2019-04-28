@@ -112,7 +112,7 @@ public class ReadingRunFile {
 				"ascension_level"};
 		String[] unwantedKeys =  {"playtime","score","play_id","local_time","seed_source_timestamp",
 				"circlet_count","win_rate","timestamp","build_version", "player_experience","is_beta",
-				"path_taken"};
+				"path_taken","potions_floor_spawned"};
 		for(String uKey : unwantedKeys) {
 			if (uKey.equals(key)) {
 				return "Unwanted";

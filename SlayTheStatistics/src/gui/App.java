@@ -45,7 +45,8 @@ public class App {
 	}
 	
 	public Object[][] getAllRunTableData() {
-		String[] keys = {"","path", "health","maxHealth","healed","gold","goldChange","picked","notPicked","relic","special"};
+		String[] keys = {"","path", "health","maxHealth","healed","gold","goldChange","potionGain",
+				"potionUse","picked","notPicked","relic","special"};
 		return getTableData(keys, "path");
 	}
 

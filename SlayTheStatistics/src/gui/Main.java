@@ -19,17 +19,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
-
 	private JPanel contentPane;
 	private JTable table;
-	private final Object[] columnAllNames =  {"No","Floor","Health","Max health","Healed","Gold","Gold change","Picked","Not picked","Relic","Special"};
+	private final Object[] columnAllNames =  {"No","Floor","Health","Max health","Healed","Gold","Gold change",
+			"Potion gained","Potion use","Picked","Not picked","Relic","Special"};
 	private final Object[] columnBasicNames  = {"No","Floor","Health","Max health","Healed","Gold","Gold change"};
 	private final Object[] columnSpecialNames = {"No","Floor","Picked","Not picked","Relic","Special"};
 	private final Object[] columnCardNames = {"No","Floor","Picked","Not picked"};
 	private final Object[] columnRelicNames = {"No","Floor","Relic","Ignored relics"};
 	private final Object[] columnEncountersNames = {"No","Floor","Enemie(s)","Damage","Turns","Healed"};
 	private final Object[] columnRestNames = {"No","Floor","Activity","Item gained/changed"};
-	private final Object[] columnEventNames = {"No","Floor","Name","Choice","Enemie(s)","Damage","Turns","Healed","Relic","Card(s)","Card rem.","Card upgr."};
+	private final Object[] columnEventNames = {"No","Floor","Name","Choice","Enemie(s)","Damage","Turns",
+			"Healed","Relic","Card(s)","Card rem.","Card upgr."};
 	private final Object[] columnShopNames = {"No","Floor","Bought","Removed"};
 	private App myApp;
 	private JRadioButton rdBtnAll;
@@ -339,7 +340,7 @@ public class Main extends JFrame {
 		Object[][] data = myApp.getAllRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnAllNames);
 		table.setModel(myModel);
-		int[] columnWidthList = {30,100,60,80,60,60,100,200,350,200,1000};
+		int[] columnWidthList = {30,100,60,80,60,60,100,100,100,200,350,200,1000};
 		for (int i = 0; i < myModel.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
 		}

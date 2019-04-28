@@ -80,8 +80,8 @@ public class GeneralFloor implements Floor{
 		return getStringValue("potion_gained");
 	}
 	
-	public String getPotionUsage() {
-		return getStringValue("potion_floor_usage");
+	public String getPotionUse() {
+		return getStringValue("potions_floor_usage");
 	}
 	
 	public Map<String,String> getBaseFloorMap(){
@@ -93,8 +93,10 @@ public class GeneralFloor implements Floor{
 		floorMap.put("gold", "" + getGold());
 		floorMap.put("goldChange", "" + getGoldChange());
 		floorMap.put("healed", ""+ getHealed());
-		floorMap.put("potionGain", getPotionObtained());
-		floorMap.put("potionUse", getPotionUsage());
+		if (!getPotionObtained().equals("!")) {
+			floorMap.put("potionGain", getPotionObtained());}
+		if(!getPotionUse().equals("!")) {
+		floorMap.put("potionUse", getPotionUse());}
 		return floorMap;	
 	}
 	
@@ -107,9 +109,9 @@ public class GeneralFloor implements Floor{
 		starterString += String.format("Health: %s/%s (%d)\n", getHealth(),getMaxHp(),
 				getHealthChange());
 		starterString += String.format("Gold: %s (%d)\n",getGold(), getGoldChange());
-		if (!getPotionObtained().equals("!") || !getPotionUsage().equals("!")) {
+		if (!getPotionObtained().equals("!") || !getPotionUse().equals("!")) {
 			starterString += String.format("Potion gained: %s. Potion used: %s",
-					getPotionObtained(),getPotionUsage());
+					getPotionObtained(),getPotionUse());
 		}
 		return starterString;
 	}

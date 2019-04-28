@@ -21,6 +21,9 @@ public class ShopFloor extends GeneralFloor {
 	
 	public Map<String,String> getFloorMap(){
 		Map<String, String> floorMap = getBaseFloorMap();
+		//TODO make this nicer.
+		//way of identifying that the dictionary is from a shop floor
+		floorMap.put("shop","");
 		if (getBoughtItems().length != 0) {
 			floorMap.put("purchased", Arrays.toString(getBoughtItems()));}
 		if (getPurged().length != 0) {

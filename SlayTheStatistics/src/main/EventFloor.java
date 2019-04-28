@@ -65,7 +65,6 @@ public class EventFloor extends GeneralFloor {
 			floorMap.put("relic", Arrays.toString(getRelic()));}
 		if (!getChoice().equals("!")) {
 			floorMap.put("picked", Arrays.toString(getCard()));}
-		//TODO integerate these two entries in the dict under special.
 		if (!getRemoved().equals("!")) {
 			floorMap.put("cardRemoved", getRemoved());
 			floorMap.put("special", floorMap.get("special") + " Card removed: "+ getRemoved());}

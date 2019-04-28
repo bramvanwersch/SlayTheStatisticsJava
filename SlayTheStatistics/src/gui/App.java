@@ -3,7 +3,6 @@ package gui;
 import java.util.ArrayList;
 import java.util.Map;
 
-import main.Floor;
 import main.STSRun;
 
 public class App {

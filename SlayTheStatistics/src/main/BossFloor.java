@@ -35,8 +35,9 @@ public class BossFloor extends GeneralFloor{
 	
 	public Map<String,String> getFloorMap(){
 		Map<String, String> floorMap = getBaseFloorMap();
-		floorMap.put("relic", getPicked());
-		floorMap.put("notRelic", Arrays.toString(getNotPicked()));
+		if (!this.floorNo.equals("50")){
+			floorMap.put("relic", getPicked());
+			floorMap.put("notRelic", Arrays.toString(getNotPicked()));}
 		floorMap.put("enemies", getEnemies());
 		floorMap.put("damage", "" + getDamage());
 		floorMap.put("turns", "" + getTurns());

@@ -63,7 +63,7 @@ public class EventFloor extends GeneralFloor {
 			floorMap.put("healed", "" + getHealed());}
 		if (getRelic().length != 0) {
 			floorMap.put("relic", Arrays.toString(getRelic()));}
-		if (!getChoice().equals("!")) {
+		if (getCard().length != 0) {
 			floorMap.put("picked", Arrays.toString(getCard()));}
 		if (!getRemoved().equals("!")) {
 			floorMap.put("cardRemoved", getRemoved());

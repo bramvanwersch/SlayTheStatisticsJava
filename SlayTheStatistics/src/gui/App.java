@@ -55,8 +55,8 @@ public class App {
 	}
 
 	public Object[][] getCardsRunTableData() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] keys = {"","path","relic","notRelic"};
+		return getTableData(keys, "relic");
 	}
 
 }

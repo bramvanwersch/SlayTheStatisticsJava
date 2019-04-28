@@ -57,7 +57,7 @@ public class EventFloor extends GeneralFloor {
 			floorMap.put("enemies", getEnemies());
 			floorMap.put("damage", "" + getDamage());
 			floorMap.put("turns", "" + getTurns());
-			floorMap.put("special",String.format("Fought: %s they dealt %d damage in %d turns",
+			floorMap.put("special",String.format("Fought: %s they dealt %d damage in %d turns.",
 					getEnemies(), getDamage(),getTurns()));}
 		if (getHealed() != 0) {
 			floorMap.put("healed", "" + getHealed());}
@@ -67,9 +67,11 @@ public class EventFloor extends GeneralFloor {
 			floorMap.put("picked", Arrays.toString(getCard()));}
 		//TODO integerate these two entries in the dict under special.
 		if (!getRemoved().equals("!")) {
-			floorMap.put("cardRemoved", getRemoved());}
+			floorMap.put("cardRemoved", getRemoved());
+			floorMap.put("special", floorMap.get("special") + " Card removed: "+ getRemoved());}
 		if (!getUpgraded().equals("!")) {
-			floorMap.put("cardUpgraded", getUpgraded());}
+			floorMap.put("cardUpgraded", getUpgraded());
+			floorMap.put("special", floorMap.get("special") + " Card upgraded: "+ getUpgraded());}
 		return floorMap;
 	}
 	@Override

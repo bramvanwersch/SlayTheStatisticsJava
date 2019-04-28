@@ -1,0 +1,9 @@
+33: {path_per_floor=B, 
+damage=68.0,
+ not_picked=["Astrolabe","CallingBell"],
+gold_per_floor=362,
+ picked=RunicDome, 
+ max_hp_per_floor=98,
+  enemies="Automaton", 
+  current_hp_per_floor=15,
+   turns=9.0}

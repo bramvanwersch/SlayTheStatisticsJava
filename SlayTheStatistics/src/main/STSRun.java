@@ -12,7 +12,7 @@ public class STSRun {
 	private Floor[] floorArray;
 
 	public STSRun(String character, String runFileName) {
-		myRunFile = new ReadingRunFile(character, runFileName);
+		myRunFile = new ReadingRunFile(character, runFileName, true);
 		floorArray = new Floor[Integer.parseInt(myRunFile.getGlobalKey("floor_reached"))];
 		try {
 			writeFloorDict();

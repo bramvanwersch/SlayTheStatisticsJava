@@ -8,7 +8,7 @@ public class ReadingRunFileTest extends TestCase {
 	private final String testFilePath = "D:\\Eclipse STS workplace\\SlayTheStatistics\\data\\test_data.txt";
 	
 	public void testSetup() {
-		ReadingRunFile myReader = new ReadingRunFile("IRONCLAD","1551815208.run"); 
+		ReadingRunFile myReader = new ReadingRunFile("IRONCLAD","1551815208.run", true); 
 		assertNotNull(myReader);
 	}
 //	

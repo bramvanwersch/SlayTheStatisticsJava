@@ -17,17 +17,19 @@ public class ReadingRunFile {
 	private Map<String, String> globalVarDict;
 	private Map<String, Map<String, String>> floorDict;
 
-	public ReadingRunFile(String character, String runFile) {
+	public ReadingRunFile(String character, String runFile, boolean bothDicts) {
 		this.globalVarDict = new HashMap<String, String>();
 		String filePath = "D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character +"\\" + runFile;
 		String fileText = getFileText(filePath);
 		String[] remainAndDicts = getDictionaries(fileText);
 		String [][] globalAndFloor = getKeysAndValues(remainAndDicts[0]);
 		addToGlobalDict(keyValToLists(globalAndFloor[0]));
-		//can only be created if the amount of floors is known. This is a key in the global dict.
-		createFloorDict();
-		addToFloorDict(keyValToLists(globalAndFloor[1]));
-		addInnerDictToFloorDict(remainAndDicts[1].split("\\}\\{"));
+		if (bothDicts) {
+			//can only be created if the amount of floors is known. This is a key in the global dict.
+			createFloorDict();
+			addToFloorDict(keyValToLists(globalAndFloor[1]));
+			addInnerDictToFloorDict(remainAndDicts[1].split("\\}\\{"));
+			}
 		}
 
 // reading the file

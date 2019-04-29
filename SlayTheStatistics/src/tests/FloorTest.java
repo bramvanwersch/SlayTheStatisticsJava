@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import main.GeneralFloor;
+import run.GeneralFloor;
 
 public class FloorTest extends TestCase {
 	private Map<String, String> floorDict;

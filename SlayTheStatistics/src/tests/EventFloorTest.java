@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import main.EventFloor;
-import main.GeneralFloor;
+import run.EventFloor;
+import run.GeneralFloor;
 
 public class EventFloorTest extends TestCase {
 	private Map<String, String> floorDict;

@@ -1,7 +1,7 @@
 package tests;
 
 import junit.framework.TestCase;
-import main.ReadingRunFile;
+import run.ReadingRunFile;
 
 public class ReadingRunFileTest extends TestCase {
 	private String filePath = "D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1551815208.run";

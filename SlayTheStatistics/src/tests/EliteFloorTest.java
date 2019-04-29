@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import main.EliteFloor;
-import main.GeneralFloor;
+import run.EliteFloor;
+import run.GeneralFloor;
 
 public class EliteFloorTest extends TestCase {
 	private GeneralFloor previousFloor;

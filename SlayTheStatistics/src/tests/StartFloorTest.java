@@ -1,7 +1,7 @@
 package tests;
 
 import junit.framework.TestCase;
-import main.StartFloor;
+import run.StartFloor;
 
 public class StartFloorTest extends TestCase {
 	

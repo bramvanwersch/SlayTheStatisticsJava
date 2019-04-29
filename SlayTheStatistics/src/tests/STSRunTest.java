@@ -1,7 +1,7 @@
 package tests;
 
 import junit.framework.TestCase;
-import main.STSRun;
+import run.STSRun;
 
 public class STSRunTest extends TestCase {
 

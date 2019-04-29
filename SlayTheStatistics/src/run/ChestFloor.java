@@ -1,11 +1,11 @@
-package main;
+package run;
 
 import java.util.Arrays;
 import java.util.Map;
 
-public class EliteFloor extends MonsterFloor {
+public class ChestFloor extends GeneralFloor {
 
-	public EliteFloor(Map<String, String> floorDict, Floor previousFloor, String floorNo) {
+	public ChestFloor(Map<String, String> floorDict, Floor previousFloor, String floorNo) {
 		super(floorDict, previousFloor, floorNo);
 	}
 	
@@ -14,15 +14,14 @@ public class EliteFloor extends MonsterFloor {
 	}
 	
 	public Map<String,String> getFloorMap(){
-		Map<String, String> floorMap = getMonsterFloorMap();
+		Map<String, String> floorMap = getBaseFloorMap();
 		floorMap.put("relic", getRelic());
 		return floorMap;	
 	}
-	
-	@Override
+
 	public String getText() {
-		String text = getMonsterText();
-		text += String.format("Relic aquired: %s\n", getRelic());
+		String text = starterText();
+		text += String.format("Relic gained: %s\n", getRelic());
 		return text;
 	}
 

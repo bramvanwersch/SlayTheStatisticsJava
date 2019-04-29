@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import main.GeneralFloor;
-import main.MonsterFloor;
+import run.GeneralFloor;
+import run.MonsterFloor;
 
 public class MonsterFloorTest extends TestCase {
 	private Map<String, String> floorDict;

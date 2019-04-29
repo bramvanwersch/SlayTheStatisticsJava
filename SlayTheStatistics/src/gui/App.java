@@ -3,7 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.Map;
 
-import main.STSRun;
+import run.STSRun;
 
 public class App {
 	private STSRun myRun;

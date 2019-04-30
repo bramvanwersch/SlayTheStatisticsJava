@@ -81,7 +81,7 @@ public class App {
 	}
 
 	public Object[][] getShopRunTableData() {
-		String[] keys = {"","path","purchesed","purged"};
+		String[] keys = {"","path","purchased","purged"};
 		return getTableData(keys, "shop");
 	}
 

@@ -25,7 +25,7 @@ public class GraphBuilder{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new GraphBuilder(new int[] {0,1,2,3,34}, new int[] {0,1,2,3,40});
+				new GraphBuilder(new int[] {0,1,2,3,52}, new int[] {0,1,24,3,123});
 				}
 			});
 	}
@@ -40,7 +40,7 @@ public class GraphBuilder{
 		SwingUtilities.isEventDispatchThread();
         JFrame f = new JFrame("Graph");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(new MyPanel(xData,yData, 1000	, 1000));
+        f.add(new MyPanel(xData,yData, 1000	, 800));
         f.pack();
         f.setVisible(true);
     }
@@ -51,8 +51,8 @@ class MyPanel extends JPanel {
 	private int pHeigth;
 	private int pWidth;
 	private int DISTANCE_BORDER = 50;
+	private int NUMBER_OF_AXIS_POINTS = 20;
 	private int NUMBER_DISTANCE = 20;
-	private int NUMBER_OF_AXIS_POINTS = 10;
 	private int AXIS_STRIPE_LENGHT = 5;
 	private int SIZE_OF_POINTS = 7;
 
@@ -61,7 +61,7 @@ class MyPanel extends JPanel {
     	this.yData = yData;
     	this.pHeigth = height;
     	this.pWidth= width;
-        setBorder(BorderFactory.createLineBorder(Color.black));
+//        setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     public Dimension getPreferredSize() {
@@ -76,16 +76,14 @@ class MyPanel extends JPanel {
     
     public void drawGraphLine(Graphics g) {
       	double xMax = max(xData);
-    	double yMax = closestUpperTenVal(max(yData));
+    	double yMax = max(yData);
     	//get the amount of pixels per 1 number. 
-    	double noToPixelX = (pWidth - 2*DISTANCE_BORDER) / xMax;
-    	double noToPixelY = (pHeigth- 2*DISTANCE_BORDER) / yMax;
         for (int i = 0; i < xData.length-1; i++) {
         	g.setColor(Color.RED);
-        	int x1 = (int) (xData[i]*noToPixelX + DISTANCE_BORDER);
-        	int x2 = (int) (xData[i+1]*noToPixelX + DISTANCE_BORDER);
-        	int y1 = (int) ((pHeigth - yData[i]*noToPixelY) - DISTANCE_BORDER);
-        	int y2 = (int) ((pHeigth -yData[i+1]*noToPixelY) - DISTANCE_BORDER);
+        	int x1 = (int) (xData[i]*nrToPixelX() + DISTANCE_BORDER);
+        	int x2 = (int) (xData[i+1]*nrToPixelX() + DISTANCE_BORDER);
+        	int y1 = (int) ((pHeigth - yData[i]*nrToPixelY()) - DISTANCE_BORDER);
+        	int y2 = (int) ((pHeigth -yData[i+1]*nrToPixelY()) - DISTANCE_BORDER);
             g.drawLine(x1, y1, x2, y2);
             g.setColor(Color.BLACK);
             g.fillOval(x1 - SIZE_OF_POINTS/2, y1 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
@@ -99,30 +97,32 @@ class MyPanel extends JPanel {
     	g.drawLine(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER, pWidth - DISTANCE_BORDER, pHeigth - DISTANCE_BORDER);
     	g.drawLine(DISTANCE_BORDER, DISTANCE_BORDER, DISTANCE_BORDER, pHeigth - DISTANCE_BORDER);
     	//values on axis
-    	int xLineLen = pWidth - 2* DISTANCE_BORDER;
+    	int xLineLen = pWidth - 2*DISTANCE_BORDER;
     	int yLineLen = pHeigth - 2*DISTANCE_BORDER;
     	int xMax = max(xData);
-    	int yMax = closestUpperTenVal(max(yData));
+    	int yMax = max(yData);
     	//draw the 0
     	g.drawString("0", DISTANCE_BORDER, pHeigth - DISTANCE_BORDER + NUMBER_DISTANCE );
     	g.drawString("0", DISTANCE_BORDER - NUMBER_DISTANCE, pHeigth - DISTANCE_BORDER );
-
+    	
+    	int stepSizeX = graphStepSize(xMax)[0];
+    	int stepSizeY = graphStepSize(yMax)[0];
     	int count = 1;
     	//x axis numbers
-    	for (int i = xMax/NUMBER_OF_AXIS_POINTS; i < xMax; i += xMax/10) {
-    		int xCoord = DISTANCE_BORDER + (xLineLen/NUMBER_OF_AXIS_POINTS)*count;
+    	for (int i = stepSizeX; i <= xMax; i += stepSizeX) {
+    		int xCoord = (int) (DISTANCE_BORDER + Math.round((nrToPixelX()*stepSizeX)*count));
     		int yCoord = pHeigth - DISTANCE_BORDER;
     		drawCenteredString(xCoord, yCoord + NUMBER_DISTANCE, i+"",g);
-    		g.drawLine(xCoord, yCoord + AXIS_STRIPE_LENGHT, xCoord, yCoord);
+    		g.drawLine(xCoord, yCoord - yLineLen, xCoord, yCoord + AXIS_STRIPE_LENGHT);
     		count ++;
     	}
     	//y axis numbers
     	count = 1;
-    	for (int i = yMax/NUMBER_OF_AXIS_POINTS; i <= yMax; i += yMax/10) {
+    	for (int i= stepSizeY; i <= graphStepSize(yMax)[1]; i += stepSizeY ) {
     		int xCoord = DISTANCE_BORDER;
-    		int yCoord = pHeigth - DISTANCE_BORDER - (yLineLen/NUMBER_OF_AXIS_POINTS)*count;
+    		int yCoord = (int) Math.round(pHeigth - DISTANCE_BORDER - nrToPixelY()*stepSizeY*count);
     		drawCenteredString(xCoord- NUMBER_DISTANCE, yCoord, i+"", g);
-    		g.drawLine(xCoord, yCoord, xCoord - AXIS_STRIPE_LENGHT, yCoord);
+    		g.drawLine(xCoord- AXIS_STRIPE_LENGHT, yCoord, xCoord + xLineLen, yCoord);
     		count++;
     	}
     }
@@ -143,10 +143,31 @@ class MyPanel extends JPanel {
     	return maxVal;
     }
     
-    private int closestUpperTenVal(int val) {
-    	while (val % NUMBER_OF_AXIS_POINTS != 0) {
+    //calculating the pixels per whole number on a scale.
+    private double nrToPixelX() {
+    	return Math.round((pWidth - 2*DISTANCE_BORDER) / max(xData));
+    }
+    
+    private double nrToPixelY() {
+    	return (pHeigth - 2*DISTANCE_BORDER) / graphStepSize(max(yData))[1];
+    }
+    
+    private int[] graphStepSize(int val) {
+    	String sVal = val+"";
+    	int groundDiv = (int) Math.pow(10, sVal.length() -2);
+    	while (val % groundDiv != 0) {
     		val += 1;
     	}
-    	return val;
+    	int stepSize = 1;
+    	int count = 0;
+    	while(val / stepSize > NUMBER_OF_AXIS_POINTS) {
+    		if (count == 0) { 
+    			stepSize *= 5;
+    			count ++;
+    		}else {
+    			stepSize *= 2;
+    			count = 0;}
+    	}
+    	return new int [] {stepSize, val};
     }
 }

@@ -4,8 +4,6 @@ import junit.framework.TestCase;
 import run.ReadingRunFile;
 
 public class ReadingRunFileTest extends TestCase {
-	private String filePath = "D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1551815208.run";
-	private final String testFilePath = "D:\\Eclipse STS workplace\\SlayTheStatistics\\data\\test_data.txt";
 	
 	public void testSetup() {
 		ReadingRunFile myReader = new ReadingRunFile("IRONCLAD","1551815208.run", true); 

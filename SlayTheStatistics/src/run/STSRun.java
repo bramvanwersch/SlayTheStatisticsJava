@@ -3,7 +3,6 @@ package run;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class STSRun {

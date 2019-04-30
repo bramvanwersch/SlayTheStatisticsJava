@@ -18,6 +18,7 @@ public class AllRunSummaryTest extends TestCase {
 		mySum.getRunFileClasses();
 		mySum.countCardStats();
 		mySum.countRelicStats();
+		mySum.mapsToCsv();
 		for (String key:mySum.getAllCardRateKeys()) {
 			System.out.println(key + ": " + Arrays.toString(mySum.getCardRates(key)));
 		}

@@ -1,6 +1,9 @@
 package global;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,6 +110,26 @@ public class AllRunSummary {
 			}
 		}
 		
+	}
+	
+	public void mapsToCsv() {
+		String header = "Name, wins, losses,\n";
+		try {
+			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//cardRates.csv", false));
+			BufferedWriter writer2 = new BufferedWriter(new FileWriter(".//data//relicRates.csv", false));
+			writer1.write(header);
+			writer2.write(header);
+		for (String key : getAllCardRateKeys()) {
+			writer1.write(String.format("%s,%s,%s,\n", key, getCardRates(key)[0], getCardRates(key)[1]));
+			}
+		for (String key : getAllRelicRateKeys()) {
+			writer2.write(String.format("%s,%s,%s,\n", key, getRelicRates(key)[0], getRelicRates(key)[1]));
+			}
+		writer1.close();
+		writer2.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	private boolean getBoolVict(String vict) {

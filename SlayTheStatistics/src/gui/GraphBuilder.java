@@ -25,7 +25,7 @@ public class GraphBuilder{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new GraphBuilder(new int[] {0,1,2,3,52}, new int[] {0,1,24,3,123});
+				new GraphBuilder(new int[] {0,1,2,33,453}, new int[] {0,1,24,3,2534});
 				}
 			});
 	}
@@ -51,7 +51,7 @@ class MyPanel extends JPanel {
 	private int pHeigth;
 	private int pWidth;
 	private int DISTANCE_BORDER = 50;
-	private int NUMBER_OF_AXIS_POINTS = 20;
+	private int NUMBER_OF_AXIS_POINTS = 25;
 	private int NUMBER_DISTANCE = 20;
 	private int AXIS_STRIPE_LENGHT = 5;
 	private int SIZE_OF_POINTS = 7;
@@ -110,19 +110,19 @@ class MyPanel extends JPanel {
     	int count = 1;
     	//x axis numbers
     	for (int i = stepSizeX; i <= xMax; i += stepSizeX) {
-    		int xCoord = (int) (DISTANCE_BORDER + Math.round((nrToPixelX()*stepSizeX)*count));
+    		double xCoord = DISTANCE_BORDER + nrToPixelX()*stepSizeX*count;
     		int yCoord = pHeigth - DISTANCE_BORDER;
-    		drawCenteredString(xCoord, yCoord + NUMBER_DISTANCE, i+"",g);
-    		g.drawLine(xCoord, yCoord - yLineLen, xCoord, yCoord + AXIS_STRIPE_LENGHT);
+    		drawCenteredString((int) xCoord, yCoord + NUMBER_DISTANCE, i+"",g);
+    		g.drawLine((int) xCoord, yCoord - yLineLen, (int) xCoord, yCoord + AXIS_STRIPE_LENGHT);
     		count ++;
     	}
     	//y axis numbers
     	count = 1;
     	for (int i= stepSizeY; i <= graphStepSize(yMax)[1]; i += stepSizeY ) {
     		int xCoord = DISTANCE_BORDER;
-    		int yCoord = (int) Math.round(pHeigth - DISTANCE_BORDER - nrToPixelY()*stepSizeY*count);
-    		drawCenteredString(xCoord- NUMBER_DISTANCE, yCoord, i+"", g);
-    		g.drawLine(xCoord- AXIS_STRIPE_LENGHT, yCoord, xCoord + xLineLen, yCoord);
+    		double yCoord =  pHeigth - DISTANCE_BORDER - nrToPixelY()*stepSizeY*count;
+    		drawCenteredString(xCoord- NUMBER_DISTANCE, (int) yCoord, i+"", g);
+    		g.drawLine(xCoord- AXIS_STRIPE_LENGHT, (int) yCoord, xCoord + xLineLen,(int) yCoord);
     		count++;
     	}
     }
@@ -145,16 +145,17 @@ class MyPanel extends JPanel {
     
     //calculating the pixels per whole number on a scale.
     private double nrToPixelX() {
-    	return Math.round((pWidth - 2*DISTANCE_BORDER) / max(xData));
+    	return (pWidth - 2*DISTANCE_BORDER) / new Double(max(xData));
     }
     
     private double nrToPixelY() {
-    	return (pHeigth - 2*DISTANCE_BORDER) / graphStepSize(max(yData))[1];
+    	return (pHeigth - 2*DISTANCE_BORDER) / new Double(graphStepSize(max(yData))[1]);
     }
     
     private int[] graphStepSize(int val) {
     	String sVal = val+"";
     	int groundDiv = (int) Math.pow(10, sVal.length() -2);
+    	if (groundDiv == 0){ groundDiv = 1;}
     	while (val % groundDiv != 0) {
     		val += 1;
     	}

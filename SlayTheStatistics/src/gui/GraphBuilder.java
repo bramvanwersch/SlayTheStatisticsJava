@@ -147,12 +147,12 @@ class MyPanel extends JPanel {
     			nrText = getPowerTenNumber(nrText); 
     		}
     		//slope numbers if they get to long.
-    		if (g.getFontMetrics().stringWidth(nrText) > MIN_AXIS_NUMBER_DISTANCE) {
-    			drawCenteredSlopedString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText,g);
-    		}
-    		else {
+//    		if (g.getFontMetrics().stringWidth(nrText) > MIN_AXIS_NUMBER_DISTANCE) {
+//    			drawCenteredSlopedString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText,g);
+//    		}
+//    		else {
     			drawCenteredString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText,g);
-    		}
+//    		}
     		g.drawLine((int) xCoord, yCoord - SIZE_Y_AXIS, (int) xCoord, yCoord + AXIS_STRIPE_LENGHT);
     		count ++;
     	}
@@ -195,17 +195,17 @@ class MyPanel extends JPanel {
     	g.drawString(text, adjXCoord, adjYCoord);
 	}
     
-    private void drawCenteredSlopedString(int xCoord, int yCoord, String text, Graphics g) {
-    	int adjXCoord = xCoord - g.getFontMetrics().stringWidth(text)/ 2;
-    	int adjYCoord = yCoord  + g.getFontMetrics().getHeight()/3;
-    	Graphics2D g2d = (Graphics2D) g;
-    	g2d.translate(xCoord, yCoord);
-        g2d.rotate(Math.toRadians(-45));
-    	g2d.drawString(text, adjXCoord, adjYCoord);
-        g2d.translate(-xCoord,-yCoord);
-        g2d.rotate(Math.toRadians(45));
-    }
-    
+//    private void drawCenteredSlopedString(int xCoord, int yCoord, String text, Graphics g) {
+//    	int adjXCoord = xCoord - g.getFontMetrics().stringWidth(text)/ 2;
+//    	int adjYCoord = yCoord  + g.getFontMetrics().getHeight()/3;
+//    	Graphics2D g2d = (Graphics2D) g;
+//    	g2d.translate(xCoord, yCoord);
+//        g2d.rotate(Math.toRadians(-45));
+//    	g2d.drawString(text, adjXCoord, adjYCoord);
+//        g2d.translate(-xCoord,-yCoord);
+//        g2d.rotate(Math.toRadians(45));
+//    }
+//    
     private int max(int[] data) {
     	int maxVal = 0;
     	for (int n: data) {

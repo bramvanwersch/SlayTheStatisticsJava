@@ -25,7 +25,7 @@ public class GraphBuilder{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new GraphBuilder(new int[] {0,1,2,16,5000}, new int[] {0,1,24,3,50});
+				new GraphBuilder(new int[] {0,1,2,16,50}, new int[] {0,1,24,3,1000});
 				}
 			});
 	}
@@ -40,7 +40,7 @@ public class GraphBuilder{
 		SwingUtilities.isEventDispatchThread();
         JFrame f = new JFrame("Graph");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(new MyPanel(xData,yData, 300, 200, new String[] {"Floor", "Gold"}));
+        f.add(new MyPanel(xData,yData, 1000, 800, new String[] {"Floor", "Gold"}));
         f.pack();
         f.setVisible(true);
     }
@@ -50,27 +50,27 @@ class MyPanel extends JPanel {
 	private int[] yData;
 	private int pHeigth;
 	private int pWidth;
-	//distance from side to y or x axis
-	private int DISTANCE_BORDER;
 	//distance from graph to end of pane
 	private int DISTANCE_END = 10;
 	//min distance between axis points.
 	private int MIN_AXIS_NUMBER_DISTANCE = 20;
-	//maximum number of axis points 
-	private int NUMBER_OF_AXIS_POINTS_X;
-	private int NUMBER_OF_AXIS_POINTS_Y;
 	//distance of numbers from x and y axis
 	private int NUMBER_DISTANCE = 20;
 	//length of stripe extending trough x or y axis.
 	private int AXIS_STRIPE_LENGHT = 5;
 	//size of data orbs
 	private int SIZE_OF_POINTS = 7;
+	//maximum number of axis points
+	private int NUMBER_OF_AXIS_POINTS_X;
+	private int NUMBER_OF_AXIS_POINTS_Y;
+	//distance from side to y or x axis
+	private int DISTANCE_BORDER;
 	//size of x axis.
 	private int SIZE_X_AXIS;
 	//size of y axis
 	private int SIZE_Y_AXIS;
 	private String[] axisNames;
-	private int AXIS_FONT_SIZE = 12;
+	private int AXIS_FONT_SIZE;
 	private Graphics2D g2d;
 
 
@@ -85,9 +85,11 @@ class MyPanel extends JPanel {
     	this.SIZE_Y_AXIS = pHeigth - DISTANCE_BORDER -DISTANCE_END;
     	this.NUMBER_OF_AXIS_POINTS_X = getNrOfAxisPoints(SIZE_X_AXIS);
     	this.NUMBER_OF_AXIS_POINTS_Y = getNrOfAxisPoints(SIZE_Y_AXIS);
+    	this.AXIS_FONT_SIZE = getAxisFont();
+
     }
 
-    public Dimension getPreferredSize() {
+	public Dimension getPreferredSize() {
         return new Dimension(pWidth,pHeigth);
     }
 
@@ -203,6 +205,22 @@ class MyPanel extends JPanel {
     	g2d.drawString(text, 0,0);
     	g2d.setTransform(old);
     }
+    
+    private int getAxisFont() {
+    	int size = 1;
+        Boolean up = null;
+        while (true) {
+            Font font = new Font("Ariel", Font.BOLD, size);
+            int testHeight = getFontMetrics(font).getHeight();
+            if (testHeight <= DISTANCE_BORDER*0.35) {
+                size++;
+            } 
+            else {
+            	System.out.println(size);
+                return size;
+            }
+        }
+	}
     
     private int max(int[] data) {
     	int maxVal = 0;

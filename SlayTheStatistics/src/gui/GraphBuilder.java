@@ -25,7 +25,7 @@ public class GraphBuilder{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new GraphBuilder(new int[] {0,1,2,16,50}, new int[] {0,1,24,3,1000});
+				new GraphBuilder(new int[] {5,1,2,16,50}, new int[] {5,1,24,3,1000});
 				}
 			});
 	}
@@ -86,6 +86,7 @@ class MyPanel extends JPanel {
     	this.NUMBER_OF_AXIS_POINTS_X = getNrOfAxisPoints(SIZE_X_AXIS);
     	this.NUMBER_OF_AXIS_POINTS_Y = getNrOfAxisPoints(SIZE_Y_AXIS);
     	this.AXIS_FONT_SIZE = getAxisFont();
+    	this.setBackground(Color.WHITE);
 
     }
 
@@ -127,8 +128,8 @@ class MyPanel extends JPanel {
     
     public void drawGraphGrid() {
     	//basic x y axis
-    	g2d.drawLine(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER, pWidth - DISTANCE_END, pHeigth - DISTANCE_BORDER);
-    	g2d.drawLine(DISTANCE_BORDER, DISTANCE_END, DISTANCE_BORDER, pHeigth - DISTANCE_BORDER);
+    	g2d.fillRect(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER + 2, pWidth - DISTANCE_END- DISTANCE_BORDER + 1, 2);
+    	g2d.fillRect(DISTANCE_BORDER, DISTANCE_END , 2, pHeigth - DISTANCE_BORDER - DISTANCE_END + 2);
     	//values on axis
     	int xMax = max(xData);
     	int yMax = max(yData);
@@ -155,7 +156,9 @@ class MyPanel extends JPanel {
     		else {
     			drawCenteredString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText);
     		}
+    		g2d.setColor(Color.GRAY);
     		g2d.drawLine((int) xCoord, yCoord - SIZE_Y_AXIS, (int) xCoord, yCoord + AXIS_STRIPE_LENGHT);
+    		g2d.setColor(Color.BLACK);
     		count ++;
     	}
     	//y axis numbers
@@ -168,7 +171,9 @@ class MyPanel extends JPanel {
     			nrText = getPowerTenNumber(nrText); 
     		}
     		drawCenteredString(xCoord- NUMBER_DISTANCE, (int) yCoord, nrText);
+    		g2d.setColor(Color.GRAY);
     		g2d.drawLine(xCoord- AXIS_STRIPE_LENGHT, (int) yCoord, xCoord + SIZE_X_AXIS,(int) yCoord);
+    		g2d.setColor(Color.BLACK);
     		count++;
     	}
     }
@@ -216,7 +221,6 @@ class MyPanel extends JPanel {
                 size++;
             } 
             else {
-            	System.out.println(size);
                 return size;
             }
         }

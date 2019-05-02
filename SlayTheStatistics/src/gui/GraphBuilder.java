@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -8,12 +7,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 
 public class GraphBuilder{
@@ -28,7 +25,7 @@ public class GraphBuilder{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new GraphBuilder(new int[] {0,1,2,16,5000}, new int[] {0,1,24,3,6002});
+				new GraphBuilder(new int[] {0,1,2,16,5000}, new int[] {0,1,24,3,50});
 				}
 			});
 	}
@@ -74,6 +71,7 @@ class MyPanel extends JPanel {
 	private int SIZE_Y_AXIS;
 	private String[] axisNames;
 	private int AXIS_FONT_SIZE = 12;
+	private Graphics2D g2d;
 
 
     public MyPanel(int[] xData, int[] yData,int width,int height,String[] axisNames) {
@@ -95,9 +93,11 @@ class MyPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawGraphGrid(g);
-        drawGraphLine(g);
-        drawAxisNames(g);
+    	g2d = (Graphics2D) g;
+    	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        drawGraphGrid();
+        drawGraphLine();
+        drawAxisNames();
     }
     
     public int getNrOfAxisPoints(int axisSize) {
@@ -108,31 +108,31 @@ class MyPanel extends JPanel {
     	return (int) nrOfPoints;
     }
     
-    public void drawGraphLine(Graphics g) {
+    public void drawGraphLine(){
     	//get the amount of pixels per 1 number. 
         for (int i = 0; i < xData.length-1; i++) {
-        	g.setColor(Color.RED);
+        	g2d.setColor(Color.RED);
         	int x1 = (int) (xData[i]*nrToPixelX() + DISTANCE_BORDER);
         	int x2 = (int) (xData[i+1]*nrToPixelX() + DISTANCE_BORDER);
         	int y1 = (int) ((pHeigth - yData[i]*nrToPixelY()) - DISTANCE_BORDER);
         	int y2 = (int) ((pHeigth -yData[i+1]*nrToPixelY()) - DISTANCE_BORDER);
-            g.drawLine(x1, y1, x2, y2);
-            g.setColor(Color.BLACK);
-            g.fillOval(x1 - SIZE_OF_POINTS/2, y1 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
-            g.fillOval(x2 - SIZE_OF_POINTS/2, y2 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
+            g2d.drawLine(x1, y1, x2, y2);
+            g2d.setColor(Color.BLACK);
+            g2d.fillOval(x1 - SIZE_OF_POINTS/2, y1 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
+            g2d.fillOval(x2 - SIZE_OF_POINTS/2, y2 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
         }
     }
     
-    public void drawGraphGrid(Graphics g) {
+    public void drawGraphGrid() {
     	//basic x y axis
-    	g.drawLine(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER, pWidth - DISTANCE_END, pHeigth - DISTANCE_BORDER);
-    	g.drawLine(DISTANCE_BORDER, DISTANCE_END, DISTANCE_BORDER, pHeigth - DISTANCE_BORDER);
+    	g2d.drawLine(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER, pWidth - DISTANCE_END, pHeigth - DISTANCE_BORDER);
+    	g2d.drawLine(DISTANCE_BORDER, DISTANCE_END, DISTANCE_BORDER, pHeigth - DISTANCE_BORDER);
     	//values on axis
     	int xMax = max(xData);
     	int yMax = max(yData);
     	//draw the 0
-    	drawCenteredString(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER + NUMBER_DISTANCE,"0", g);
-    	drawCenteredString(DISTANCE_BORDER - NUMBER_DISTANCE, pHeigth - DISTANCE_BORDER, "0", g);
+    	drawCenteredString(DISTANCE_BORDER, pHeigth - DISTANCE_BORDER + NUMBER_DISTANCE,"0");
+    	drawCenteredString(DISTANCE_BORDER - NUMBER_DISTANCE, pHeigth - DISTANCE_BORDER, "0");
     	
     	int stepSizeX = graphStepSize(xMax, NUMBER_OF_AXIS_POINTS_X)[0];
     	int stepSizeY = graphStepSize(yMax, NUMBER_OF_AXIS_POINTS_Y)[0];
@@ -147,13 +147,13 @@ class MyPanel extends JPanel {
     			nrText = getPowerTenNumber(nrText); 
     		}
     		//slope numbers if they get to long.
-//    		if (g.getFontMetrics().stringWidth(nrText) > MIN_AXIS_NUMBER_DISTANCE) {
-//    			drawCenteredSlopedString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText,g);
-//    		}
-//    		else {
-    			drawCenteredString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText,g);
-//    		}
-    		g.drawLine((int) xCoord, yCoord - SIZE_Y_AXIS, (int) xCoord, yCoord + AXIS_STRIPE_LENGHT);
+    		if (g2d.getFontMetrics().stringWidth(nrText) > MIN_AXIS_NUMBER_DISTANCE) {
+    			drawCenteredSlopedString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText);
+    		}
+    		else {
+    			drawCenteredString((int) xCoord, yCoord + NUMBER_DISTANCE, nrText);
+    		}
+    		g2d.drawLine((int) xCoord, yCoord - SIZE_Y_AXIS, (int) xCoord, yCoord + AXIS_STRIPE_LENGHT);
     		count ++;
     	}
     	//y axis numbers
@@ -165,47 +165,45 @@ class MyPanel extends JPanel {
     		if (i >= 1000) {
     			nrText = getPowerTenNumber(nrText); 
     		}
-    		drawCenteredString(xCoord- NUMBER_DISTANCE, (int) yCoord, nrText, g);
-    		g.drawLine(xCoord- AXIS_STRIPE_LENGHT, (int) yCoord, xCoord + SIZE_X_AXIS,(int) yCoord);
+    		drawCenteredString(xCoord- NUMBER_DISTANCE, (int) yCoord, nrText);
+    		g2d.drawLine(xCoord- AXIS_STRIPE_LENGHT, (int) yCoord, xCoord + SIZE_X_AXIS,(int) yCoord);
     		count++;
     	}
     }
 
-	private void drawAxisNames(Graphics g) {
+	private void drawAxisNames() {
     	Font axisFont=new Font("Ariel", Font.BOLD, AXIS_FONT_SIZE );
-    	g.setFont(axisFont);
+    	g2d.setFont(axisFont);
     	//drawing x axis name
     	double xCoord1 = (SIZE_X_AXIS/ 2  + DISTANCE_BORDER);
     	double yCoord1 = (2*pHeigth - DISTANCE_BORDER + NUMBER_DISTANCE)/2;
-    	drawCenteredString((int) xCoord1, (int) yCoord1 ,this.axisNames[0], g);
-    	Graphics2D g2d = (Graphics2D) g;
+    	drawCenteredString((int) xCoord1, (int) yCoord1 ,this.axisNames[0]);
     	// drawing y axis name
     	double xCoord2 = (DISTANCE_BORDER - NUMBER_DISTANCE - 10)/2;
     	double yCoord2 = (SIZE_Y_AXIS/ 2 + DISTANCE_END);
     	g2d.translate(xCoord2, yCoord2);
         g2d.rotate(Math.toRadians(-90));
-        drawCenteredString(0,0,this.axisNames[1], g2d);
+        drawCenteredString(0,0,this.axisNames[1]);
         g2d.translate(-xCoord2,-yCoord2);
         g2d.rotate(Math.toRadians(90));
     }
 	
-	private void drawCenteredString(int xCoord, int yCoord, String text, Graphics g) {
-    	int adjXCoord = xCoord - g.getFontMetrics().stringWidth(text)/ 2;
-    	int adjYCoord = yCoord  + g.getFontMetrics().getHeight()/3;
-    	g.drawString(text, adjXCoord, adjYCoord);
+	private void drawCenteredString(int xCoord, int yCoord, String text) {
+    	int adjXCoord = xCoord - g2d.getFontMetrics().stringWidth(text)/ 2;
+    	int adjYCoord = yCoord  + g2d.getFontMetrics().getHeight()/3;
+    	g2d.drawString(text, adjXCoord, adjYCoord);
 	}
     
-//    private void drawCenteredSlopedString(int xCoord, int yCoord, String text, Graphics g) {
-//    	int adjXCoord = xCoord - g.getFontMetrics().stringWidth(text)/ 2;
-//    	int adjYCoord = yCoord  + g.getFontMetrics().getHeight()/3;
-//    	Graphics2D g2d = (Graphics2D) g;
-//    	g2d.translate(xCoord, yCoord);
-//        g2d.rotate(Math.toRadians(-45));
-//    	g2d.drawString(text, adjXCoord, adjYCoord);
-//        g2d.translate(-xCoord,-yCoord);
-//        g2d.rotate(Math.toRadians(45));
-//    }
-//    
+    private void drawCenteredSlopedString(int xCoord, int yCoord, String text) {
+    	double adjXCoord = xCoord - g2d.getFontMetrics().stringWidth(text)/ 2;
+    	double adjYCoord = yCoord  - 8;
+    	AffineTransform old = g2d.getTransform();
+        g2d.rotate(Math.toRadians(45),adjXCoord, adjYCoord);
+        g2d.translate(adjXCoord, adjYCoord);
+    	g2d.drawString(text, 0,0);
+    	g2d.setTransform(old);
+    }
+    
     private int max(int[] data) {
     	int maxVal = 0;
     	for (int n: data) {

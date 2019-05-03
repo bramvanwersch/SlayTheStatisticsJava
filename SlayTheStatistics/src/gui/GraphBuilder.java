@@ -74,14 +74,16 @@ public class GraphBuilder extends JPanel{
 	private String[] axisNames;
 	private int AXIS_FONT_SIZE;
 	private Graphics2D g2d;
+	private boolean dataPoints = true;
 
 
-    public GraphBuilder(int[] xData, int[] yData,int width,int height,String[] axisNames) {
+    public GraphBuilder(int[] xData, int[] yData,int width,int height,String[] axisNames, boolean dataPoints) {
     	this.xData =xData;
     	this.yData = yData;
     	this.pHeigth = (int) height;
     	this.pWidth= (int) width;
     	this.axisNames = axisNames;
+    	this.dataPoints = dataPoints;
     	this.setBackground(Color.WHITE);
     }
 
@@ -130,8 +132,10 @@ public class GraphBuilder extends JPanel{
         	int y2 = (int) ((pHeigth -yData[i+1]*nrToPixelY()) - DISTANCE_BORDER);
             g2d.drawLine(x1, y1, x2, y2);
             g2d.setColor(Color.BLACK);
-            g2d.fillOval(x1 - SIZE_OF_POINTS/2, y1 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
-            g2d.fillOval(x2 - SIZE_OF_POINTS/2, y2 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
+            if (dataPoints) {
+              g2d.fillOval(x1 - SIZE_OF_POINTS/2, y1 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
+              g2d.fillOval(x2 - SIZE_OF_POINTS/2, y2 - SIZE_OF_POINTS/2,SIZE_OF_POINTS, SIZE_OF_POINTS);
+            }
         }
     }
     

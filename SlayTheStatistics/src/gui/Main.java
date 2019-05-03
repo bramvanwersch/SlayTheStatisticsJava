@@ -73,6 +73,12 @@ public class Main extends JFrame {
 	private static GraphBuilder pnlHealth;
 	private static GraphBuilder pnlMaxHealth;
 	private String BASIC_NAME = "some basic text";
+	private JLabel lblHealth;
+	private JLabel lblMaxHealth;
+	private JLabel lblHealthChange;
+	private JLabel lblGoldChange;
+	private JLabel lblSpace1;
+	private JLabel lblSpace2;
 
 
 	/**
@@ -130,7 +136,41 @@ public class Main extends JFrame {
 		JPanel tabSummary = new JPanel();
 		tabbedPane.addTab("Summary", null, tabSummary, null);
 		GridBagLayout gbl_tabSummary = new GridBagLayout();
+		gbl_tabSummary.rowHeights = new int[] {30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30};
+		gbl_tabSummary.columnWidths = new int[] {0, 0, 0, 30, 0, 30, 0, 30};
 		tabSummary.setLayout(gbl_tabSummary);
+		
+		lblSpace1 = new JLabel("");
+		GridBagConstraints gbc_lblSpace1 = new GridBagConstraints();
+		gbc_lblSpace1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpace1.gridx = 3;
+		gbc_lblSpace1.gridy = 0;
+		tabSummary.add(lblSpace1, gbc_lblSpace1);
+		
+		lblHealthChange = new JLabel("Health change:");
+		GridBagConstraints gbc_lblHealthChange = new GridBagConstraints();
+		gbc_lblHealthChange.weighty = 1.0;
+		gbc_lblHealthChange.weightx = 1.0;
+		gbc_lblHealthChange.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHealthChange.gridx = 4;
+		gbc_lblHealthChange.gridy = 0;
+		tabSummary.add(lblHealthChange, gbc_lblHealthChange);
+		
+		lblSpace2 = new JLabel("");
+		GridBagConstraints gbc_lblSpace2 = new GridBagConstraints();
+		gbc_lblSpace2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpace2.gridx = 5;
+		gbc_lblSpace2.gridy = 0;
+		tabSummary.add(lblSpace2, gbc_lblSpace2);
+		
+		lblGoldChange = new JLabel("Gold Change");
+		GridBagConstraints gbc_lblGoldChange = new GridBagConstraints();
+		gbc_lblGoldChange.weighty = 1.0;
+		gbc_lblGoldChange.weightx = 1.0;
+		gbc_lblGoldChange.insets = new Insets(0, 0, 5, 0);
+		gbc_lblGoldChange.gridx = 6;
+		gbc_lblGoldChange.gridy = 0;
+		tabSummary.add(lblGoldChange, gbc_lblGoldChange);
 		
 		lblCharacter = new JLabel("Character played:");
 		GridBagConstraints gbc_lblCharacter = new GridBagConstraints();
@@ -144,27 +184,27 @@ public class Main extends JFrame {
 		
 		GridBagConstraints gbc_pnlDamageGraph = new GridBagConstraints();
 		gbc_pnlDamageGraph.weighty = 8.0;
-		gbc_pnlDamageGraph.gridheight = 8;
+		gbc_pnlDamageGraph.gridheight = 9;
 		gbc_pnlDamageGraph.weightx = 8.0;
 		gbc_pnlDamageGraph.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlDamageGraph.fill = GridBagConstraints.BOTH;
-		gbc_pnlDamageGraph.gridx = 3;
+		gbc_pnlDamageGraph.gridx = 4;
 		gbc_pnlDamageGraph.gridy = 1;
 		pnlHealth = new GraphBuilder(myApp.getIntGraphValuesHealth()[0],myApp.getIntGraphValuesHealth()[1],
-				300,200,new String[] {"Floor","Health"});
+				300,200,new String[] {"Floor","Health"}, false);
 		tabSummary.add(pnlHealth, gbc_pnlDamageGraph);
 		pnlHealth.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		GridBagConstraints gbc_pnlGold = new GridBagConstraints();
 		gbc_pnlGold.weighty = 8.0;
 		gbc_pnlGold.weightx = 8.0;
-		gbc_pnlGold.gridheight = 8;
+		gbc_pnlGold.gridheight = 9;
 		gbc_pnlGold.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlGold.fill = GridBagConstraints.BOTH;
-		gbc_pnlGold.gridx = 4;
+		gbc_pnlGold.gridx = 6;
 		gbc_pnlGold.gridy = 1;
 		pnlGold = new GraphBuilder(myApp.getIntGraphValuesGold()[0],myApp.getIntGraphValuesGold()[1],
-				300,200,new String[] {"Floor","Gold"});
+				300,200,new String[] {"Floor","Gold"}, false);
 		tabSummary.add(pnlGold, gbc_pnlGold);
 		GridBagLayout gbl_pnlGold = new GridBagLayout();
 		pnlGold.setLayout(gbl_pnlGold);
@@ -270,27 +310,45 @@ public class Main extends JFrame {
 		gbc_lblFloorReached.gridy = 6;
 		tabSummary.add(lblFloorReached, gbc_lblFloorReached);
 		
+		lblHealth = new JLabel("Max health change:");
+		GridBagConstraints gbc_lblHealth = new GridBagConstraints();
+		gbc_lblHealth.weighty = 1.0;
+		gbc_lblHealth.weightx = 1.0;
+		gbc_lblHealth.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHealth.gridx = 4;
+		gbc_lblHealth.gridy = 10;
+		tabSummary.add(lblHealth, gbc_lblHealth);
+		
+		lblMaxHealth = new JLabel("Health healed:");
+		GridBagConstraints gbc_lblMaxHealth = new GridBagConstraints();
+		gbc_lblMaxHealth.weighty = 1.0;
+		gbc_lblMaxHealth.weightx = 1.0;
+		gbc_lblMaxHealth.insets = new Insets(0, 0, 5, 0);
+		gbc_lblMaxHealth.gridx = 6;
+		gbc_lblMaxHealth.gridy = 10;
+		tabSummary.add(lblMaxHealth, gbc_lblMaxHealth);
+		
 		GridBagConstraints gbc_pnlMaxHealth = new GridBagConstraints();
 		gbc_pnlMaxHealth.weightx = 8.0;
-		gbc_pnlMaxHealth.weighty = 15.0;
+		gbc_pnlMaxHealth.weighty = 8.0;
 		gbc_pnlMaxHealth.insets = new Insets(0, 0, 0, 5);
 		gbc_pnlMaxHealth.fill = GridBagConstraints.BOTH;
-		gbc_pnlMaxHealth.gridx = 3;
-		gbc_pnlMaxHealth.gridy = 9;
+		gbc_pnlMaxHealth.gridx = 4;
+		gbc_pnlMaxHealth.gridy = 11;
 		pnlMaxHealth = new GraphBuilder(myApp.getIntGraphValuesMaxHp()[0],myApp.getIntGraphValuesMaxHp()[1],
-				300,200,new String[] {"Floor","Max health"});
+				300,200,new String[] {"Floor","Max health"}, false);
 		tabSummary.add(pnlMaxHealth, gbc_pnlMaxHealth);
 		GridBagLayout gbl_pnlMaxHealth = new GridBagLayout();
 		pnlMaxHealth.setLayout(gbl_pnlMaxHealth);
 		
 		GridBagConstraints gbc_pnlHealed = new GridBagConstraints();
-		gbc_pnlHealed.weighty = 15.0;
+		gbc_pnlHealed.weighty = 8.0;
 		gbc_pnlHealed.weightx = 8.0;
 		gbc_pnlHealed.fill = GridBagConstraints.BOTH;
-		gbc_pnlHealed.gridx = 4;
-		gbc_pnlHealed.gridy = 9;
+		gbc_pnlHealed.gridx = 6;
+		gbc_pnlHealed.gridy = 11;
 		pnlHealed = new GraphBuilder(myApp.getIntGraphValuesHealed()[0],myApp.getIntGraphValuesHealed()[1],
-				300,200,new String[] {"Floor","Health healed"});
+				300,200,new String[] {"Floor","Health healed"}, false);
 		tabSummary.add(pnlHealed, gbc_pnlHealed);
 		GridBagLayout gbl_pnlHealed = new GridBagLayout();
 		pnlHealed.setLayout(gbl_pnlHealed);

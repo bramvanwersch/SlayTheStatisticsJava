@@ -124,7 +124,6 @@ public class App {
 			dataValues[1][i] = health;
 			dataValues[0][i] = i;
 		}
-		System.out.println("it works");
 		return dataValues;
 	}
 

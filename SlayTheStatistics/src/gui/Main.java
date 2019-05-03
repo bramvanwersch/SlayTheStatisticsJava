@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -19,6 +20,7 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -66,12 +68,10 @@ public class Main extends JFrame {
 	private JLabel lblFloorReachedName;
 	private JLabel lblSeedName;
 	private JLabel lblSpecialSeedName;
-	private GraphBuilder pnlGold;
-	private GraphBuilder pnlHealed;
-	private GraphBuilder pnlHealthGraph;
-	private GraphBuilder pnlMaxHealth;
-	private int GRAPH_WIDTH;
-	private int GRAP_HEIGHT;
+	private static GraphBuilder pnlGold;
+	private static GraphBuilder pnlHealed;
+	private static GraphBuilder pnlHealth;
+	private static GraphBuilder pnlMaxHealth;
 	private String BASIC_NAME = "some basic text";
 
 
@@ -97,21 +97,14 @@ public class Main extends JFrame {
 	public Main() {
 		myApp = new App();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1050, 800);
-		setGraphWidth();
-		setGrapHeigth();
 		buildWindow();
-//		this.addComponentListener(new WindowResizeEvent());
-	}
-		
-	public void setGrapHeigth() {
-		Dimension dm  = this.getSize();
-		GRAPH_WIDTH = (int) (dm.getHeight()*0.45);
-		}
-
-	public void setGraphWidth() {
-		Dimension dm  = this.getSize();
-		GRAP_HEIGHT = (int) (dm.getWidth()*0.33);
+		addComponentListener(new ComponentAdapter(){
+            public void componentResized(ComponentEvent e){
+            	Component c = e.getComponent();
+            	Main.updateGraphs((int) ((c.getWidth())*0.33), (int) (c.getHeight()*0.45));
+            }
+        });
+		setBounds(100, 100, 1050, 800);
 	}
 
 	public void buildWindow() {
@@ -157,10 +150,10 @@ public class Main extends JFrame {
 		gbc_pnlDamageGraph.fill = GridBagConstraints.BOTH;
 		gbc_pnlDamageGraph.gridx = 3;
 		gbc_pnlDamageGraph.gridy = 1;
-		pnlHealthGraph = new GraphBuilder(myApp.getIntGraphValuesHealth()[0],myApp.getIntGraphValuesHealth()[1],
-				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Health"});
-		tabSummary.add(pnlHealthGraph, gbc_pnlDamageGraph);
-		pnlHealthGraph.setLayout(new GridLayout(1, 0, 0, 0));
+		pnlHealth = new GraphBuilder(myApp.getIntGraphValuesHealth()[0],myApp.getIntGraphValuesHealth()[1],
+				300,200,new String[] {"Floor","Health"});
+		tabSummary.add(pnlHealth, gbc_pnlDamageGraph);
+		pnlHealth.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		GridBagConstraints gbc_pnlGold = new GridBagConstraints();
 		gbc_pnlGold.weighty = 8.0;
@@ -171,7 +164,7 @@ public class Main extends JFrame {
 		gbc_pnlGold.gridx = 4;
 		gbc_pnlGold.gridy = 1;
 		pnlGold = new GraphBuilder(myApp.getIntGraphValuesGold()[0],myApp.getIntGraphValuesGold()[1],
-				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Gold"});
+				300,200,new String[] {"Floor","Gold"});
 		tabSummary.add(pnlGold, gbc_pnlGold);
 		GridBagLayout gbl_pnlGold = new GridBagLayout();
 		pnlGold.setLayout(gbl_pnlGold);
@@ -285,7 +278,7 @@ public class Main extends JFrame {
 		gbc_pnlMaxHealth.gridx = 3;
 		gbc_pnlMaxHealth.gridy = 9;
 		pnlMaxHealth = new GraphBuilder(myApp.getIntGraphValuesMaxHp()[0],myApp.getIntGraphValuesMaxHp()[1],
-				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Max health"});
+				300,200,new String[] {"Floor","Max health"});
 		tabSummary.add(pnlMaxHealth, gbc_pnlMaxHealth);
 		GridBagLayout gbl_pnlMaxHealth = new GridBagLayout();
 		pnlMaxHealth.setLayout(gbl_pnlMaxHealth);
@@ -297,10 +290,12 @@ public class Main extends JFrame {
 		gbc_pnlHealed.gridx = 4;
 		gbc_pnlHealed.gridy = 9;
 		pnlHealed = new GraphBuilder(myApp.getIntGraphValuesHealed()[0],myApp.getIntGraphValuesHealed()[1],
-				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Health healed"});
+				300,200,new String[] {"Floor","Health healed"});
 		tabSummary.add(pnlHealed, gbc_pnlHealed);
 		GridBagLayout gbl_pnlHealed = new GridBagLayout();
 		pnlHealed.setLayout(gbl_pnlHealed);
+		
+		this.pack();
 		
 		lblFloorReachedName = new JLabel(BASIC_NAME);
 		GridBagConstraints gbc_lblFloorReachedName = new GridBagConstraints();
@@ -534,12 +529,11 @@ public class Main extends JFrame {
 		updateAllTable();
 	}
 	
-	public void updateGraphs() {
-		pnlMaxHealth.redraw();
-		pnlGold.redraw();
-		pnlHealed.redraw();
-		pnlHealthGraph.redraw();
-		pnlMaxHealth.redraw();
+	public static void updateGraphs(int width, int heigth) {
+		pnlGold.redraw(pnlGold.getSize().getWidth(), pnlGold.getSize().getHeight());
+		pnlHealed.redraw(pnlHealed.getSize().getWidth(), pnlHealed.getSize().getHeight());
+		pnlHealth.redraw(pnlHealth.getSize().getWidth(), pnlHealth.getSize().getHeight());
+		pnlMaxHealth.redraw(pnlMaxHealth.getSize().getWidth(), pnlMaxHealth.getSize().getHeight());
 	}
 
 	private void updateShopsTable() {

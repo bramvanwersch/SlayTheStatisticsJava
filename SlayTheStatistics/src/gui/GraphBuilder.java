@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 
 //public class GraphBuilder{
@@ -45,7 +47,7 @@ import java.awt.geom.AffineTransform;
 //        f.setVisible(true);
 //    }
 //}
-public class GraphBuilder extends JPanel {
+public class GraphBuilder extends JPanel{
 	private int[] xData;
 	private int[] yData;
 	private int pHeigth;
@@ -77,15 +79,9 @@ public class GraphBuilder extends JPanel {
     public GraphBuilder(int[] xData, int[] yData,int width,int height,String[] axisNames) {
     	this.xData =xData;
     	this.yData = yData;
-    	this.pHeigth = height;
-    	this.pWidth= width;
+    	this.pHeigth = (int) height;
+    	this.pWidth= (int) width;
     	this.axisNames = axisNames;
-    	this.DISTANCE_BORDER = (int) (pHeigth *0.05 +55);
-    	this.SIZE_X_AXIS = pWidth - DISTANCE_BORDER - DISTANCE_END;
-    	this.SIZE_Y_AXIS = pHeigth - DISTANCE_BORDER -DISTANCE_END;
-    	this.NUMBER_OF_AXIS_POINTS_X = getNrOfAxisPoints(SIZE_X_AXIS);
-    	this.NUMBER_OF_AXIS_POINTS_Y = getNrOfAxisPoints(SIZE_Y_AXIS);
-    	this.AXIS_FONT_SIZE = getAxisFont();
     	this.setBackground(Color.WHITE);
     }
 
@@ -93,12 +89,22 @@ public class GraphBuilder extends JPanel {
         return new Dimension(pWidth,pHeigth);
     }
 	
-	public void redraw() {
-		paintComponent(g2d);
+	public void redraw(double width, double heigth) {
+		this.pWidth = (int) width;
+		this.pHeigth = (int) heigth;
+		if (g2d != null) {
+			this.paintComponent(g2d);
+		}
 	}
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+    	this.DISTANCE_BORDER = (int) (pHeigth *0.05 +55);
+    	this.SIZE_X_AXIS = pWidth - DISTANCE_BORDER - DISTANCE_END;
+    	this.SIZE_Y_AXIS = pHeigth - DISTANCE_BORDER -DISTANCE_END;
+    	this.NUMBER_OF_AXIS_POINTS_X = getNrOfAxisPoints(SIZE_X_AXIS);
+    	this.NUMBER_OF_AXIS_POINTS_Y = getNrOfAxisPoints(SIZE_Y_AXIS);
+    	this.AXIS_FONT_SIZE = getAxisFont();
     	g2d = (Graphics2D) g;
     	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         drawGraphGrid();

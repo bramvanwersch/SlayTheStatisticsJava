@@ -55,6 +55,10 @@ public class StartFloor implements Floor{
 		return maxHp;
 	}
 	
+	public int getHealed() {
+		return 0;
+	}
+	
 	public int getCharacterMaxHp() {
 		if (this.character.equals("ironclad")) {
 			return 80;

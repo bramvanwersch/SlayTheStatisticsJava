@@ -1,8 +1,10 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
+import run.Floor;
 import run.STSRun;
 
 public class App {
@@ -14,7 +16,7 @@ public class App {
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
 		ArrayList<String[]> data = new ArrayList<String[]>(100);
-;		for (int i = 0; i < myRun.getFloorTotal(); i++) {
+		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			String[] innerArray = new String[keys.length];
 			innerArray[0] = "" + i;
 			Map<String, String> fM = myRun.getFloorAtIndex(i).getFloorMap();
@@ -83,6 +85,47 @@ public class App {
 	public Object[][] getShopRunTableData() {
 		String[] keys = {"","path","purchased","purged"};
 		return getTableData(keys, "shop");
+	}
+	
+	public int[][] getIntGraphValuesHealth(){
+		int[][] dataValues = new int[2][myRun.getFloorTotal()];
+		for (int i = 0; i < myRun.getFloorTotal(); i++) {
+			int health = myRun.getFloorAtIndex(i).getHealth();
+			dataValues[1][i] = health;
+			dataValues[0][i] = i;
+		}
+		return dataValues;
+	}
+	
+	public int[][] getIntGraphValuesGold(){
+		int[][] dataValues = new int[2][myRun.getFloorTotal()];
+		for (int i = 0; i < myRun.getFloorTotal(); i++) {
+			int health = myRun.getFloorAtIndex(i).getGold();
+			dataValues[1][i] = health;
+			dataValues[0][i] = i;
+		}
+		return dataValues;
+	}
+	
+	public int[][] getIntGraphValuesMaxHp(){
+		int[][] dataValues = new int[2][myRun.getFloorTotal()];
+		for (int i = 0; i < myRun.getFloorTotal(); i++) {
+			int health = myRun.getFloorAtIndex(i).getMaxHp();
+			dataValues[1][i] = health;
+			dataValues[0][i] = i;
+		}
+		return dataValues;
+	}
+	
+	public int[][] getIntGraphValuesHealed(){
+		int[][] dataValues = new int[2][myRun.getFloorTotal()];
+		for (int i = 0; i < myRun.getFloorTotal(); i++) {
+			int health = myRun.getFloorAtIndex(i).getHealed();
+			dataValues[1][i] = health;
+			dataValues[0][i] = i;
+		}
+		System.out.println("it works");
+		return dataValues;
 	}
 
 }

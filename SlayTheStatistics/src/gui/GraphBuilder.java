@@ -13,39 +13,39 @@ import javax.swing.SwingUtilities;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 
-public class GraphBuilder{
-
-	private JPanel contentPane;
-	private int[] xData;
-	private int[] yData;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new GraphBuilder(new int[] {5,1,2,16,50}, new int[] {5,1,24,3,1000});
-				}
-			});
-	}
-
-	public GraphBuilder(int[] xData, int[] yData) {
-		this.xData = xData;
-		this.yData= yData;
-		createNewGui();
-	}
-
-	protected void createNewGui() {
-		SwingUtilities.isEventDispatchThread();
-        JFrame f = new JFrame("Graph");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(new MyPanel(xData,yData, 1000, 800, new String[] {"Floor", "Gold"}));
-        f.pack();
-        f.setVisible(true);
-    }
-}
-class MyPanel extends JPanel {
+//public class GraphBuilder{
+//
+//	private JPanel contentPane;
+//	private int[] xData;
+//	private int[] yData;
+//
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				new GraphBuilder(new int[] {5,1,2,16,50}, new int[] {5,1,24,3,1000});
+//				}
+//			});
+//	}
+//
+//	public GraphBuilder(int[] xData, int[] yData) {
+//		this.xData = xData;
+//		this.yData= yData;
+//		createNewGui();
+//	}
+//
+//	protected void createNewGui() {
+//		SwingUtilities.isEventDispatchThread();
+//        JFrame f = new JFrame("Graph");
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.add(new MyPanel(xData,yData, 1000, 800, new String[] {"Floor", "Gold"}));
+//        f.pack();
+//        f.setVisible(true);
+//    }
+//}
+public class GraphBuilder extends JPanel {
 	private int[] xData;
 	private int[] yData;
 	private int pHeigth;
@@ -74,7 +74,7 @@ class MyPanel extends JPanel {
 	private Graphics2D g2d;
 
 
-    public MyPanel(int[] xData, int[] yData,int width,int height,String[] axisNames) {
+    public GraphBuilder(int[] xData, int[] yData,int width,int height,String[] axisNames) {
     	this.xData =xData;
     	this.yData = yData;
     	this.pHeigth = height;
@@ -87,12 +87,15 @@ class MyPanel extends JPanel {
     	this.NUMBER_OF_AXIS_POINTS_Y = getNrOfAxisPoints(SIZE_Y_AXIS);
     	this.AXIS_FONT_SIZE = getAxisFont();
     	this.setBackground(Color.WHITE);
-
     }
 
 	public Dimension getPreferredSize() {
         return new Dimension(pWidth,pHeigth);
     }
+	
+	public void redraw() {
+		paintComponent(g2d);
+	}
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

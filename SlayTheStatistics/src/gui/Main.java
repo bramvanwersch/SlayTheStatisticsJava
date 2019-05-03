@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,7 +17,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JSplitPane;
+import java.awt.GridLayout;
 
 public class Main extends JFrame {
 	private JPanel contentPane;
@@ -42,6 +50,29 @@ public class Main extends JFrame {
 	private JRadioButton rdBtnRestFloor;
 	private JRadioButton rdBtnEventFloor;
 	private JRadioButton rdBtnShops;
+	private JLabel lblCharacter;
+	private JLabel lblCharacterName;
+	private JLabel lblMasterDeck;
+	private JLabel lblMasterDeckName;
+	private JLabel lblRelics;
+	private JLabel lblAscnsionLvl;
+	private JLabel lblAscensionLvlName;
+	private JLabel lblVictory;
+	private JLabel lblFloorReached;
+	private JLabel lblSeed;
+	private JLabel lblSpecialSeed;
+	private JLabel lblRelicsName;
+	private JLabel lblVictoryName;
+	private JLabel lblFloorReachedName;
+	private JLabel lblSeedName;
+	private JLabel lblSpecialSeedName;
+	private GraphBuilder pnlGold;
+	private GraphBuilder pnlHealed;
+	private GraphBuilder pnlHealthGraph;
+	private GraphBuilder pnlMaxHealth;
+	private int GRAPH_WIDTH;
+	private int GRAP_HEIGHT;
+	private String BASIC_NAME = "some basic text";
 
 
 	/**
@@ -65,12 +96,26 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		myApp = new App();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1050, 800);
+		setGraphWidth();
+		setGrapHeigth();
 		buildWindow();
+//		this.addComponentListener(new WindowResizeEvent());
 	}
 		
+	public void setGrapHeigth() {
+		Dimension dm  = this.getSize();
+		GRAPH_WIDTH = (int) (dm.getHeight()*0.45);
+		}
+
+	public void setGraphWidth() {
+		Dimension dm  = this.getSize();
+		GRAP_HEIGHT = (int) (dm.getWidth()*0.33);
+	}
+
 	public void buildWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1012, 761);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -91,11 +136,225 @@ public class Main extends JFrame {
 		
 		JPanel tabSummary = new JPanel();
 		tabbedPane.addTab("Summary", null, tabSummary, null);
+		GridBagLayout gbl_tabSummary = new GridBagLayout();
+		tabSummary.setLayout(gbl_tabSummary);
+		
+		lblCharacter = new JLabel("Character played:");
+		GridBagConstraints gbc_lblCharacter = new GridBagConstraints();
+		gbc_lblCharacter.weightx = 1.0;
+		gbc_lblCharacter.weighty = 1.0;
+		gbc_lblCharacter.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCharacter.anchor = GridBagConstraints.LINE_START;
+		gbc_lblCharacter.gridx = 1;
+		gbc_lblCharacter.gridy = 1;
+		tabSummary.add(lblCharacter, gbc_lblCharacter);
+		
+		GridBagConstraints gbc_pnlDamageGraph = new GridBagConstraints();
+		gbc_pnlDamageGraph.weighty = 8.0;
+		gbc_pnlDamageGraph.gridheight = 8;
+		gbc_pnlDamageGraph.weightx = 8.0;
+		gbc_pnlDamageGraph.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlDamageGraph.fill = GridBagConstraints.BOTH;
+		gbc_pnlDamageGraph.gridx = 3;
+		gbc_pnlDamageGraph.gridy = 1;
+		pnlHealthGraph = new GraphBuilder(myApp.getIntGraphValuesHealth()[0],myApp.getIntGraphValuesHealth()[1],
+				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Health"});
+		tabSummary.add(pnlHealthGraph, gbc_pnlDamageGraph);
+		pnlHealthGraph.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		GridBagConstraints gbc_pnlGold = new GridBagConstraints();
+		gbc_pnlGold.weighty = 8.0;
+		gbc_pnlGold.weightx = 8.0;
+		gbc_pnlGold.gridheight = 8;
+		gbc_pnlGold.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlGold.fill = GridBagConstraints.BOTH;
+		gbc_pnlGold.gridx = 4;
+		gbc_pnlGold.gridy = 1;
+		pnlGold = new GraphBuilder(myApp.getIntGraphValuesGold()[0],myApp.getIntGraphValuesGold()[1],
+				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Gold"});
+		tabSummary.add(pnlGold, gbc_pnlGold);
+		GridBagLayout gbl_pnlGold = new GridBagLayout();
+		pnlGold.setLayout(gbl_pnlGold);
+		
+		lblCharacterName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblCharacterName = new GridBagConstraints();
+		gbc_lblCharacterName.weighty = 1.0;
+		gbc_lblCharacterName.weightx = 1.0;
+		gbc_lblCharacterName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblCharacterName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCharacterName.gridx = 2;
+		gbc_lblCharacterName.gridy = 1;
+		tabSummary.add(lblCharacterName, gbc_lblCharacterName);
+		
+		lblMasterDeck = new JLabel("Master deck:");
+		GridBagConstraints gbc_lblMasterDeck = new GridBagConstraints();
+		gbc_lblMasterDeck.weighty = 1.0;
+		gbc_lblMasterDeck.weightx = 1.0;
+		gbc_lblMasterDeck.anchor = GridBagConstraints.LINE_START;
+		gbc_lblMasterDeck.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMasterDeck.gridx = 1;
+		gbc_lblMasterDeck.gridy = 2;
+		tabSummary.add(lblMasterDeck, gbc_lblMasterDeck);
+		
+		lblMasterDeckName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblMasterDeckName = new GridBagConstraints();
+		gbc_lblMasterDeckName.weighty = 1.0;
+		gbc_lblMasterDeckName.weightx = 1.0;
+		gbc_lblMasterDeckName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblMasterDeckName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMasterDeckName.gridx = 2;
+		gbc_lblMasterDeckName.gridy = 2;
+		tabSummary.add(lblMasterDeckName, gbc_lblMasterDeckName);
+		
+		lblRelics = new JLabel("Relics:");
+		lblRelics.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lblRelics = new GridBagConstraints();
+		gbc_lblRelics.weighty = 1.0;
+		gbc_lblRelics.weightx = 1.0;
+		gbc_lblRelics.anchor = GridBagConstraints.LINE_START;
+		gbc_lblRelics.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelics.gridx = 1;
+		gbc_lblRelics.gridy = 3;
+		tabSummary.add(lblRelics, gbc_lblRelics);
+		
+		lblRelicsName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblRelicsName = new GridBagConstraints();
+		gbc_lblRelicsName.weighty = 1.0;
+		gbc_lblRelicsName.weightx = 1.0;
+		gbc_lblRelicsName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblRelicsName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelicsName.gridx = 2;
+		gbc_lblRelicsName.gridy = 3;
+		tabSummary.add(lblRelicsName, gbc_lblRelicsName);
+		
+		lblAscnsionLvl = new JLabel("Ascnsion level:");
+		GridBagConstraints gbc_lblAscnsionLvl = new GridBagConstraints();
+		gbc_lblAscnsionLvl.weighty = 1.0;
+		gbc_lblAscnsionLvl.weightx = 1.0;
+		gbc_lblAscnsionLvl.anchor = GridBagConstraints.LINE_START;
+		gbc_lblAscnsionLvl.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAscnsionLvl.gridx = 1;
+		gbc_lblAscnsionLvl.gridy = 4;
+		tabSummary.add(lblAscnsionLvl, gbc_lblAscnsionLvl);
+		
+		lblAscensionLvlName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblAscensionLvlName = new GridBagConstraints();
+		gbc_lblAscensionLvlName.weighty = 1.0;
+		gbc_lblAscensionLvlName.weightx = 1.0;
+		gbc_lblAscensionLvlName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblAscensionLvlName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAscensionLvlName.gridx = 2;
+		gbc_lblAscensionLvlName.gridy = 4;
+		tabSummary.add(lblAscensionLvlName, gbc_lblAscensionLvlName);
+		
+		lblVictory = new JLabel("Victory:");
+		GridBagConstraints gbc_lblVictory = new GridBagConstraints();
+		gbc_lblVictory.weighty = 1.0;
+		gbc_lblVictory.weightx = 1.0;
+		gbc_lblVictory.anchor = GridBagConstraints.LINE_START;
+		gbc_lblVictory.insets = new Insets(0, 0, 5, 5);
+		gbc_lblVictory.gridx = 1;
+		gbc_lblVictory.gridy = 5;
+		tabSummary.add(lblVictory, gbc_lblVictory);
+		
+		lblVictoryName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblVictoryName = new GridBagConstraints();
+		gbc_lblVictoryName.weighty = 1.0;
+		gbc_lblVictoryName.weightx = 1.0;
+		gbc_lblVictoryName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblVictoryName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblVictoryName.gridx = 2;
+		gbc_lblVictoryName.gridy = 5;
+		tabSummary.add(lblVictoryName, gbc_lblVictoryName);
+		
+		lblFloorReached = new JLabel("Floor reached:");
+		GridBagConstraints gbc_lblFloorReached = new GridBagConstraints();
+		gbc_lblFloorReached.weighty = 1.0;
+		gbc_lblFloorReached.weightx = 1.0;
+		gbc_lblFloorReached.anchor = GridBagConstraints.LINE_START;
+		gbc_lblFloorReached.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFloorReached.gridx = 1;
+		gbc_lblFloorReached.gridy = 6;
+		tabSummary.add(lblFloorReached, gbc_lblFloorReached);
+		
+		GridBagConstraints gbc_pnlMaxHealth = new GridBagConstraints();
+		gbc_pnlMaxHealth.weightx = 8.0;
+		gbc_pnlMaxHealth.weighty = 15.0;
+		gbc_pnlMaxHealth.insets = new Insets(0, 0, 0, 5);
+		gbc_pnlMaxHealth.fill = GridBagConstraints.BOTH;
+		gbc_pnlMaxHealth.gridx = 3;
+		gbc_pnlMaxHealth.gridy = 9;
+		pnlMaxHealth = new GraphBuilder(myApp.getIntGraphValuesMaxHp()[0],myApp.getIntGraphValuesMaxHp()[1],
+				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Max health"});
+		tabSummary.add(pnlMaxHealth, gbc_pnlMaxHealth);
+		GridBagLayout gbl_pnlMaxHealth = new GridBagLayout();
+		pnlMaxHealth.setLayout(gbl_pnlMaxHealth);
+		
+		GridBagConstraints gbc_pnlHealed = new GridBagConstraints();
+		gbc_pnlHealed.weighty = 15.0;
+		gbc_pnlHealed.weightx = 8.0;
+		gbc_pnlHealed.fill = GridBagConstraints.BOTH;
+		gbc_pnlHealed.gridx = 4;
+		gbc_pnlHealed.gridy = 9;
+		pnlHealed = new GraphBuilder(myApp.getIntGraphValuesHealed()[0],myApp.getIntGraphValuesHealed()[1],
+				GRAPH_WIDTH,GRAP_HEIGHT,new String[] {"Floor","Health healed"});
+		tabSummary.add(pnlHealed, gbc_pnlHealed);
+		GridBagLayout gbl_pnlHealed = new GridBagLayout();
+		pnlHealed.setLayout(gbl_pnlHealed);
+		
+		lblFloorReachedName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblFloorReachedName = new GridBagConstraints();
+		gbc_lblFloorReachedName.weighty = 1.0;
+		gbc_lblFloorReachedName.weightx = 1.0;
+		gbc_lblFloorReachedName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblFloorReachedName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFloorReachedName.gridx = 2;
+		gbc_lblFloorReachedName.gridy = 6;
+		tabSummary.add(lblFloorReachedName, gbc_lblFloorReachedName);
+		
+		lblSeed = new JLabel("Seed:");
+		GridBagConstraints gbc_lblSeed = new GridBagConstraints();
+		gbc_lblSeed.weighty = 1.0;
+		gbc_lblSeed.weightx = 1.0;
+		gbc_lblSeed.anchor = GridBagConstraints.LINE_START;
+		gbc_lblSeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeed.gridx = 1;
+		gbc_lblSeed.gridy = 7;
+		tabSummary.add(lblSeed, gbc_lblSeed);
+		
+		lblSeedName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblSeedName = new GridBagConstraints();
+		gbc_lblSeedName.weighty = 1.0;
+		gbc_lblSeedName.weightx = 1.0;
+		gbc_lblSeedName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblSeedName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeedName.gridx = 2;
+		gbc_lblSeedName.gridy = 7;
+		tabSummary.add(lblSeedName, gbc_lblSeedName);
+		
+		lblSpecialSeed = new JLabel("Special seed:");
+		GridBagConstraints gbc_lblSpecialSeed = new GridBagConstraints();
+		gbc_lblSpecialSeed.weighty = 1.0;
+		gbc_lblSpecialSeed.weightx = 1.0;
+		gbc_lblSpecialSeed.anchor = GridBagConstraints.LINE_START;
+		gbc_lblSpecialSeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpecialSeed.gridx = 1;
+		gbc_lblSpecialSeed.gridy = 8;
+		tabSummary.add(lblSpecialSeed, gbc_lblSpecialSeed);
+		
+		lblSpecialSeedName = new JLabel(BASIC_NAME);
+		GridBagConstraints gbc_lblSpecialSeedName = new GridBagConstraints();
+		gbc_lblSpecialSeedName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpecialSeedName.weighty = 1.0;
+		gbc_lblSpecialSeedName.weightx = 1.0;
+		gbc_lblSpecialSeedName.anchor = GridBagConstraints.LINE_START;
+		gbc_lblSpecialSeedName.gridx = 2;
+		gbc_lblSpecialSeedName.gridy = 8;
+		tabSummary.add(lblSpecialSeedName, gbc_lblSpecialSeedName);
 		
 		JPanel runPannel = new JPanel();
 		tabbedPane.addTab("Run", null, runPannel, null);
 		GridBagLayout gbl_runPannel = new GridBagLayout();
-		gbl_runPannel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		runPannel.setLayout(gbl_runPannel);
 		
 		rdBtnAll = new JRadioButton("All", true);
@@ -273,6 +532,14 @@ public class Main extends JFrame {
 		table = new JTable();
 		scrollPaneRun.setViewportView(table);
 		updateAllTable();
+	}
+	
+	public void updateGraphs() {
+		pnlMaxHealth.redraw();
+		pnlGold.redraw();
+		pnlHealed.redraw();
+		pnlHealthGraph.redraw();
+		pnlMaxHealth.redraw();
 	}
 
 	private void updateShopsTable() {

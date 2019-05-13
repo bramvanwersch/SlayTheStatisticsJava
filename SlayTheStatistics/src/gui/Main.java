@@ -52,17 +52,9 @@ public class Main extends JFrame {
 	private JRadioButton rdBtnRestFloor;
 	private JRadioButton rdBtnEventFloor;
 	private JRadioButton rdBtnShops;
-	private JLabel lblCharacter;
 	private JLabel lblCharacterName;
-	private JLabel lblMasterDeck;
 	private JLabel lblMasterDeckName;
-	private JLabel lblRelics;
-	private JLabel lblAscnsionLvl;
 	private JLabel lblAscensionLvlName;
-	private JLabel lblVictory;
-	private JLabel lblFloorReached;
-	private JLabel lblSeed;
-	private JLabel lblSpecialSeed;
 	private JLabel lblRelicsName;
 	private JLabel lblVictoryName;
 	private JLabel lblFloorReachedName;
@@ -72,7 +64,6 @@ public class Main extends JFrame {
 	private static GraphBuilder pnlHealed;
 	private static GraphBuilder pnlHealth;
 	private static GraphBuilder pnlMaxHealth;
-	private String BASIC_NAME = "some basic text";
 	private JLabel lblHealth;
 	private JLabel lblMaxHealth;
 	private JLabel lblHealthChange;
@@ -172,7 +163,7 @@ public class Main extends JFrame {
 		gbc_lblGoldChange.gridy = 0;
 		tabSummary.add(lblGoldChange, gbc_lblGoldChange);
 		
-		lblCharacter = new JLabel("Character played:");
+		JLabel lblCharacter = new JLabel("Character played:");
 		GridBagConstraints gbc_lblCharacter = new GridBagConstraints();
 		gbc_lblCharacter.weightx = 1.0;
 		gbc_lblCharacter.weighty = 1.0;
@@ -209,7 +200,7 @@ public class Main extends JFrame {
 		GridBagLayout gbl_pnlGold = new GridBagLayout();
 		pnlGold.setLayout(gbl_pnlGold);
 		
-		lblCharacterName = new JLabel(BASIC_NAME);
+		lblCharacterName = new JLabel("");
 		GridBagConstraints gbc_lblCharacterName = new GridBagConstraints();
 		gbc_lblCharacterName.weighty = 1.0;
 		gbc_lblCharacterName.weightx = 1.0;
@@ -219,7 +210,7 @@ public class Main extends JFrame {
 		gbc_lblCharacterName.gridy = 1;
 		tabSummary.add(lblCharacterName, gbc_lblCharacterName);
 		
-		lblMasterDeck = new JLabel("Master deck:");
+		JLabel lblMasterDeck = new JLabel("Master deck:");
 		GridBagConstraints gbc_lblMasterDeck = new GridBagConstraints();
 		gbc_lblMasterDeck.weighty = 1.0;
 		gbc_lblMasterDeck.weightx = 1.0;
@@ -229,7 +220,7 @@ public class Main extends JFrame {
 		gbc_lblMasterDeck.gridy = 2;
 		tabSummary.add(lblMasterDeck, gbc_lblMasterDeck);
 		
-		lblMasterDeckName = new JLabel(BASIC_NAME);
+		lblMasterDeckName = new JLabel("");
 		GridBagConstraints gbc_lblMasterDeckName = new GridBagConstraints();
 		gbc_lblMasterDeckName.weighty = 1.0;
 		gbc_lblMasterDeckName.weightx = 1.0;
@@ -239,7 +230,7 @@ public class Main extends JFrame {
 		gbc_lblMasterDeckName.gridy = 2;
 		tabSummary.add(lblMasterDeckName, gbc_lblMasterDeckName);
 		
-		lblRelics = new JLabel("Relics:");
+		JLabel lblRelics = new JLabel("Relics:");
 		lblRelics.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblRelics = new GridBagConstraints();
 		gbc_lblRelics.weighty = 1.0;
@@ -250,7 +241,7 @@ public class Main extends JFrame {
 		gbc_lblRelics.gridy = 3;
 		tabSummary.add(lblRelics, gbc_lblRelics);
 		
-		lblRelicsName = new JLabel(BASIC_NAME);
+		lblRelicsName = new JLabel("");
 		GridBagConstraints gbc_lblRelicsName = new GridBagConstraints();
 		gbc_lblRelicsName.weighty = 1.0;
 		gbc_lblRelicsName.weightx = 1.0;
@@ -260,7 +251,7 @@ public class Main extends JFrame {
 		gbc_lblRelicsName.gridy = 3;
 		tabSummary.add(lblRelicsName, gbc_lblRelicsName);
 		
-		lblAscnsionLvl = new JLabel("Ascnsion level:");
+		JLabel lblAscnsionLvl = new JLabel("Ascnsion level:");
 		GridBagConstraints gbc_lblAscnsionLvl = new GridBagConstraints();
 		gbc_lblAscnsionLvl.weighty = 1.0;
 		gbc_lblAscnsionLvl.weightx = 1.0;
@@ -270,7 +261,7 @@ public class Main extends JFrame {
 		gbc_lblAscnsionLvl.gridy = 4;
 		tabSummary.add(lblAscnsionLvl, gbc_lblAscnsionLvl);
 		
-		lblAscensionLvlName = new JLabel(BASIC_NAME);
+		lblAscensionLvlName = new JLabel("");
 		GridBagConstraints gbc_lblAscensionLvlName = new GridBagConstraints();
 		gbc_lblAscensionLvlName.weighty = 1.0;
 		gbc_lblAscensionLvlName.weightx = 1.0;
@@ -280,7 +271,7 @@ public class Main extends JFrame {
 		gbc_lblAscensionLvlName.gridy = 4;
 		tabSummary.add(lblAscensionLvlName, gbc_lblAscensionLvlName);
 		
-		lblVictory = new JLabel("Victory:");
+		JLabel lblVictory = new JLabel("Victory:");
 		GridBagConstraints gbc_lblVictory = new GridBagConstraints();
 		gbc_lblVictory.weighty = 1.0;
 		gbc_lblVictory.weightx = 1.0;
@@ -290,7 +281,7 @@ public class Main extends JFrame {
 		gbc_lblVictory.gridy = 5;
 		tabSummary.add(lblVictory, gbc_lblVictory);
 		
-		lblVictoryName = new JLabel(BASIC_NAME);
+		lblVictoryName = new JLabel("");
 		GridBagConstraints gbc_lblVictoryName = new GridBagConstraints();
 		gbc_lblVictoryName.weighty = 1.0;
 		gbc_lblVictoryName.weightx = 1.0;
@@ -300,7 +291,7 @@ public class Main extends JFrame {
 		gbc_lblVictoryName.gridy = 5;
 		tabSummary.add(lblVictoryName, gbc_lblVictoryName);
 		
-		lblFloorReached = new JLabel("Floor reached:");
+		JLabel lblFloorReached = new JLabel("Floor reached:");
 		GridBagConstraints gbc_lblFloorReached = new GridBagConstraints();
 		gbc_lblFloorReached.weighty = 1.0;
 		gbc_lblFloorReached.weightx = 1.0;
@@ -355,7 +346,7 @@ public class Main extends JFrame {
 		
 		this.pack();
 		
-		lblFloorReachedName = new JLabel(BASIC_NAME);
+		lblFloorReachedName = new JLabel("");
 		GridBagConstraints gbc_lblFloorReachedName = new GridBagConstraints();
 		gbc_lblFloorReachedName.weighty = 1.0;
 		gbc_lblFloorReachedName.weightx = 1.0;
@@ -365,7 +356,7 @@ public class Main extends JFrame {
 		gbc_lblFloorReachedName.gridy = 6;
 		tabSummary.add(lblFloorReachedName, gbc_lblFloorReachedName);
 		
-		lblSeed = new JLabel("Seed:");
+		JLabel lblSeed = new JLabel("Seed:");
 		GridBagConstraints gbc_lblSeed = new GridBagConstraints();
 		gbc_lblSeed.weighty = 1.0;
 		gbc_lblSeed.weightx = 1.0;
@@ -375,7 +366,7 @@ public class Main extends JFrame {
 		gbc_lblSeed.gridy = 7;
 		tabSummary.add(lblSeed, gbc_lblSeed);
 		
-		lblSeedName = new JLabel(BASIC_NAME);
+		lblSeedName = new JLabel("");
 		GridBagConstraints gbc_lblSeedName = new GridBagConstraints();
 		gbc_lblSeedName.weighty = 1.0;
 		gbc_lblSeedName.weightx = 1.0;
@@ -385,7 +376,7 @@ public class Main extends JFrame {
 		gbc_lblSeedName.gridy = 7;
 		tabSummary.add(lblSeedName, gbc_lblSeedName);
 		
-		lblSpecialSeed = new JLabel("Special seed:");
+		JLabel lblSpecialSeed = new JLabel("Special seed:");
 		GridBagConstraints gbc_lblSpecialSeed = new GridBagConstraints();
 		gbc_lblSpecialSeed.weighty = 1.0;
 		gbc_lblSpecialSeed.weightx = 1.0;
@@ -395,7 +386,7 @@ public class Main extends JFrame {
 		gbc_lblSpecialSeed.gridy = 8;
 		tabSummary.add(lblSpecialSeed, gbc_lblSpecialSeed);
 		
-		lblSpecialSeedName = new JLabel(BASIC_NAME);
+		lblSpecialSeedName = new JLabel("");
 		GridBagConstraints gbc_lblSpecialSeedName = new GridBagConstraints();
 		gbc_lblSpecialSeedName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSpecialSeedName.weighty = 1.0;
@@ -585,6 +576,7 @@ public class Main extends JFrame {
 		table = new JTable();
 		scrollPaneRun.setViewportView(table);
 		updateAllTable();
+//		updateTextButtons();
 	}
 	
 	public static void updateGraphs(int width, int heigth) {
@@ -663,6 +655,18 @@ public class Main extends JFrame {
 		for (int i = 0; i < myModel.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
 		}
+	}
+	
+	private void updateTextButtons() {
+		String[] textV =  myApp.getTextValues();
+		lblCharacterName.setText(textV[0]);
+		lblMasterDeckName.setText(textV[1]);
+		lblAscensionLvlName.setText(textV[2]);
+		lblRelicsName.setText(textV[3]);
+		lblVictoryName.setText(textV[4]);
+		lblFloorReachedName.setText(textV[5]);
+		lblSeedName.setText(textV[6]);
+		lblSpecialSeedName.setText(textV[7]);
 	}
 	
 	private void updateRadioButtons(boolean[] onOrOff) {

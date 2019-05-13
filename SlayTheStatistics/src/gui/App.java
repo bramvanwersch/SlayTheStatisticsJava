@@ -127,4 +127,15 @@ public class App {
 		return dataValues;
 	}
 
+	public String[] getTextValues() {
+		//add the cards and relics in a reasonable fassion.
+		String[] textV = new String[8];
+		String[] keys = {"character_chosen","master_decks","ascension_level","relicss","victory","floor_reached",
+				"seed_played","special_seed"};
+		for (int i = 0; i < keys.length; i++) {
+			textV[i] = myRun.getGlobalKeys(keys[i]);
+		}
+		return textV;
+	}
+
 }

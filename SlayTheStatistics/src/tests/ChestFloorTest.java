@@ -3,9 +3,9 @@ package tests;
 import java.util.HashMap;
 import java.util.Map;
 
+import floors.ChestFloor;
+import floors.GeneralFloor;
 import junit.framework.TestCase;
-import run.ChestFloor;
-import run.GeneralFloor;
 
 public class ChestFloorTest extends TestCase {
 	private Map<String, String> floorDict;

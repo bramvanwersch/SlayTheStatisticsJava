@@ -5,6 +5,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
+import floors.BossFloor;
+import floors.ChestFloor;
+import floors.EliteFloor;
+import floors.EventFloor;
+import floors.Floor;
+import floors.GeneralFloor;
+import floors.MonsterFloor;
+import floors.RestFloor;
+import floors.ShopFloor;
+import floors.StartFloor;
+
 public class STSRun {
 	//probably should not hold this dict but extending classes should hold the seperate smaller dicts.
 	private ReadingRunFile myRunFile;

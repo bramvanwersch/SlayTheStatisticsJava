@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-import run.Floor;
+import floors.Floor;
 import run.STSRun;
 
 public class App {

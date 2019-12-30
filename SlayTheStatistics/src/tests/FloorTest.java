@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import floors.GeneralFloor;
 import junit.framework.TestCase;
-import run.GeneralFloor;
 
 public class FloorTest extends TestCase {
 	private Map<String, String> floorDict;

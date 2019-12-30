@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import floors.GeneralFloor;
+import floors.MonsterFloor;
 import junit.framework.TestCase;
-import run.GeneralFloor;
-import run.MonsterFloor;
 
 public class MonsterFloorTest extends TestCase {
 	private Map<String, String> floorDict;

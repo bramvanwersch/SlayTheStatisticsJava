@@ -28,6 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JSplitPane;
 import java.awt.GridLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class Main extends JFrame {
 	private JPanel contentPane;
@@ -71,6 +74,7 @@ public class Main extends JFrame {
 	private JLabel lblGoldChange;
 	private JLabel lblSpace1;
 	private JLabel lblSpace2;
+	private JMenuBar menuBar;
 
 
 	/**
@@ -102,12 +106,49 @@ public class Main extends JFrame {
             	Main.updateGraphs((int) ((c.getWidth())*0.33), (int) (c.getHeight()*0.45));
             }
         });
-		setBounds(100, 100, 1050, 800);
-		//temporary
-		updateTextButtons();
+		setBounds(100, 100, 1600, 900);
 	}
 
 	public void buildWindow() {
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu menuCharacter = new JMenu("Character");
+		menuBar.add(menuCharacter);
+		
+		JMenuItem menuIronclad = new JMenuItem("Ironclad");
+		menuIronclad.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		menuCharacter.add(menuIronclad);
+		
+		JMenuItem menuSilent = new JMenuItem("Silent");
+		menuSilent.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		menuCharacter.add(menuSilent);
+		
+		JMenuItem menuDefect = new JMenuItem("Defect");
+		menuDefect.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		menuCharacter.add(menuDefect);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -579,7 +620,7 @@ public class Main extends JFrame {
 		table = new JTable();
 		scrollPaneRun.setViewportView(table);
 		updateAllTable();
-//		updateTextButtons();
+		updateTextButtons();
 	}
 	
 	public static void updateGraphs(int width, int heigth) {

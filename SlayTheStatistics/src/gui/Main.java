@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -102,6 +103,8 @@ public class Main extends JFrame {
             }
         });
 		setBounds(100, 100, 1050, 800);
+		//temporary
+		updateTextButtons();
 	}
 
 	public void buildWindow() {
@@ -659,6 +662,7 @@ public class Main extends JFrame {
 	
 	private void updateTextButtons() {
 		String[] textV =  myApp.getTextValues();
+		System.out.println(Arrays.deepToString(textV));
 		lblCharacterName.setText(textV[0]);
 		lblMasterDeckName.setText(textV[1]);
 		lblAscensionLvlName.setText(textV[2]);

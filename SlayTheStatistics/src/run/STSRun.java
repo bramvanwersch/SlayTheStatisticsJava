@@ -70,12 +70,11 @@ public class STSRun {
 				myFloor = new GeneralFloor(floorDict, previousFloor, i+"");
 				break;
 			}//end switch
-//			System.out.println(myFloor.getText());
 			floorArray[i] = myFloor;
 			previousFloor = myFloor;
 		}//end for
-		
 	}
+	
 	public int getFloorTotal() {
 		return floorArray.length;
 	}

@@ -21,8 +21,8 @@ public class STSRun {
 	private ReadingRunFile myRunFile;
 	private Floor[] floorArray;
 
-	public STSRun(String character, String runFileName) {
-		myRunFile = new ReadingRunFile(character, runFileName, true);
+	public STSRun(String runFileLocation) {
+		myRunFile = new ReadingRunFile(runFileLocation, true);
 		floorArray = new Floor[Integer.parseInt(myRunFile.getGlobalKey("floor_reached"))];
 		try {
 			writeFloorDict();

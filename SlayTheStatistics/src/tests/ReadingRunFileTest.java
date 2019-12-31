@@ -6,7 +6,7 @@ import run.ReadingRunFile;
 public class ReadingRunFileTest extends TestCase {
 	
 	public void testSetup() {
-		ReadingRunFile myReader = new ReadingRunFile("IRONCLAD","1551815208.run", true); 
+		ReadingRunFile myReader = new ReadingRunFile("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1551815208.run", true); 
 		assertNotNull(myReader);
 	}
 //	

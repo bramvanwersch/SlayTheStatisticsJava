@@ -38,7 +38,8 @@ public class AllRunSummary {
 			for (int j = 0; j < fileNames.length; j++) {
 				String[] dirParts = fileNames[j].toString().split(Pattern.quote(separator));
 				String name = dirParts[dirParts.length-1];
-				ReadingRunFile r = new ReadingRunFile(characterNames[i], name, false);
+				ReadingRunFile r = new ReadingRunFile("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" 
+							+ characterNames[i]+ "\\" + name, false);
 				characterRunFiles.add(j, r);
 			}
 			allRunFiles.add(i, characterRunFiles);

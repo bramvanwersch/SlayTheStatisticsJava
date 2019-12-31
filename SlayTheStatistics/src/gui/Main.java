@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.File;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -75,6 +76,8 @@ public class Main extends JFrame {
 	private JLabel lblSpace1;
 	private JLabel lblSpace2;
 	private JMenuBar menuBar;
+	
+	private String character = "IRONCLAD";
 
 
 	/**
@@ -114,41 +117,43 @@ public class Main extends JFrame {
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu menuCharacter = new JMenu("Character");
-		menuBar.add(menuCharacter);
+		JMenu menuFileOptions = new JMenu("File");
+		menuBar.add(menuFileOptions);
 		
-		JMenuItem menuIronclad = new JMenuItem("Ironclad");
-		menuIronclad.addActionListener(new ActionListener() {
+		JMenuItem menuOpenFile = new JMenuItem("Open...");
+		menuOpenFile.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				String filePath = FileChooser.open(character);
+				if (filePath != null) {
+					myApp.setRun(filePath);
+					buildWindow();
+					setBounds(100, 100, 1600, 900);
+				}
 			}
 		});
-		menuCharacter.add(menuIronclad);
+		menuFileOptions.add(menuOpenFile);
 		
-		JMenuItem menuSilent = new JMenuItem("Silent");
-		menuSilent.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		menuCharacter.add(menuSilent);
+		JMenu menuCharacterOptions = new JMenu("Characters");
+		menuBar.add(menuCharacterOptions);
 		
-		JMenuItem menuDefect = new JMenuItem("Defect");
-		menuDefect.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+		File[] folder = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\").listFiles();
+		for (int i = 0; i < folder.length; i++) {
+			String folderName = folder[i].getName();
+			if (folderName.equals("metrics") || folderName.equals("DAILY")) {
+				continue;
 			}
-		});
-		menuCharacter.add(menuDefect);
+			JMenuItem menuCharacterName = new JMenuItem(folderName);
+			menuCharacterName.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					character = folderName;
+				}
+			});
+			menuCharacterOptions.add(menuCharacterName);
+		}
+		
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

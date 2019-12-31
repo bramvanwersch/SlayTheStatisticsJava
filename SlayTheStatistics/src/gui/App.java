@@ -11,7 +11,8 @@ public class App {
 	private STSRun myRun;
 	
 	public App() {
-		myRun = new STSRun("IRONCLAD","1556227492.run");
+		//hardcoded prevent nullpointers but needs to change.
+		myRun = new STSRun("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1556227492.run");
 	}
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
@@ -39,6 +40,10 @@ public class App {
 			}
 		}
 		return returnArray;
+	}
+	
+	public void setRun(String runName) {
+		myRun = new STSRun(runName);
 	}
 
 	public Object[][] getBasicRunTableData(){

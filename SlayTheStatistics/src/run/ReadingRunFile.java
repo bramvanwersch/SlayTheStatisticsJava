@@ -17,9 +17,8 @@ public class ReadingRunFile {
 	private Map<String, String> globalVarDict;
 	private Map<String, Map<String, String>> floorDict;
 
-	public ReadingRunFile(String character, String runFile, boolean bothDicts) {
+	public ReadingRunFile(String filePath, boolean bothDicts) {
 		this.globalVarDict = new HashMap<String, String>();
-		String filePath = "D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character +"\\" + runFile;
 		String fileText = getFileText(filePath);
 		String[] remainAndDicts = getDictionaries(fileText);
 		String [][] globalAndFloor = getKeysAndValues(remainAndDicts[0]);
@@ -166,7 +165,11 @@ public class ReadingRunFile {
 		String [] arrayItems = globalVarDict.get(key).replace("[","").replace("]","").replace("\"","").split(",");
 		for (int k =0; k < arrayOfFloors.length; k++) {
 			Map<String, String> floorMap = floorDict.get(arrayOfFloors[k]);
-			if (floorMap.containsKey(key)) {
+			if (floorMap == null) {
+				//TODO check wtf is wrong here
+				continue;
+			}
+			else if (floorMap.containsKey(key)) {
 				//to add multiple items to a dict entry
 				floorMap.put(key,floorMap.get(key)+ "," + arrayItems[k]);
 			}

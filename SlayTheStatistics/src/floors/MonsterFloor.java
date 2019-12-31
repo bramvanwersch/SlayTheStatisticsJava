@@ -33,7 +33,11 @@ public class MonsterFloor extends GeneralFloor {
 	}
 
 	public int getHealed() {
-		return getDamage() + getHealthChange();
+		if (getHealthChange() < 0) {
+			return getDamage() + getHealthChange();
+		}
+		return 0;
+		
 	}
 	
 	public Map<String,String> getMonsterFloorMap(){

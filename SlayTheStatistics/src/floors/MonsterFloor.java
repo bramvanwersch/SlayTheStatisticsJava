@@ -40,7 +40,7 @@ public class MonsterFloor extends GeneralFloor {
 		
 	}
 	
-	public Map<String,String> getMonsterFloorMap(){
+	protected Map<String,String> getMonsterFloorMap(){
 		Map<String, String> floorMap = getBaseFloorMap();
 		floorMap.put("picked", Arrays.toString(getPicked()));
 		floorMap.put("notPicked", Arrays.toString(getNotPicked()));

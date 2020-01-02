@@ -86,7 +86,7 @@ public class GeneralFloor implements Floor{
 		return getStringValue("potions_floor_usage");
 	}
 	
-	public Map<String,String> getBaseFloorMap(){
+	protected Map<String,String> getBaseFloorMap(){
 		Map<String, String> floorMap = new HashMap<String,String>();
 		floorMap.put("path", getPath());
 		floorMap.put("health", "" + getHealth());
@@ -106,7 +106,7 @@ public class GeneralFloor implements Floor{
 		return getBaseFloorMap();
 	}
 	
-	public String starterText() {
+	protected String starterText() {
 		String starterString = String.format("%s (%s):\n",getPath(), floorNo);
 		starterString += String.format("Health: %s/%s (%d)\n", getHealth(),getMaxHp(),
 				getHealthChange());
@@ -138,31 +138,43 @@ public class GeneralFloor implements Floor{
 		return floorDict.containsKey(key);
 	}
 
-	public int getIntValue(String key) {
-		if (getHasKey(key, "int")) {
-			return Integer.parseInt(floorDict.get(key).split("\\.")[0]);
+	protected int getIntValue(String... keys) {
+		if (getHasKey(keys, "int")) {
+			for (String key:keys) {
+				if (floorDict.containsKey(key)) {
+					return Integer.parseInt(floorDict.get(key).split("\\.")[0]);
+				}
+			}
 		}
 		return 0;
 	}
 	
-	public String getStringValue(String key) {
-		if (getHasKey(key, "string")) {
-			return floorDict.get(key).replace("\"", "");
+	protected String getStringValue(String... keys) {
+		if (getHasKey(keys, "string")) {
+			for (String key:keys) {
+				if (floorDict.containsKey(key)) {
+					return floorDict.get(key).replace("\"", "");
+				}
+			}
 		}
 		return "!";
 	}
 	
-	public String[] getArrayValues(String key) {
-		if (getHasKey(key, "array")) {
-			String notPicked = floorDict.get(key).replace("[", "").replace("\"", "").replace("]", "");
-			return notPicked.split("\\,");
+	protected String[] getArrayValues(String... keys) {
+		if (getHasKey(keys, "array")) {
+			for (String key:keys) {
+				if (floorDict.containsKey(key)) {
+						String notPicked = floorDict.get(key).replace("[", "").replace("\"", "").replace("]", "");
+						return notPicked.split("\\,");
+				}
+			}
 		}
 		return new String[0];
 	}
 	
 // to allow for multiple keys, if multiple keys correspond whit the same value, to avoid warning printing
 // slightly different function that will return the first key that is in the dict or print a warning
-	public boolean getHasKey(String[] keys, String id) {
+	protected boolean getHasKey(String[] keys, String id) {
 		for (String key:keys) {
 			if (!floorDict.containsKey(key)) {
 				continue;
@@ -183,40 +195,6 @@ public class GeneralFloor implements Floor{
 			}
 		}
 		return false;
-	}
-	
-	public int getIntValue(String[] keys) {
-		if (getHasKey(keys, "int")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-					return Integer.parseInt(floorDict.get(key).split("\\.")[0]);
-				}
-			}
-		}
-		return 0;
-	}
-	
-	public String getStringValue(String[] keys) {
-		if (getHasKey(keys, "string")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-					return floorDict.get(key).replace("\"", "");
-				}
-			}
-		}
-		return "!";
-	}
-	
-	public String[] getArrayValues(String[] keys) {
-		if (getHasKey(keys, "array")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-						String notPicked = floorDict.get(key).replace("[", "").replace("\"", "").replace("]", "");
-						return notPicked.split("\\,");
-				}
-			}
-		}
-		return new String[0];
 	}
 
 }

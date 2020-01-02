@@ -10,6 +10,4 @@ public interface Floor {
 	public String getPath();
 	public String getText();
 	public Map<String,String> getFloorMap();
-	
-
 }

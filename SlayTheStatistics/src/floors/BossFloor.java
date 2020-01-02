@@ -46,6 +46,7 @@ public class BossFloor extends GeneralFloor{
 				getEnemies(), getDamage(),getTurns(), Arrays.toString(getNotPicked())));
 		return floorMap;	
 	}
+	
 	@Override
 	public String getText() {
 		String text = starterText();

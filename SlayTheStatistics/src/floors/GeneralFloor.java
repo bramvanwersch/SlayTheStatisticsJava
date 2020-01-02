@@ -123,7 +123,7 @@ public class GeneralFloor implements Floor{
 	}
 	
 //methods for getting dictionary values and returning appropriate format.
-	public boolean getHasKey(String key, String id) {
+	private boolean getHasKey(String key, String id) {
 		if (errorPrint) {
 			if (!floorDict.containsKey(key) && id.equals("string")) {
 				System.out.println(String.format("WARNING! No key %s for floorno %s. Set to default: !", key, floorNo));

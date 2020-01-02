@@ -34,7 +34,13 @@ public class EventFloor extends GeneralFloor {
 	}
 	
 	public String[] getRelic() {
-		return getArrayValues(new String[] {"relics_obtained", "key"});
+		if (getArrayValues("key") != null) {
+			return getArrayValues("key");
+		}
+		else {
+			return getArrayValues("relics_obtained");	
+		}
+		
 	}
 	
 	public String[] getCard() {

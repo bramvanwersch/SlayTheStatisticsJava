@@ -138,63 +138,31 @@ public class GeneralFloor implements Floor{
 		return floorDict.containsKey(key);
 	}
 
-	protected int getIntValue(String... keys) {
-		if (getHasKey(keys, "int")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-					return Integer.parseInt(floorDict.get(key).split("\\.")[0]);
-				}
+	protected int getIntValue(String key) {
+		if (getHasKey("int", key)) {
+			if (floorDict.containsKey(key)) {
+				return Integer.parseInt(floorDict.get(key).split("\\.")[0]);
 			}
 		}
 		return 0;
 	}
 	
-	protected String getStringValue(String... keys) {
-		if (getHasKey(keys, "string")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-					return floorDict.get(key).replace("\"", "");
-				}
+	protected String getStringValue(String key) {
+		if (getHasKey("string", key)) {
+			if (floorDict.containsKey(key)) {
+				return floorDict.get(key).replace("\"", "");
 			}
 		}
 		return "!";
 	}
 	
-	protected String[] getArrayValues(String... keys) {
-		if (getHasKey(keys, "array")) {
-			for (String key:keys) {
-				if (floorDict.containsKey(key)) {
-						String notPicked = floorDict.get(key).replace("[", "").replace("\"", "").replace("]", "");
-						return notPicked.split("\\,");
-				}
+	protected String[] getArrayValues(String key) {
+		if (getHasKey("array", key)) {
+			if (floorDict.containsKey(key)) {
+					String notPicked = floorDict.get(key).replace("[", "").replace("\"", "").replace("]", "");
+					return notPicked.split("\\,");
 			}
 		}
-		return new String[0];
+		return null;
 	}
-	
-// to allow for multiple keys, if multiple keys correspond whit the same value, to avoid warning printing
-// slightly different function that will return the first key that is in the dict or print a warning
-	protected boolean getHasKey(String[] keys, String id) {
-		for (String key:keys) {
-			if (!floorDict.containsKey(key)) {
-				continue;
-			}
-			else {
-				return true;
-			}
-		}
-		if (errorPrint) {
-			if (id.equals("string")) {
-				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: !", Arrays.toString(keys), floorNo));
-			}
-			else if (id.equals("int")) {
-				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: 0", Arrays.toString(keys), floorNo));
-			}
-			else if (id.equals("array")) {
-				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: []", Arrays.toString(keys), floorNo));
-			}
-		}
-		return false;
-	}
-
 }

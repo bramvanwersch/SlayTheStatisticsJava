@@ -13,60 +13,54 @@ import run.ReadingRunFile;
 
 public class AllRunSummary {
 	private final String[] characterNames = {"IRONCLAD","THE_SILENT","DEFECT"};
-	private ArrayList<ArrayList<ReadingRunFile>> allRunFiles;
 	private Map<String, int[]> cardRates;
 	private Map<String, int[]> relicRates;
 	
-	
 	public AllRunSummary() {
-		allRunFiles = new ArrayList<ArrayList<ReadingRunFile>>();
 		cardRates = new HashMap<String, int[]>();
 		relicRates = new HashMap<String, int[]>();
 	}
 	
-	public File[] getFileNames(String character) {
+	private File[] getFileNames(String character) {
 		File f = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character);
 		File[] fileNames = f.listFiles();
 		return fileNames;
 	}
 	
-	public void getRunFileClasses() {
-		String separator = "\\";
-		for (int i = 0; i < characterNames.length; i++) {
-			File[] fileNames = getFileNames(characterNames[i]);
-			ArrayList<ReadingRunFile> characterRunFiles = new ArrayList<ReadingRunFile>();
+	public void makeCharacterFile(String character, boolean overwrite) {
+		
+	}
+	
+	private ReadingRunFile[] getCharacterRuns(String... characterNames) {
+		ReadingRunFile[] runs = null;
+		for (String name : characterNames) {
+			File[] fileNames = getFileNames(name);
+			runs = new ReadingRunFile[fileNames.length];
 			for (int j = 0; j < fileNames.length; j++) {
-				String[] dirParts = fileNames[j].toString().split(Pattern.quote(separator));
-				String name = dirParts[dirParts.length-1];
-				ReadingRunFile r = new ReadingRunFile("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" 
-							+ characterNames[i]+ "\\" + name, false);
-				characterRunFiles.add(j, r);
+				ReadingRunFile r = new ReadingRunFile(fileNames[j].toString(), false);
+				runs[j] = r;
 			}
-			allRunFiles.add(i, characterRunFiles);
+		}
+		return runs;
+	}
+	
+	public void countCardStats(ReadingRunFile[] runs) {
+		for (int i = 0; i < runs.length; i++) {
+			String deck = runs[i].getGlobalKey("master_deck");
+			String vict = runs[i].getGlobalKey("victory");
+			String[] deckArray= getDeckArray(deck);
+			boolean victory = getBoolVict(vict);
+			addCardsToDict(deckArray, victory);
 		}
 	}
 	
-	public void countCardStats() {
-		for (int i = 0; i < allRunFiles.size(); i++) {
-			for (int j =0; j < allRunFiles.get(i).size(); j++) {
-				String deck = allRunFiles.get(i).get(j).getGlobalKey("master_deck");
-				String vict = allRunFiles.get(i).get(j).getGlobalKey("victory");
-				String[] deckArray= getDeckArray(deck);
-				boolean victory = getBoolVict(vict);
-				addCardsToDict(deckArray, victory);
-			}
-		}
-	}
-	
-	public void countRelicStats() {
-		for (int i = 0; i < allRunFiles.size(); i++) {
-			for (int j =0; j < allRunFiles.get(i).size(); j++) {
-				String relics = allRunFiles.get(i).get(j).getGlobalKey("relics");
-				String vict = allRunFiles.get(i).get(j).getGlobalKey("victory");
-				String[] relicArray= getDeckArray(relics);
-				boolean victory = getBoolVict(vict);
-				addRelicsToDict(relicArray, victory);
-			}
+	public void countRelicStats(ReadingRunFile[] runs) {
+		for (int i =0; i < runs.length; i++) {
+			String relics = runs[i].getGlobalKey("relics");
+			String vict = runs[i].getGlobalKey("victory");
+			String[] relicArray= getDeckArray(relics);
+			boolean victory = getBoolVict(vict);
+			addRelicsToDict(relicArray, victory);
 		}
 	}
 

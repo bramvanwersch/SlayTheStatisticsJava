@@ -32,10 +32,12 @@ import java.awt.GridLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JButton;
 
 public class Main extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
+	private JTable characterSummaryTable;
 	private final Object[] columnAllNames =  {"No","Floor","Health","Max health","Healed","Gold","Gold change",
 			"Potion gained","Potion use","Picked","Not picked","Relic","Special"};
 	private final Object[] columnBasicNames  = {"No","Floor","Health","Max health","Healed","Gold","Gold change"};
@@ -48,6 +50,7 @@ public class Main extends JFrame {
 			"Healed","Relic","Card(s)","Card rem.","Card upgr."};
 	private final Object[] columnShopNames = {"No","Floor","Bought","Removed"};
 	private RunApp myRunApp;
+	private JTabbedPane tabbedPane;
 	private JRadioButton rdBtnAll;
 	private JRadioButton rdBtnBasic;
 	private JRadioButton rdBtnSpecial;
@@ -77,6 +80,11 @@ public class Main extends JFrame {
 	private JLabel lblSpace2;
 	private JMenuBar menuBar;
 	
+	private GlobalApp myGlobalApp;
+	private JRadioButton rdbtnrdBtnCardSummary;
+	private JRadioButton rdbtnRelicSummary;
+	private JButton btnCalculateSummary;
+	
 	private String character = "IRONCLAD";
 
 
@@ -101,6 +109,7 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		myRunApp = new RunApp();
+		myGlobalApp = new GlobalApp();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buildWindow();
 		addComponentListener(new ComponentAdapter(){
@@ -146,20 +155,19 @@ public class Main extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					character = folderName;
+					changeSummaryTabName();
 				}
 			});
 			menuCharacterOptions.add(menuCharacterName);
 		}
 		
-		
-
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		contentPane.setLayout(gbl_contentPane);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.weighty = 1.0;
 		gbc_tabbedPane.weightx = 1.0;
@@ -168,8 +176,51 @@ public class Main extends JFrame {
 		gbc_tabbedPane.gridy = 0;
 		contentPane.add(tabbedPane, gbc_tabbedPane);
 		
-		JPanel tabRunFIles = new JPanel();
-		tabbedPane.addTab("Run files", null, tabRunFIles, null);
+		JPanel tabCharacterSummary = new JPanel();
+		tabbedPane.addTab(character + " Summary", null, tabCharacterSummary, null);
+		GridBagConstraints gbc_scrollPaneSummary_1 = new GridBagConstraints();
+		gbc_scrollPaneSummary_1.weighty = 1.0;
+		gbc_scrollPaneSummary_1.weightx = 1.0;
+		gbc_scrollPaneSummary_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPaneSummary_1.gridwidth = 11;
+		gbc_scrollPaneSummary_1.gridx = 0;
+		gbc_scrollPaneSummary_1.gridy = 2;
+		GridBagLayout gbl_tabCharacterSummary = new GridBagLayout();
+		gbl_tabCharacterSummary.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabCharacterSummary.rowWeights = new double[]{0.0, 0.0, 0.0};
+		tabCharacterSummary.setLayout(gbl_tabCharacterSummary);
+		
+		btnCalculateSummary = new JButton("Calculate Summary");
+		GridBagConstraints gbc_btnCalculateSummary = new GridBagConstraints();
+		gbc_btnCalculateSummary.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCalculateSummary.gridx = 0;
+		gbc_btnCalculateSummary.gridy = 0;
+		tabCharacterSummary.add(btnCalculateSummary, gbc_btnCalculateSummary);
+		
+		rdbtnrdBtnCardSummary = new JRadioButton("Card Summary");
+		GridBagConstraints gbc_rdbtnrdBtnCardSummary = new GridBagConstraints();
+		gbc_rdbtnrdBtnCardSummary.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnrdBtnCardSummary.gridx = 0;
+		gbc_rdbtnrdBtnCardSummary.gridy = 1;
+		tabCharacterSummary.add(rdbtnrdBtnCardSummary, gbc_rdbtnrdBtnCardSummary);
+		
+		rdbtnRelicSummary = new JRadioButton("Relic Summary");
+		GridBagConstraints gbc_rdbtnRelicSummary = new GridBagConstraints();
+		gbc_rdbtnRelicSummary.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnRelicSummary.gridx = 1;
+		gbc_rdbtnRelicSummary.gridy = 1;
+		tabCharacterSummary.add(rdbtnRelicSummary, gbc_rdbtnRelicSummary);
+		
+		JScrollPane scrollPaneSummary = new JScrollPane();
+		tabCharacterSummary.add(scrollPaneSummary, gbc_scrollPaneSummary_1);
+		scrollPaneSummary.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		characterSummaryTable = new JTable();
+		scrollPaneSummary.setViewportView(characterSummaryTable);
+		
+		
+		
+		
 		
 		JPanel tabSummary = new JPanel();
 		tabbedPane.addTab("Summary", null, tabSummary, null);
@@ -622,6 +673,7 @@ public class Main extends JFrame {
 		
 		table = new JTable();
 		scrollPaneRun.setViewportView(table);
+		
 		updateAllTable();
 		updateTextButtons();
 	}
@@ -706,7 +758,6 @@ public class Main extends JFrame {
 	
 	private void updateTextButtons() {
 		String[] textV =  myRunApp.getTextValues();
-		System.out.println(Arrays.deepToString(textV));
 		lblCharacterName.setText(textV[0]);
 		lblMasterDeckName.setText(textV[1]);
 		lblAscensionLvlName.setText(textV[2]);
@@ -727,6 +778,10 @@ public class Main extends JFrame {
 		rdBtnRestFloor.setSelected(onOrOff[6]);
 		rdBtnEventFloor.setSelected(onOrOff[7]);
 		rdBtnShops.setSelected(onOrOff[8]);
-	}	
+	}
+	
+	private void changeSummaryTabName() {
+		tabbedPane.setTitleAt(0, character + " Sumarry");
+	}
 
 }

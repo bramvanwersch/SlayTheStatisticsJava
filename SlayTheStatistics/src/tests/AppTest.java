@@ -1,17 +1,17 @@
 package tests;
 
-import gui.App;
+import gui.RunApp;
 import junit.framework.TestCase;
 
 public class AppTest extends TestCase {
 	
 	public void testCreateApp() {
-		App myApp = new App();
+		RunApp myApp = new RunApp();
 		assertNotNull(myApp);
 	}
 	
 	public void testGetRunTableData() {
-		App myApp = new App();		
+		RunApp myApp = new RunApp();		
 	}
 
 }

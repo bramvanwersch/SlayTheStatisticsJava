@@ -47,7 +47,7 @@ public class Main extends JFrame {
 	private final Object[] columnEventNames = {"No","Floor","Name","Choice","Enemie(s)","Damage","Turns",
 			"Healed","Relic","Card(s)","Card rem.","Card upgr."};
 	private final Object[] columnShopNames = {"No","Floor","Bought","Removed"};
-	private App myApp;
+	private RunApp myRunApp;
 	private JRadioButton rdBtnAll;
 	private JRadioButton rdBtnBasic;
 	private JRadioButton rdBtnSpecial;
@@ -100,7 +100,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		myApp = new App();
+		myRunApp = new RunApp();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buildWindow();
 		addComponentListener(new ComponentAdapter(){
@@ -127,7 +127,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String filePath = FileChooser.open(character);
 				if (filePath != null) {
-					myApp.setRun(filePath);
+					myRunApp.setRun(filePath);
 					buildWindow();
 					setBounds(100, 100, 1600, 900);
 				}
@@ -138,12 +138,9 @@ public class Main extends JFrame {
 		JMenu menuCharacterOptions = new JMenu("Characters");
 		menuBar.add(menuCharacterOptions);
 		
-		File[] folder = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\").listFiles();
-		for (int i = 0; i < folder.length; i++) {
-			String folderName = folder[i].getName();
-			if (folderName.equals("metrics") || folderName.equals("DAILY")) {
-				continue;
-			}
+		String[] characterNames = myRunApp.getCharacterNames();
+		for (int i = 0; i < characterNames.length; i++) {
+			String folderName = characterNames[i];
 			JMenuItem menuCharacterName = new JMenuItem(folderName);
 			menuCharacterName.addActionListener(new ActionListener() {
 				@Override
@@ -153,6 +150,7 @@ public class Main extends JFrame {
 			});
 			menuCharacterOptions.add(menuCharacterName);
 		}
+		
 		
 
 		contentPane = new JPanel();
@@ -230,7 +228,7 @@ public class Main extends JFrame {
 		gbc_pnlDamageGraph.fill = GridBagConstraints.BOTH;
 		gbc_pnlDamageGraph.gridx = 4;
 		gbc_pnlDamageGraph.gridy = 1;
-		pnlHealth = new GraphBuilder(myApp.getIntGraphValuesHealth()[0],myApp.getIntGraphValuesHealth()[1],
+		pnlHealth = new GraphBuilder(myRunApp.getIntGraphValuesHealth()[0],myRunApp.getIntGraphValuesHealth()[1],
 				300,200,new String[] {"Floor","Health"}, false);
 		tabSummary.add(pnlHealth, gbc_pnlDamageGraph);
 		pnlHealth.setLayout(new GridLayout(1, 0, 0, 0));
@@ -243,7 +241,7 @@ public class Main extends JFrame {
 		gbc_pnlGold.fill = GridBagConstraints.BOTH;
 		gbc_pnlGold.gridx = 6;
 		gbc_pnlGold.gridy = 1;
-		pnlGold = new GraphBuilder(myApp.getIntGraphValuesGold()[0],myApp.getIntGraphValuesGold()[1],
+		pnlGold = new GraphBuilder(myRunApp.getIntGraphValuesGold()[0],myRunApp.getIntGraphValuesGold()[1],
 				300,200,new String[] {"Floor","Gold"}, false);
 		tabSummary.add(pnlGold, gbc_pnlGold);
 		GridBagLayout gbl_pnlGold = new GridBagLayout();
@@ -375,7 +373,7 @@ public class Main extends JFrame {
 		gbc_pnlMaxHealth.fill = GridBagConstraints.BOTH;
 		gbc_pnlMaxHealth.gridx = 4;
 		gbc_pnlMaxHealth.gridy = 11;
-		pnlMaxHealth = new GraphBuilder(myApp.getIntGraphValuesMaxHp()[0],myApp.getIntGraphValuesMaxHp()[1],
+		pnlMaxHealth = new GraphBuilder(myRunApp.getIntGraphValuesMaxHp()[0],myRunApp.getIntGraphValuesMaxHp()[1],
 				300,200,new String[] {"Floor","Max health"}, false);
 		tabSummary.add(pnlMaxHealth, gbc_pnlMaxHealth);
 		GridBagLayout gbl_pnlMaxHealth = new GridBagLayout();
@@ -387,7 +385,7 @@ public class Main extends JFrame {
 		gbc_pnlHealed.fill = GridBagConstraints.BOTH;
 		gbc_pnlHealed.gridx = 6;
 		gbc_pnlHealed.gridy = 11;
-		pnlHealed = new GraphBuilder(myApp.getIntGraphValuesHealed()[0],myApp.getIntGraphValuesHealed()[1],
+		pnlHealed = new GraphBuilder(myRunApp.getIntGraphValuesHealed()[0],myRunApp.getIntGraphValuesHealed()[1],
 				300,200,new String[] {"Floor","Health healed"}, false);
 		tabSummary.add(pnlHealed, gbc_pnlHealed);
 		GridBagLayout gbl_pnlHealed = new GridBagLayout();
@@ -637,49 +635,49 @@ public class Main extends JFrame {
 
 	private void updateShopsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, false, true});
-		Object[][] data = myApp.getShopRunTableData();
+		Object[][] data = myRunApp.getShopRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnShopNames);
 		table.setModel(myModel);
 	}
 
 	private void updateEventFloorTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, true, false});
-		Object[][] data = myApp.getEventRunTableData();
+		Object[][] data = myRunApp.getEventRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnEventNames);
 		table.setModel(myModel);
 	}
 
 	private void updateRestFloorTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, true, false, false});
-		Object[][] data = myApp.getRestRunTableData();
+		Object[][] data = myRunApp.getRestRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnRestNames);
 		table.setModel(myModel);
 	}
 
 	private void updateEncountersTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, true, false, false, false});
-		Object[][] data = myApp.getEncountersRunTableData();
+		Object[][] data = myRunApp.getEncountersRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnEncountersNames);
 		table.setModel(myModel);
 	}
 
 	private void updateRelicsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, true, false, false, false, false});
-		Object[][] data = myApp.getRelicsRunTableData();
+		Object[][] data = myRunApp.getRelicsRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnRelicNames);
 		table.setModel(myModel);
 	}
 
 	private void updateCardsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, true, false, false, false, false, false});
-		Object[][] data = myApp.getCardsRunTableData();
+		Object[][] data = myRunApp.getCardsRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnCardNames);
 		table.setModel(myModel);
 	}
 
 	private void updateSpecialTable() {
 		updateRadioButtons(new boolean[] {false, false, true, false, false, false, false, false, false});
-		Object[][] data = myApp.getSpecialRunTableData();
+		Object[][] data = myRunApp.getSpecialRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnSpecialNames);
 		table.setModel(myModel);	
 		int[] columnWidthList = {50,250,250,300,300,750};
@@ -690,14 +688,14 @@ public class Main extends JFrame {
 
 	private void updateBasicTable() {
 		updateRadioButtons(new boolean[] {false, true, false, false, false, false, false, false, false});
-		Object[][] data = myApp.getBasicRunTableData();
+		Object[][] data = myRunApp.getBasicRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnBasicNames);
 		table.setModel(myModel);	
 	}
 
 	private void updateAllTable() {
 		updateRadioButtons(new boolean[] {true, false, false, false, false, false, false, false, false});
-		Object[][] data = myApp.getAllRunTableData();
+		Object[][] data = myRunApp.getAllRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnAllNames);
 		table.setModel(myModel);
 		int[] columnWidthList = {30,100,60,80,60,60,100,100,100,200,350,200,1000};
@@ -707,7 +705,7 @@ public class Main extends JFrame {
 	}
 	
 	private void updateTextButtons() {
-		String[] textV =  myApp.getTextValues();
+		String[] textV =  myRunApp.getTextValues();
 		System.out.println(Arrays.deepToString(textV));
 		lblCharacterName.setText(textV[0]);
 		lblMasterDeckName.setText(textV[1]);

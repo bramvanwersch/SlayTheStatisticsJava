@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class App {
 	
 	public String[] getCharacterNames() {
+		//hardcoded and needs to change.
 		File[] folder = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\").listFiles();
 		ArrayList<String> names = new ArrayList<String>();
 		for (int i = 0; i < folder.length; i++) {
@@ -17,5 +18,4 @@ public class App {
 		}
 		return names.toArray(new String[names.size()]);
 	}
-
 }

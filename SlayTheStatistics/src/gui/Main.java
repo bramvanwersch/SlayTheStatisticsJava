@@ -798,8 +798,11 @@ public class Main extends JFrame {
 		tabbedPane.setTitleAt(0, character + " Sumarry");
 	}
 
-
 	private void fillCharacterSummaryTable() {
+		if (!rdbtnRelicSummary.isSelected() && !rdbtnrdBtnCardSummary.isSelected()) {
+			lblProblemSummary.setText("Please cards or relics or both.");
+			return;
+		}
 		DefaultTableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
 				rdbtnrdBtnCardSummary.isSelected());
 		characterSummaryTable.setModel(t);

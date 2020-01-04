@@ -24,7 +24,7 @@ public class ItemSummary {
 	}
 	
 	public String toString() {
-		return String.format("%s,%s,%s,%.2f\n", name, wins, losses, getWinRate());
+		return String.format("%s,%d,%d,%.2f\n", name, wins, losses, getWinRate());
 	}
 
 }

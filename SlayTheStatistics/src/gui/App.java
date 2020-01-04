@@ -19,7 +19,7 @@ public class App {
 		return names.toArray(new String[names.size()]);
 	}
 	
-	protected Object[][] listToObjectArrayOfArray(ArrayList<String[]> data) {
+	protected Object[][] listToObjectArrayOfArray(ArrayList<Object[]> data) {
 		int rowLength = data.get(0).length;
 		Object[][] returnArray = new Object[data.size()][rowLength];
 		for (int i = 0; i < data.size(); i++) {

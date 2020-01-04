@@ -25,9 +25,9 @@ public class AllRunSummary {
 		recordedRunNames = getAlreadyProcessedRuns();
 	}
 	
-	public ArrayList<String[]> getCharacterData(String character, boolean relic, boolean card) {
-		ArrayList<String[]> relicData = null;
-		ArrayList<String[]> cardData = null;
+	public ArrayList<Object[]> getCharacterData(String character, boolean relic, boolean card) {
+		ArrayList<Object[]> relicData = null;
+		ArrayList<Object[]> cardData = null;
 		if (relic) {
 			 relicData = getCsvSummaryData(character + "_relicStats.csv");
 		}
@@ -48,8 +48,8 @@ public class AllRunSummary {
 		}
 	}
 	
-	private ArrayList<String[]> getCsvSummaryData(String fileName){
-		ArrayList<String[]> data = new ArrayList<String[]>();
+	private ArrayList<Object[]> getCsvSummaryData(String fileName){
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
 		try {  
 			//the file to be opened for reading  
 			FileInputStream fis=new FileInputStream(".//Data//" + fileName );       
@@ -57,7 +57,15 @@ public class AllRunSummary {
 			//returns true if there is another line to read
 			
 			while(sc.hasNextLine()) {
-				data.add(sc.nextLine().split(","));
+				//add the values as integers or doubles to ensure proper sorting.
+				//still some parts hardcoded that can give some trouble
+				String[] s = sc.nextLine().split(",");
+				Object[] o = new Object[s.length];
+				o[0] = s[0];
+				o[1] = Integer.valueOf(s[1]);
+				o[2] = Integer.valueOf(s[2]);
+				o[3] = Double.valueOf(s[3]);
+				data.add(o);
 			}
 			sc.close();     //closes the scanner   
 		} catch(IOException e){  
@@ -70,11 +78,11 @@ public class AllRunSummary {
 	 * Merges 2 arrayLists of String arrays so they can be shown together in a table.
 	 * @return
 	 */
-	private ArrayList<String[]> mergeSummaryData(ArrayList<String[]> relicData, ArrayList<String[]> cardData){
+	private ArrayList<Object[]> mergeSummaryData(ArrayList<Object[]> relicData, ArrayList<Object[]> cardData){
 		assert (relicData.get(0).length + cardData.get(0).length == 8); //check to make sure that the hard coded
-		ArrayList<String[]> finalData = new ArrayList<String[]>();
+		ArrayList<Object[]> finalData = new ArrayList<Object[]>();
 		if (cardData.size() >= relicData.size()) {
-			String[] dummyArray = new String[relicData.get(0).length];
+			Object[] dummyArray = new Object[relicData.get(0).length];
 			Arrays.fill(dummyArray, "");
 			for (int i = 0; i < cardData.size(); i++) {
 				if (relicData.size() -1 > i ) {
@@ -86,7 +94,7 @@ public class AllRunSummary {
 			}
 		}
 		else {
-			String[] dummyArray = new String[cardData.get(0).length];
+			Object[] dummyArray = new Object[cardData.get(0).length];
 			Arrays.fill(dummyArray, "");
 			for (int i = 0; i < relicData.size(); i++) {
 				if (relicData.size() -1 > i ) {
@@ -104,9 +112,9 @@ public class AllRunSummary {
 	 * Merge 2 arrays a1 and a2. They are always the same length.
 	 * @return merged array that is double the size 
 	 */
-	private String[] mergedArrays(String[] a1, String[] a2) {
+	private Object[] mergedArrays(Object[] a1, Object[] a2) {
 		assert (a1.length == a2.length);
-		String[] mergedArray = new String[a1.length + a2.length];
+		Object[] mergedArray = new Object[a1.length + a2.length];
 		int index = a1.length;
 
 		for (int i = 0; i < a1.length; i++) {

@@ -16,7 +16,7 @@ public class RunApp extends App{
 	}
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
-		ArrayList<String[]> data = new ArrayList<String[]>(100);
+		ArrayList<Object[]> data = new ArrayList<Object[]>(100);
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			String[] innerArray = new String[keys.length];
 			innerArray[0] = "" + i;

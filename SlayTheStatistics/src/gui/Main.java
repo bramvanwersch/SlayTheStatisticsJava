@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -806,5 +808,13 @@ public class Main extends JFrame {
 		TableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
 				rdbtnrdBtnCardSummary.isSelected());
 		characterSummaryTable.setModel(t);
+		//Do not allow sorting if both are loaded in.
+		if (rdbtnRelicSummary.isSelected() && rdbtnrdBtnCardSummary.isSelected()) {
+			characterSummaryTable.setRowSorter(null);
+		}
+		else {
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
+			characterSummaryTable.setRowSorter(sorter);
+		}
 	}
 }

@@ -36,7 +36,7 @@ import javax.swing.JButton;
 
 public class Main extends JFrame {
 	private JPanel contentPane;
-	private JTable table;
+	private JTable runTable;
 	private JTable characterSummaryTable;
 	private final Object[] columnAllNames =  {"No","Floor","Health","Max health","Healed","Gold","Gold change",
 			"Potion gained","Potion use","Picked","Not picked","Relic","Special"};
@@ -86,6 +86,7 @@ public class Main extends JFrame {
 	private JButton btnCalculateSummary;
 	
 	private String character = "IRONCLAD";
+	private JLabel lblProblemSummary;
 
 
 	/**
@@ -191,11 +192,24 @@ public class Main extends JFrame {
 		tabCharacterSummary.setLayout(gbl_tabCharacterSummary);
 		
 		btnCalculateSummary = new JButton("Calculate Summary");
+		btnCalculateSummary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myGlobalApp.calculateCharacterSummary(character);
+				fillCharacterSummaryTable();
+			}
+		});
 		GridBagConstraints gbc_btnCalculateSummary = new GridBagConstraints();
 		gbc_btnCalculateSummary.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCalculateSummary.gridx = 0;
 		gbc_btnCalculateSummary.gridy = 0;
 		tabCharacterSummary.add(btnCalculateSummary, gbc_btnCalculateSummary);
+		
+		lblProblemSummary = new JLabel("");
+		GridBagConstraints gbc_lblProblemSummary = new GridBagConstraints();
+		gbc_lblProblemSummary.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProblemSummary.gridx = 1;
+		gbc_lblProblemSummary.gridy = 0;
+		tabCharacterSummary.add(lblProblemSummary, gbc_lblProblemSummary);
 		
 		rdbtnrdBtnCardSummary = new JRadioButton("Card Summary");
 		GridBagConstraints gbc_rdbtnrdBtnCardSummary = new GridBagConstraints();
@@ -671,8 +685,8 @@ public class Main extends JFrame {
 		runPannel.add(scrollPaneRun, gbc_scrollPaneRun);
 		scrollPaneRun.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		table = new JTable();
-		scrollPaneRun.setViewportView(table);
+		runTable = new JTable();
+		scrollPaneRun.setViewportView(runTable);
 		
 		updateAllTable();
 		updateTextButtons();
@@ -689,52 +703,52 @@ public class Main extends JFrame {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, false, true});
 		Object[][] data = myRunApp.getShopRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnShopNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateEventFloorTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, false, true, false});
 		Object[][] data = myRunApp.getEventRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnEventNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateRestFloorTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, false, true, false, false});
 		Object[][] data = myRunApp.getRestRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnRestNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateEncountersTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, false, true, false, false, false});
 		Object[][] data = myRunApp.getEncountersRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnEncountersNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateRelicsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, false, true, false, false, false, false});
 		Object[][] data = myRunApp.getRelicsRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnRelicNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateCardsTable() {
 		updateRadioButtons(new boolean[] {false, false, false, true, false, false, false, false, false});
 		Object[][] data = myRunApp.getCardsRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnCardNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 	}
 
 	private void updateSpecialTable() {
 		updateRadioButtons(new boolean[] {false, false, true, false, false, false, false, false, false});
 		Object[][] data = myRunApp.getSpecialRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnSpecialNames);
-		table.setModel(myModel);	
+		runTable.setModel(myModel);	
 		int[] columnWidthList = {50,250,250,300,300,750};
 		for (int i = 0; i < myModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
+			runTable.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
 		}
 	}
 
@@ -742,17 +756,17 @@ public class Main extends JFrame {
 		updateRadioButtons(new boolean[] {false, true, false, false, false, false, false, false, false});
 		Object[][] data = myRunApp.getBasicRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnBasicNames);
-		table.setModel(myModel);	
+		runTable.setModel(myModel);	
 	}
 
 	private void updateAllTable() {
 		updateRadioButtons(new boolean[] {true, false, false, false, false, false, false, false, false});
 		Object[][] data = myRunApp.getAllRunTableData();
 		DefaultTableModel myModel = new DefaultTableModel(data, columnAllNames);
-		table.setModel(myModel);
+		runTable.setModel(myModel);
 		int[] columnWidthList = {30,100,60,80,60,60,100,100,100,200,350,200,1000};
 		for (int i = 0; i < myModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
+			runTable.getColumnModel().getColumn(i).setMaxWidth(columnWidthList[i]);
 		}
 	}
 	
@@ -784,4 +798,10 @@ public class Main extends JFrame {
 		tabbedPane.setTitleAt(0, character + " Sumarry");
 	}
 
+
+	private void fillCharacterSummaryTable() {
+		DefaultTableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
+				rdbtnrdBtnCardSummary.isSelected());
+		characterSummaryTable.setModel(t);
+	}
 }

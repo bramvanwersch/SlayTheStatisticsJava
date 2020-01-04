@@ -278,7 +278,9 @@ public class ReadingRunFile {
 	 * gives the final part of the filepath back as the name of the current run.
 	 */
 	public String toString() {
-		String[] parts = filePath.split("\\");
+		filePath = filePath.replace("\\", ":");
+		String[] parts = filePath.split(":");
+		System.out.println(parts[parts.length -1]);
 		return parts[parts.length -1];
 	}
 	

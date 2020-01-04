@@ -22,7 +22,110 @@ public class AllRunSummary {
 		cardRates = new HashMap<String, int[]>();
 		relicRates = new HashMap<String, int[]>();
 		recordedRunNames = getAlreadyProcessedRuns();
-		
+	}
+	
+	public ArrayList<String[]> getCharacterData(String character, boolean relic, boolean card) {
+		ArrayList<String[]> relicData = null;
+		ArrayList<String[]> cardData = null;
+		if (relic) {
+			 relicData = getCsvSummaryData(character + "_relicStats.csv");
+		}
+		if (card) {
+			cardData = getCsvSummaryData(character + "_cardStats.csv");
+		}
+		if (!relic && !card) {
+			System.out.println("Something went wrong while retrieving card or relic summary. None selected.");
+		}
+		if (relic && card) {
+			return mergeSummaryData(relicData, cardData);
+		}
+		else if (relic) {
+			return relicData;
+		}
+		else {
+			return cardData;
+		}
+	}
+	
+	private ArrayList<String[]> getCsvSummaryData(String fileName){
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		try {  
+			//the file to be opened for reading  
+			FileInputStream fis=new FileInputStream(".//Data//" + fileName );       
+			Scanner sc = new Scanner(fis);    //file to be scanned  
+			//returns true if there is another line to read
+			
+			while(sc.hasNextLine()) {
+				data.add(sc.nextLine().split(","));
+			}
+			sc.close();     //closes the scanner   
+		} catch(IOException e){  
+			e.printStackTrace();  
+		}
+		return data;
+	}
+	
+	/**
+	 * Merges 2 arrayLists of String arrays so they can be shown together in a table.
+	 * @return
+	 */
+	private ArrayList<String[]> mergeSummaryData(ArrayList<String[]> relicData, ArrayList<String[]> cardData){
+		ArrayList<String[]> finalData = new ArrayList<String[]>();
+		if (cardData.size() >= relicData.size()) {
+			for (int i = 0; i < cardData.size(); i++) {
+				if (relicData.size() -1 > i ) {
+					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
+				}
+				else {
+					finalData.add(mergedArrays(cardData.get(i), new String[] {"","",""}));
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < relicData.size(); i++) {
+				if (relicData.size() -1 > i ) {
+					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
+				}
+				else {
+					finalData.add(mergedArrays(new String[] {"","",""}, relicData.get(i)));
+				}
+			}
+		}
+		return finalData;
+	}
+	
+	/**
+	 * Merge 2 arrays a1 and a2. They are always the same length.
+	 * @return merged array that is double the size 
+	 */
+	private String[] mergedArrays(String[] a1, String[] a2) {
+		assert (a1.length == a2.length);
+		String[] mergedArray = new String[a1.length + a2.length];
+		int index = a1.length;
+
+		for (int i = 0; i < a1.length; i++) {
+		    mergedArray[i] = a1[i];
+		}
+		for (int i = 0; i < a2.length; i++) {
+		    mergedArray[i + index] = a2[i];    
+		}
+		return mergedArray;
+	}
+	
+	public void makeCharacterFile(String character, boolean overwrite) {
+		cardRates = new HashMap<String, int[]>();
+		relicRates = new HashMap<String, int[]>();
+		ReadingRunFile[] runs = getCharacterRuns(character);
+		if (!overwrite) {
+			runs = getNewFiles(runs);
+		}
+		if (runs.length > 0) {
+			countItemStats(runs);
+			writeCsv(character);
+			//ensure that the runs that where just added are added back into the file and the value has all runs.
+			recordAddedRunFiles(runs);
+			recordedRunNames = getAlreadyProcessedRuns();
+		}
 	}
 	
 	private String[] getAlreadyProcessedRuns() {
@@ -36,8 +139,7 @@ public class AllRunSummary {
 				runNames.add(sc.nextLine());  
 			}
 			sc.close();     //closes the scanner  
-			}  
-		catch(IOException e){  
+		} catch(IOException e){  
 			e.printStackTrace();  
 		}    
 		return runNames.toArray(new String[runNames.size()]);
@@ -49,47 +151,37 @@ public class AllRunSummary {
 		return fileNames;
 	}
 	
-	public void makeCharacterFile(String character, boolean overwrite) {
-		cardRates = new HashMap<String, int[]>();
-		relicRates = new HashMap<String, int[]>();
-		ReadingRunFile[] runs = getCharacterRuns(character);
-		if (!overwrite) {
-			runs = getNewFiles(runs);
-		}
-		countItemStats(runs);
-		writeCsv(character);
-		//ensure that the runs that where just added are added back into the file and the value has all runs.
-		recordAddedRunFiles(runs);
-		recordedRunNames = getAlreadyProcessedRuns();
-	}
-	
+	/**
+	 * Saves the runs that where just added to the summary in a file to prevent
+	 * unecesairy calculations
+	 * @param runs list ReadingRunFile classes that were just added to the 
+	 * calculation.
+	 */
 	private void recordAddedRunFiles(ReadingRunFile[] runs) {
 		try {
-			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//checkedRuns", true));
+			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//checkedRuns.txt", true));
 			for (int i = 0; i < runs.length; i++) {
-				String[] parts = runs[i].toString().split("\\");
-				String name = parts[parts.length -1];
-				writer1.write(name);
+				writer1.write(runs[i].toString());
 			}
 		writer1.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
 	}
+	
+	
 
 	private ReadingRunFile[] getNewFiles(ReadingRunFile[] runs) {
 		ArrayList<ReadingRunFile> uniqueRuns = new ArrayList<ReadingRunFile>();
 		boolean match = false;
 		for (int i = 0; i < runs.length; i++) {
-			String[] parts = runs[i].toString().split("\\");
-			String name = parts[parts.length -1];
 			for (int j = 0; j < recordedRunNames.length; j++) {
-				if (name.equals(recordedRunNames[j])) {
+				if (runs[i].toString().equals(recordedRunNames[j])) {
 					match = true;
 					break;
 				}
 			}
-			if (match) {
+			if (!match) {
 				uniqueRuns.add(runs[i]);
 			}
 			match = false;

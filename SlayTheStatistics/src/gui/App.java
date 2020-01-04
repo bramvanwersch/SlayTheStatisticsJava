@@ -18,4 +18,15 @@ public class App {
 		}
 		return names.toArray(new String[names.size()]);
 	}
+	
+	protected Object[][] listToObjectArrayOfArray(ArrayList<String[]> data) {
+		int rowLength = data.get(0).length;
+		Object[][] returnArray = new Object[data.size()][rowLength];
+		for (int i = 0; i < data.size(); i++) {
+			for (int j = 0; j < rowLength; j++) {
+				returnArray[i][j] = data.get(i)[j];
+			}
+		}
+		return returnArray;
+	}
 }

@@ -28,18 +28,8 @@ public class RunApp extends App{
 				data.add(innerArray);
 			}
 		}
-		Object [][] arrayData = listToObjectArrayOArray(data,keys.length);
+		Object [][] arrayData = listToObjectArrayOfArray(data);
 		return arrayData;
-	}
-
-	private Object[][] listToObjectArrayOArray(ArrayList<String[]> data, int rowLength) {
-		Object[][] returnArray = new Object[data.size()][rowLength];
-		for (int i = 0; i < data.size(); i++) {
-			for (int j = 0; j < rowLength; j++) {
-				returnArray[i][j] = data.get(i)[j];
-			}
-		}
-		return returnArray;
 	}
 	
 	public void setRun(String runName) {

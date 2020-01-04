@@ -280,7 +280,6 @@ public class ReadingRunFile {
 	public String toString() {
 		filePath = filePath.replace("\\", ":");
 		String[] parts = filePath.split(":");
-		System.out.println(parts[parts.length -1]);
 		return parts[parts.length -1];
 	}
 	

@@ -161,7 +161,7 @@ public class AllRunSummary {
 		try {
 			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//checkedRuns.txt", true));
 			for (int i = 0; i < runs.length; i++) {
-				writer1.write(runs[i].toString());
+				writer1.write(runs[i].toString() + "\n");
 			}
 		writer1.close();
 		} catch (IOException e) {

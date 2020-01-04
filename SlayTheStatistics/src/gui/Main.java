@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -803,7 +803,7 @@ public class Main extends JFrame {
 			lblProblemSummary.setText("Please cards or relics or both.");
 			return;
 		}
-		DefaultTableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
+		TableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
 				rdbtnrdBtnCardSummary.isSelected());
 		characterSummaryTable.setModel(t);
 	}

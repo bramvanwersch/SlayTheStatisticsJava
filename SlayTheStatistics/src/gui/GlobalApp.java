@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import global.AllRunSummary;
+import run.GlobalTableModel;
 
 public class GlobalApp extends App{
 	private AllRunSummary runSummary;
@@ -21,7 +22,7 @@ public class GlobalApp extends App{
 		runSummary.makeCharacterFile(character, false);
 	}
 
-	public DefaultTableModel getSummaryTableData(String character, boolean relic, boolean card) {
+	public GlobalTableModel getSummaryTableData(String character, boolean relic, boolean card) {
 		ArrayList<String[]> d = runSummary.getCharacterData(character, relic, card);
 		Object[][] data = listToObjectArrayOfArray(d);
 		ArrayList<String> columnNames = new ArrayList<String>();
@@ -31,7 +32,7 @@ public class GlobalApp extends App{
 		if (relic) {
 			columnNames.addAll(relicColumnNames);
 		}
-		return new DefaultTableModel(data,columnNames.toArray(new String[columnNames.size()]));
+		return new GlobalTableModel(data,columnNames.toArray(new String[columnNames.size()]));
 	}
 
 }

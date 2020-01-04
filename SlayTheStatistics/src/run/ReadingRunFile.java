@@ -16,9 +16,11 @@ import java.util.regex.Pattern;
 public class ReadingRunFile {
 	private Map<String, String> globalVarDict;
 	private Map<String, Map<String, String>> floorDict;
+	private String filePath;
 
 	public ReadingRunFile(String filePath, boolean bothDicts) {
 		this.globalVarDict = new HashMap<String, String>();
+		this.filePath = filePath;
 		String fileText = getFileText(filePath);
 		String[] remainAndDicts = getDictionaries(fileText);
 		String [][] globalAndFloor = getKeysAndValues(remainAndDicts[0]);
@@ -269,6 +271,15 @@ public class ReadingRunFile {
 		Set<String> keySet = globalVarDict.keySet();
 		String[] keyArray = keySet.toArray(new String[keySet.size()]);
 		return keyArray;
+	}
+	
+	@Override
+	/**
+	 * gives the final part of the filepath back as the name of the current run.
+	 */
+	public String toString() {
+		String[] parts = filePath.split("\\");
+		return parts[parts.length -1];
 	}
 	
 }

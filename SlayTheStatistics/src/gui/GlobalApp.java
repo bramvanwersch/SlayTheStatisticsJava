@@ -10,8 +10,8 @@ import global.AllRunSummary;
 
 public class GlobalApp extends App{
 	private AllRunSummary runSummary;
-	private final List<String> cardColumnNames = Arrays.asList(new String[] {"card", "win", "loss"});
-	private final List<String> relicColumnNames = Arrays.asList(new String[] {"relic", "win", "loss"});
+	private final List<String> cardColumnNames = Arrays.asList(new String[] {"card", "win", "loss", "winrate"});
+	private final List<String> relicColumnNames = Arrays.asList(new String[] {"relic", "win", "loss", "winrate"});
 	
 	public GlobalApp() {
 		runSummary = new AllRunSummary();

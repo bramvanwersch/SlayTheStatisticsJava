@@ -23,7 +23,7 @@ public class STSRun {
 
 	public STSRun(String runFileLocation) {
 		myRunFile = new ReadingRunFile(runFileLocation, true);
-		floorArray = new Floor[Integer.parseInt(myRunFile.getGlobalKey("floor_reached"))];
+		floorArray = new Floor[Integer.parseInt(myRunFile.getGlobalKey("floor_reached")) + 1];
 		try {
 			writeFloorDict();
 			writeGlobalDict();
@@ -42,7 +42,7 @@ public class STSRun {
 				myRunFile.getGlobalKey("ascension_level"));
 //		System.out.println(previousFloor.getText());
 		floorArray[0] = previousFloor;
-		for (int i = 1; i < Integer.parseInt(myRunFile.getGlobalKey("floor_reached")); i++) {
+		for (int i = 1; i < Integer.parseInt(myRunFile.getGlobalKey("floor_reached")) + 1; i++) {
 			floorDict = myRunFile.getFloorKey(""+i);
 			switch( floorDict.get("path_per_floor")) {
 			case "M":

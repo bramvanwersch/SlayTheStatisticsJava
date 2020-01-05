@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gui.Settings;
+
 //TODO: floor 1 has to many keys whit no values. Not sure where they come from.
 public class ReadingRunFile {
 	private Map<String, String> globalVarDict;
@@ -230,7 +232,7 @@ public class ReadingRunFile {
 		else if (count == 2) {
 			mapFloor = floorDict.get("33");
 		}
-		else {
+		else if (Settings.DEBUG){
 			System.out.println("Higher count then expected for boss floor: " + count + "for keysValues: "+ Arrays.deepToString(keysValues));
 		}
 		assert(mapFloor.get("path_per_floor").equals("B"));
@@ -250,7 +252,7 @@ public class ReadingRunFile {
 		else if (key.equals("key") && !floorMap.containsKey("key")) {
 			floorMap.put(key, value);
 		}
-		else {
+		else if (Settings.DEBUG){
 			System.out.println(String.format("No case made for duplicat key %s whit value %s", key, value));
 		}
 	}

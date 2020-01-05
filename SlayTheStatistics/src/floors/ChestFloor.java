@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Map;
 
 public class ChestFloor extends GeneralFloor {
@@ -16,6 +17,10 @@ public class ChestFloor extends GeneralFloor {
 		Map<String, String> floorMap = getBaseFloorMap();
 		floorMap.put("relic", getRelic());
 		return floorMap;	
+	}
+	
+	public Color getColor() {
+		return new Color(148,78,3,80);
 	}
 
 	public String getText() {

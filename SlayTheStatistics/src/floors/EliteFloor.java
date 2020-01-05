@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Map;
 
 public class EliteFloor extends MonsterFloor {
@@ -16,6 +17,10 @@ public class EliteFloor extends MonsterFloor {
 		Map<String, String> floorMap = getMonsterFloorMap();
 		floorMap.put("relic", getRelic());
 		return floorMap;	
+	}
+	
+	public Color getColor() {
+		return new Color(247,43,2,80);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,10 @@ public class GeneralFloor implements Floor{
 		this.floorDict = floorDict;
 		this.prevFloor = previousFloor;
 		this.floorNo = floorNo;
+	}
+	
+	public Color getColor() {
+		return new Color(255,255,255);
 	}
 
 	public String getPath() {

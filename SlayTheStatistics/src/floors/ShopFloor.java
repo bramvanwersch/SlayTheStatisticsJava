@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -33,6 +34,11 @@ public class ShopFloor extends GeneralFloor {
 					Arrays.toString(getBoughtItems()), Arrays.toString(getPurged())));}
 		return floorMap;	
 	}
+	
+	public Color getColor() {
+		return new Color(255,242,0,80);
+	}
+	
 	@Override
 	public String getText() {
 		String text = starterText();

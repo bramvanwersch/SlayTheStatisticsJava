@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Map;
 
 public class RestFloor extends GeneralFloor {
@@ -30,6 +31,10 @@ public class RestFloor extends GeneralFloor {
 			floorMap.put("data", getData());}
 		floorMap.put("special", String.format("Activity: %s (%s)", getActivity(), getData()));
 		return floorMap;	
+	}
+	
+	public Color getColor() {
+		return new Color(55,219,4,80);
 	}
 	
 	@Override

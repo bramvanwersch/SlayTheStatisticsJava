@@ -1,5 +1,6 @@
 package run;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,6 +129,11 @@ public class RunApp extends App{
 			textV[i] = myRun.getGlobalKeys(keys[i]);
 		}
 		return textV;
+	}
+
+	public Color floorColor(String row) {
+		int iRow = Integer.valueOf(row);
+		return myRun.getFloorAtIndex(iRow).getColor();
 	}
 
 }

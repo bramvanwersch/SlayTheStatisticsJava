@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -31,6 +32,10 @@ public class EventFloor extends GeneralFloor {
 	
 	public int getHealed() {
 		return getIntValue("damage_healed");
+	}
+	
+	public Color getColor() {
+		return new Color(212,6,130,80);
 	}
 	
 	public String[] getRelic() {

@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -27,6 +28,10 @@ public class BossFloor extends GeneralFloor{
 	
 	public String getEnemies() {
 		return getStringValue("enemies");
+	}
+	
+	public Color getColor() {
+		return new Color(227, 5, 5 ,80);
 	}
 	
 	public int getHealed() {

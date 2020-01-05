@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -7,6 +8,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -700,6 +702,17 @@ public class Main extends JFrame {
 		for (int i = 0; i < columnWidths.length; i++) {
 			runTable.getColumnModel().getColumn(i).setMaxWidth(columnWidths[i]);
 		}
+		//colour cells depending on the type of floor
+		runTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+		{
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+		    {
+		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        c.setBackground(myRunApp.floorColor((String) runTable.getModel().getValueAt(row, 0)));		        
+		        return c;
+		    }
+		});
 	}
 	
 	private void updateTextButtons() {

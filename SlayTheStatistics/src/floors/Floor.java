@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.Map;
 
 public interface Floor {
@@ -10,4 +11,5 @@ public interface Floor {
 	public String getPath();
 	public String getText();
 	public Map<String,String> getFloorMap();
+	public Color getColor();
 }

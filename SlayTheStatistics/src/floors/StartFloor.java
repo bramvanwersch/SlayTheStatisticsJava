@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +60,11 @@ public class StartFloor implements Floor{
 		return 0;
 	}
 	
-	public int getCharacterMaxHp() {
+	public Color getColor() {
+		return new Color(255,255,255);
+	}
+	
+	private int getCharacterMaxHp() {
 		if (this.character.equals("ironclad")) {
 			return 80;
 		}
@@ -72,7 +77,7 @@ public class StartFloor implements Floor{
 		return 0;
 	}
 	
-	public String[] ascensionPenalty() {
+	private String[] ascensionPenalty() {
 		String[] ascensionPenalties = new String[] {"1","","0"};
 		//ten percent hp loss
 		if (this.ascensionLvl >= 6) {
@@ -94,7 +99,7 @@ public class StartFloor implements Floor{
 		return ascensionPenalties;
 	}
 	
-	public String getNeowBonus() {
+	private String getNeowBonus() {
 		neowBonus = neowBonus.toLowerCase();
 		String bonus = "";
 		switch(neowBonus) {
@@ -156,7 +161,7 @@ public class StartFloor implements Floor{
 		return bonus;
 	}
 	
-	public String getNeowCost() {
+	private String getNeowCost() {
 		neowCost = neowCost.toLowerCase();
 		String cost = "";
 		switch(neowCost) {

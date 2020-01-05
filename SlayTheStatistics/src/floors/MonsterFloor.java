@@ -1,5 +1,6 @@
 package floors;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,10 @@ public class MonsterFloor extends GeneralFloor {
 		}
 		return 0;
 		
+	}
+	
+	public Color getColor() {
+		return new Color(227,97,5,80);
 	}
 	
 	protected Map<String,String> getMonsterFloorMap(){

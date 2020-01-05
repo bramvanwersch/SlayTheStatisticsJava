@@ -35,6 +35,10 @@ public class RunApp extends App{
 	public void setRun(String runName) {
 		myRun = new STSRun(runName);
 	}
+	
+	public String getRun() {
+		return myRun.getRunName();
+	}
 
 	public Object[][] getBasicRunTableData(){
 		String[] keys = {"","path", "health","maxHealth","healed","gold","goldChange"};

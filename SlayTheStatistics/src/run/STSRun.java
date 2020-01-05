@@ -87,6 +87,10 @@ public class STSRun {
 		return myRunFile.getGlobalKey(key);
 	}
 	
+	public String getRunName() {
+		return myRunFile.toString();
+	}
+	
 	//temporary
 	public void writeFloorDict() throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(".//data//floorDict.txt", false));

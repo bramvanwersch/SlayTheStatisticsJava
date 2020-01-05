@@ -142,6 +142,8 @@ public class Main extends JFrame {
 					myRunApp.setRun(filePath);
 					buildWindow();
 					setBounds(100, 100, 1600, 900);
+					changeTabName(1, "Summary of " + myRunApp.getRun());
+					changeTabName(2, "Run(" + myRunApp.getRun() + ")");
 				}
 			}
 		});
@@ -158,7 +160,7 @@ public class Main extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					character = folderName;
-					changeSummaryTabName();
+					changeTabName(0, character + " Summary");
 				}
 			});
 			menuCharacterOptions.add(menuCharacterName);
@@ -239,7 +241,7 @@ public class Main extends JFrame {
 		
 		
 		JPanel tabSummary = new JPanel();
-		tabbedPane.addTab("Summary", null, tabSummary, null);
+		tabbedPane.addTab("Summary of " + myRunApp.getRun(), null, tabSummary, null);
 		GridBagLayout gbl_tabSummary = new GridBagLayout();
 		gbl_tabSummary.rowHeights = new int[] {30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30};
 		gbl_tabSummary.columnWidths = new int[] {0, 0, 0, 30, 0, 30, 0, 30};
@@ -510,8 +512,11 @@ public class Main extends JFrame {
 		gbc_lblSpecialSeedName.gridy = 8;
 		tabSummary.add(lblSpecialSeedName, gbc_lblSpecialSeedName);
 		
+		
+		
+		
 		JPanel runPannel = new JPanel();
-		tabbedPane.addTab("Run", null, runPannel, null);
+		tabbedPane.addTab("Run(" + myRunApp.getRun() + ")", null, runPannel, null);
 		GridBagLayout gbl_runPannel = new GridBagLayout();
 		runPannel.setLayout(gbl_runPannel);
 		
@@ -796,8 +801,8 @@ public class Main extends JFrame {
 		rdBtnShops.setSelected(onOrOff[8]);
 	}
 	
-	private void changeSummaryTabName() {
-		tabbedPane.setTitleAt(0, character + " Sumarry");
+	private void changeTabName(int index, String text) {
+		tabbedPane.setTitleAt(index, text);
 	}
 
 	private void fillCharacterSummaryTable() {

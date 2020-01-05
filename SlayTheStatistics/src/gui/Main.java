@@ -38,6 +38,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
 public class Main extends JFrame {
+	public static Settings settings;
+	
 	private JPanel contentPane;
 	private JTable runTable;
 	private JTable characterSummaryTable;
@@ -112,6 +114,9 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		//load the settings
+		settings = new Settings();
+		
 		myRunApp = new RunApp();
 		myGlobalApp = new GlobalApp();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

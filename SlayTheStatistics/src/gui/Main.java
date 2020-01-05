@@ -121,12 +121,19 @@ public class Main extends JFrame {
 		checkDirectory();
 		myRunApp = new RunApp();
 		myGlobalApp = new GlobalApp();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		buildWindow();
 		addComponentListener(new ComponentAdapter(){
             public void componentResized(ComponentEvent e){
             	Component c = e.getComponent();
             	Main.updateGraphs((int) ((c.getWidth())*0.33), (int) (c.getHeight()*0.45));
+            }
+        });
+		addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                Settings.writeSettings();
+                ((JFrame)(e.getComponent())).dispose();
             }
         });
 		setBounds(100, 100, 1600, 900);
@@ -145,7 +152,7 @@ public class Main extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String filePath = FileChooser.open("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character, "Select a run file", false);
+				String filePath = FileChooser.open(String.format("%s//%s",Settings.STS_DIRECTORY, character), "Select a run file.", false);
 				if (filePath != null) {
 					myRunApp.setRun(filePath);
 					buildWindow();

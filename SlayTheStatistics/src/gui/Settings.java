@@ -78,10 +78,8 @@ public class Settings {
 	}
 	
 	/**
-	 * Saves a setting that was changed during runtime. This should not happen often.
-	 * The settings are immediatly saved into the config file
-	 * @param set the name of the setting
-	 * @param value the value
+	 * Saves the changed settings in a temporary variable that will be saved when 
+	 * the user closes the program
 	 */
 	private static void saveSetting(String set, String value) {
 		for (int i = 0; i < settingInfo.size(); i++) {
@@ -91,6 +89,13 @@ public class Settings {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * this method is calles when the user closes the program and it saves the settings
+	 * that might have changed during runtime.
+	 */
+	public static void writeSettings() {
 		try {
 			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//src//config.txt", false));
 			for (int j = 0; j < settingInfo.size(); j++) {

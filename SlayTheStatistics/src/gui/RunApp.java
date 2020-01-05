@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.swing.table.DefaultTableModel;
+
 import floors.Floor;
 import run.STSRun;
 
@@ -11,6 +13,7 @@ public class RunApp extends App{
 	private STSRun myRun;
 	
 	public RunApp() {
+		this.myRun = null;
 		//hardcoded prevent nullpointers but needs to change.
 		myRun = new STSRun("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1556227492.run");
 	}
@@ -24,6 +27,7 @@ public class RunApp extends App{
 			for (int j = 1; j < keys.length; j++ ) {
 				innerArray[j] = fM.get(keys[j]);
 			}
+			//key that determines if a certain floor can be selected and used.
 			if (fM.containsKey(filterKey)) {
 				data.add(innerArray);
 			}
@@ -36,54 +40,21 @@ public class RunApp extends App{
 		myRun = new STSRun(runName);
 	}
 	
+	/**
+	 * Get the name of the current run loaded in. If no run is loaded in return
+	 * an empty string.
+	 * @return String
+	 */
 	public String getRun() {
+		if (myRun == null) {
+			return "";
+		}
 		return myRun.getRunName();
 	}
-
-	public Object[][] getBasicRunTableData(){
-		String[] keys = {"","path", "health","maxHealth","healed","gold","goldChange"};
-		return getTableData(keys,"path");
-	}
 	
-	public Object[][] getAllRunTableData() {
-		String[] keys = {"","path", "health","maxHealth","healed","gold","goldChange","potionGain",
-				"potionUse","picked","notPicked","relic","special"};
-		return getTableData(keys, "path");
-	}
-
-	public Object[][] getSpecialRunTableData() {
-		String[] keys = {"","path","picked","notPicked","relic","special"};
-		return getTableData(keys, "special");
-	}
-
-	public Object[][] getCardsRunTableData() {
-		String[] keys = {"","path","picked","notPicked"};
-		return getTableData(keys, "picked");
-	}
-
-	public Object[][] getRelicsRunTableData() {
-		String[] keys = {"","path","relic","notRelic"};
-		return getTableData(keys, "relic");
-	}
-
-	public Object[][] getEncountersRunTableData() {
-		String[] keys = {"","path","enemies","damage","turns","healed"};
-		return getTableData(keys, "enemies");
-	}
-
-	public Object[][] getRestRunTableData() {
-		String[] keys = {"","path","activity","data"};
-		return getTableData(keys,"activity");
-	}
-
-	public Object[][] getEventRunTableData() {
-		String[] keys = {"","path","name","choice","enemies","damage","turns","healed","relic","picked","cardRemoved","cardUpgraded"};
-		return getTableData(keys,"name");
-	}
-
-	public Object[][] getShopRunTableData() {
-		String[] keys = {"","path","purchased","purged"};
-		return getTableData(keys, "shop");
+	public DefaultTableModel getTableModel(String[] keys, String filter, Object[] columnNames) {
+		Object[][] data = getTableData(keys, filter);
+		return new DefaultTableModel(data,columnNames);
 	}
 	
 	public int[][] getIntGraphValuesHealth(){

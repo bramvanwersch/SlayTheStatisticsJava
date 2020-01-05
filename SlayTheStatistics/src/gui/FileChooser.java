@@ -5,16 +5,18 @@ package gui;
 import javax.swing.JFileChooser;
 
 public class FileChooser {
-	String filePath;
 
 	// Opens a dialog to select a <type> to open, returns path of file.
-	public static String open(String character) {
+	public static String open(String dir, String title, boolean directory) {
 		
 		String filePath = null;
 		
 		//needs to change to a different value
-		JFileChooser jfc = new JFileChooser("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character);
-		jfc.setDialogTitle("Select a run file");
+		JFileChooser jfc = new JFileChooser(dir);
+		jfc.setDialogTitle(title);
+		if (directory) {
+			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		}
 
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {

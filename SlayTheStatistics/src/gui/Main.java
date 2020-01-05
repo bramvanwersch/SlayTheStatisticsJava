@@ -24,7 +24,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -38,8 +42,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
 public class Main extends JFrame {
-	public static Settings settings;
-	
 	private JPanel contentPane;
 	private JTable runTable;
 	private JTable characterSummaryTable;
@@ -115,8 +117,8 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		//load the settings
-		settings = new Settings();
-		
+		Settings.loadSettings();
+		checkDirectory();
 		myRunApp = new RunApp();
 		myGlobalApp = new GlobalApp();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -143,7 +145,7 @@ public class Main extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String filePath = FileChooser.open(character);
+				String filePath = FileChooser.open("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character, "Select a run file", false);
 				if (filePath != null) {
 					myRunApp.setRun(filePath);
 					buildWindow();
@@ -721,6 +723,20 @@ public class Main extends JFrame {
 		else {
 			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
 			characterSummaryTable.setRowSorter(sorter);
+		}
+	}
+	
+	private void checkDirectory() {
+		try {  
+			//if te file does not exist it will error and trigger the program to ask for a path
+			File f = new File(Settings.STS_DIRECTORY);
+			if (!f.exists()) {
+				String filePath = FileChooser.open("D://", "Please choose the directory where youre .run files are saved.", true);
+				Settings.saveDirectory(filePath);
+			}
+		} catch(NullPointerException e){
+			String filePath = FileChooser.open("D://", "Please choose the directory where youre .run files are saved.", true);
+			Settings.saveDirectory(filePath);
 		}
 	}
 }

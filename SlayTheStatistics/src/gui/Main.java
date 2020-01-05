@@ -92,7 +92,7 @@ public class Main extends JFrame {
 	private GlobalApp myGlobalApp;
 	private JRadioButton rdbtnrdBtnCardSummary;
 	private JRadioButton rdbtnRelicSummary;
-	private JButton btnCalculateSummary;
+	private JButton btnShowSummary;
 	
 	//private String character = "IRONCLAD";
 	private JLabel lblProblemSummary;
@@ -213,8 +213,8 @@ public class Main extends JFrame {
 		gbl_tabCharacterSummary.rowWeights = new double[]{0.0, 0.0, 0.0};
 		tabCharacterSummary.setLayout(gbl_tabCharacterSummary);
 		
-		btnCalculateSummary = new JButton("Calculate Summary");
-		btnCalculateSummary.addActionListener(new ActionListener() {
+		btnShowSummary = new JButton("Show Summary");
+		btnShowSummary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myGlobalApp.calculateCharacterSummary(Settings.CHARACTER);
 				fillCharacterSummaryTable();
@@ -224,7 +224,7 @@ public class Main extends JFrame {
 		gbc_btnCalculateSummary.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCalculateSummary.gridx = 0;
 		gbc_btnCalculateSummary.gridy = 0;
-		tabCharacterSummary.add(btnCalculateSummary, gbc_btnCalculateSummary);
+		tabCharacterSummary.add(btnShowSummary, gbc_btnCalculateSummary);
 		
 		lblProblemSummary = new JLabel("");
 		GridBagConstraints gbc_lblProblemSummary = new GridBagConstraints();

@@ -232,8 +232,11 @@ public class ReadingRunFile {
 		else if (count == 2) {
 			mapFloor = floorDict.get("33");
 		}
+		else if (count == 3) {
+			mapFloor = floorDict.get("51");
+		}
 		else if (Settings.DEBUG){
-			System.out.println("Higher count then expected for boss floor: " + count + "for keysValues: "+ Arrays.deepToString(keysValues));
+			System.out.println("Higher count then expected for boss floor number: " + count + "for keysValues: "+ Arrays.deepToString(keysValues));
 		}
 		assert(mapFloor.get("path_per_floor").equals("B"));
 		if (mapFloor != null) {

@@ -4,12 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import gui.Settings;
+
 
 //TODO: raise apprpriate error when a key is not in the map.
 public class GeneralFloor implements Floor{
 	private final Map<String, String> floorDict;
 	private final Floor prevFloor;
-	private boolean errorPrint = false;
 	protected final String floorNo;
 
 	public GeneralFloor(Map<String, String> floorDict, Floor previousFloor,
@@ -167,7 +168,7 @@ public class GeneralFloor implements Floor{
 				return true;
 			}
 		}
-		if (errorPrint) {
+		if (Settings.DEBUG && false) {
 			if (id.equals("string")) {
 				System.out.println(String.format("WARNING! No keys %s for floorno %s. Set to default: !", Arrays.toString(keys), floorNo));
 			}

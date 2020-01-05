@@ -72,7 +72,7 @@ public class GeneralFloor implements Floor{
 	}
 	
 	public int getHealed() {
-		if (getHealthChange() < 0) {
+		if (getHealthChange() > 0) {
 			return getHealthChange();
 		}
 		return 0;

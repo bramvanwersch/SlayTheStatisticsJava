@@ -30,8 +30,8 @@ public class ReadingRunFile {
 			createFloorDict();
 			addToFloorDict(keyValToLists(globalAndFloor[1]));
 			addInnerDictToFloorDict(remainAndDicts[1].split("\\}\\{"));
-			}
 		}
+	}
 
 // reading the file
 	private String getFileText(String filePath) {
@@ -141,7 +141,8 @@ public class ReadingRunFile {
 		for (int i = 0; i < keysValues[0].length; i++) {
 			String []arrayOfFloors =  keysValues[1][i].replace("[","").replace("]","").replace("\"","").split(",");
 			String key = keysValues[0][i];
-			if (key.equals("potions_floor_usage")){
+			if (arrayOfFloors.length == 1 && arrayOfFloors[0].equals("")) continue;
+			else if (key.equals("potions_floor_usage")){
 				for (String val:arrayOfFloors) {
 					Map<String, String> floorMap = floorDict.get(val);
 					floorMap.put(key, "yes");
@@ -165,13 +166,9 @@ public class ReadingRunFile {
 	
 	private void mergeDictEntries(String key, String[] arrayOfFloors) {
 		String [] arrayItems = globalVarDict.get(key).replace("[","").replace("]","").replace("\"","").split(",");
-		for (int k =0; k < arrayOfFloors.length; k++) {
+		for (int k = 0; k < arrayOfFloors.length; k++) {
 			Map<String, String> floorMap = floorDict.get(arrayOfFloors[k]);
-			if (floorMap == null) {
-				//TODO check wtf is wrong here
-				continue;
-			}
-			else if (floorMap.containsKey(key)) {
+			if (floorMap.containsKey(key)) {
 				//to add multiple items to a dict entry
 				floorMap.put(key,floorMap.get(key)+ "," + arrayItems[k]);
 			}

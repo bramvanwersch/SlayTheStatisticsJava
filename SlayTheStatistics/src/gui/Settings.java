@@ -103,14 +103,14 @@ public class Settings {
 	}
 	
 	/**
-	 * Saves the run given by the user when requested during runtime
+	 * Saves the run given by the user when requested during runtime. The run
+	 * variable is the somtimes the full file path so only the last part is 
+	 * selected.
 	 */
 	public static void saveRun(String run) {
 		run = run.replace("\\", ":");
 		String[] parts = run.split(":");
 		String onlyRun =  parts[parts.length -1];
-		System.out.println(onlyRun);
-		System.out.println(run);
 		RUN = onlyRun;
 		saveSetting("Run", onlyRun);
 	}

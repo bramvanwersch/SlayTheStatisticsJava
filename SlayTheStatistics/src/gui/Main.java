@@ -157,6 +157,7 @@ public class Main extends JFrame {
 				String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Select a run file.", false);
 				if (filePath != null) {
 					myRunApp.setRun(filePath);
+					//TODO change this part. It feels unnecesairy
 					buildWindow();
 					setBounds(100, 100, 1600, 900);
 					changeTabName(1, "Summary of " + myRunApp.getRun());

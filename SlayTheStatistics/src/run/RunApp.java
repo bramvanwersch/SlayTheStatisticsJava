@@ -16,27 +16,28 @@ public class RunApp extends App{
 	private STSRun myRun;
 	
 	public RunApp() {
-		checkRun();
-		//hardcoded prevent nullpointers but needs to change.
-		myRun = new STSRun(Settings.GET_RUN());
+		String filePath = Settings.GET_RUN();
+		if (!checkRun()) {
+			filePath = FileChooser.open(Settings.GET_CHARACTER(), "Please choose a run file.", false);
+		}
+		setRun(filePath);
 	}
 	
 	/**
 	 * Checks if the currently saved run is valid. If that is not the case it 
 	 * asks the user to select a run.
 	 */
-	private void checkRun() {
+	private boolean checkRun() {
 		try {  
 			//if te file does not exist it will error and trigger the program to ask for a path
 			File f = new File(Settings.GET_RUN());
 			if (!f.exists()) {
-				String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Please choose a run file.", false);
-				Settings.saveRun(filePath);
+				return false;
 			}
 		} catch(NullPointerException e){
-			String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Please choose a run file.", false);
-			Settings.saveRun(filePath);
+			return false;
 		}
+		return true;
 	}
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
@@ -58,19 +59,18 @@ public class RunApp extends App{
 	}
 	
 	public void setRun(String runName) {
-		myRun = new STSRun(runName);
+		try {
+			myRun = new STSRun(runName);
+		}catch(NullPointerException | ArrayIndexOutOfBoundsException e) {
+			if (Settings.DEBUG) {
+				System.out.println("Cannot properly process run " + runName);
+			}
+			return; 
+		}
 		Settings.saveRun(runName);
 	}
 	
-	/**
-	 * Get the name of the current run loaded in. If no run is loaded in return
-	 * an empty string.
-	 * @return String
-	 */
 	public String getRun() {
-		if (myRun == null) {
-			return "";
-		}
 		return myRun.getRunName();
 	}
 	

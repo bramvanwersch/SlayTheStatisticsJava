@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import run.RunApp;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -92,7 +94,7 @@ public class Main extends JFrame {
 	private JRadioButton rdbtnRelicSummary;
 	private JButton btnCalculateSummary;
 	
-	private String character = "IRONCLAD";
+	//private String character = "IRONCLAD";
 	private JLabel lblProblemSummary;
 
 
@@ -152,7 +154,7 @@ public class Main extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String filePath = FileChooser.open(String.format("%s//%s",Settings.STS_DIRECTORY, character), "Select a run file.", false);
+				String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Select a run file.", false);
 				if (filePath != null) {
 					myRunApp.setRun(filePath);
 					buildWindow();
@@ -174,8 +176,8 @@ public class Main extends JFrame {
 			menuCharacterName.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					character = folderName;
-					changeTabName(0, character + " Summary");
+					Settings.saveCharacter(folderName);
+					changeTabName(0, Settings.CHARACTER + " Summary");
 				}
 			});
 			menuCharacterOptions.add(menuCharacterName);
@@ -197,7 +199,7 @@ public class Main extends JFrame {
 		contentPane.add(tabbedPane, gbc_tabbedPane);
 		
 		JPanel tabCharacterSummary = new JPanel();
-		tabbedPane.addTab(character + " Summary", null, tabCharacterSummary, null);
+		tabbedPane.addTab(Settings.CHARACTER + " Summary", null, tabCharacterSummary, null);
 		GridBagConstraints gbc_scrollPaneSummary_1 = new GridBagConstraints();
 		gbc_scrollPaneSummary_1.weighty = 1.0;
 		gbc_scrollPaneSummary_1.weightx = 1.0;
@@ -213,7 +215,7 @@ public class Main extends JFrame {
 		btnCalculateSummary = new JButton("Calculate Summary");
 		btnCalculateSummary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myGlobalApp.calculateCharacterSummary(character);
+				myGlobalApp.calculateCharacterSummary(Settings.CHARACTER);
 				fillCharacterSummaryTable();
 			}
 		});
@@ -720,7 +722,7 @@ public class Main extends JFrame {
 			lblProblemSummary.setText("Please cards or relics or both.");
 			return;
 		}
-		TableModel t = myGlobalApp.getSummaryTableData(character, rdbtnRelicSummary.isSelected(),
+		TableModel t = myGlobalApp.getSummaryTableData(Settings.CHARACTER, rdbtnRelicSummary.isSelected(),
 				rdbtnrdBtnCardSummary.isSelected());
 		characterSummaryTable.setModel(t);
 		//Do not allow sorting if both are loaded in.

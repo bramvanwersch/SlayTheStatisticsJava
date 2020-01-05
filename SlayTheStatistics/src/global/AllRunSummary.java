@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import gui.Settings;
 import run.ReadingRunFile;
 
 public class AllRunSummary {
@@ -146,7 +147,7 @@ public class AllRunSummary {
 		Map<String, ItemSummary> existingRates = new HashMap<String, ItemSummary>();
 		try {  
 			//the file to be opened for reading  
-			FileInputStream fis=new FileInputStream(".//Data//" + fileLocation);       
+			FileInputStream fis=new FileInputStream(".//data//" + fileLocation);       
 			Scanner sc=new Scanner(fis);    //file to be scanned  
 			//returns true if there is another line to read  
 			while(sc.hasNextLine()) {
@@ -178,7 +179,7 @@ public class AllRunSummary {
 	}
 
 	private File[] getFileNames(String character) {
-		File f = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\" + character);
+		File f = new File(String.format("%s//%s",Settings.STS_DIRECTORY,character));
 		File[] fileNames = f.listFiles();
 		return fileNames;
 	}

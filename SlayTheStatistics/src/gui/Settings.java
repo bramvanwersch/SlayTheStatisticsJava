@@ -12,7 +12,23 @@ public class Settings {
 	public static boolean DEBUG = true;
 	public static String RUN;
 	public static String STS_DIRECTORY;
+	public static String CHARACTER;
+	
 	private static ArrayList<String[]> settingInfo = new ArrayList<String[]>();
+	
+	/**
+	 * convenience method for getting the location of the selected character
+	 */
+	public static String GET_CHARACTER() {
+		return String.format("%s\\%s", STS_DIRECTORY, CHARACTER);
+	}
+	
+	/**
+	 * convenience method for getting the location of the selected run file
+	 */
+	public static String GET_RUN() {
+		return String.format("%s\\%s\\%s", STS_DIRECTORY, CHARACTER, RUN);
+	}
 	
 	/**
 	 * Innitialises the static variables. They are read from a config file
@@ -29,7 +45,7 @@ public class Settings {
 	private static void readSettings() {
 		try {  
 			//the file to be opened for reading  
-			FileInputStream fis=new FileInputStream(".//src//config.txt");       
+			FileInputStream fis=new FileInputStream(".\\src\\config.txt");       
 			Scanner sc = new Scanner(fis);    //file to be scanned  
 			//returns true if there is another line to read
 			while(sc.hasNextLine()) {
@@ -61,6 +77,9 @@ public class Settings {
 			case "Directory":
 				STS_DIRECTORY = value;
 				break;
+			case "Character":
+				CHARACTER = value;
+				break;
 			default:
 				System.out.println("Unrecocnized setting: " + setting);
 			}
@@ -69,12 +88,31 @@ public class Settings {
 	
 	/**
 	 * Saves the directory given by the user when requested during runtime
-	 * @param dir the directory
 	 */
 	public static void saveDirectory(String dir) {
 		STS_DIRECTORY = dir;
 		saveSetting("Directory", dir);
-		
+	}
+	
+	/**
+	 * Saves the character given by the user when requested during runtime
+	 */
+	public static void saveCharacter(String character) {
+		CHARACTER = character;
+		saveSetting("Character", character);
+	}
+	
+	/**
+	 * Saves the run given by the user when requested during runtime
+	 */
+	public static void saveRun(String run) {
+		run = run.replace("\\", ":");
+		String[] parts = run.split(":");
+		String onlyRun =  parts[parts.length -1];
+		System.out.println(onlyRun);
+		System.out.println(run);
+		RUN = onlyRun;
+		saveSetting("Run", onlyRun);
 	}
 	
 	/**
@@ -97,7 +135,7 @@ public class Settings {
 	 */
 	public static void writeSettings() {
 		try {
-			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//src//config.txt", false));
+			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".\\src\\config.txt", false));
 			for (int j = 0; j < settingInfo.size(); j++) {
 				writer1.write(String.format("%s = %s\n", settingInfo.get(j)[0], settingInfo.get(j)[1]));
 			}

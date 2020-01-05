@@ -7,7 +7,7 @@ public class App {
 	
 	public String[] getCharacterNames() {
 		//hardcoded and needs to change.
-		File[] folder = new File("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\").listFiles();
+		File[] folder = new File(Settings.STS_DIRECTORY).listFiles();
 		ArrayList<String> names = new ArrayList<String>();
 		for (int i = 0; i < folder.length; i++) {
 			String folderName = folder[i].getName();

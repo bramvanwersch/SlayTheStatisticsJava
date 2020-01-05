@@ -1,3 +1,4 @@
 Debug = false
-Run = 
+Run = 1577731225.run
 Directory = D:\Steam\steamapps\common\SlayTheSpire\runs
+Character = IRONCLAD

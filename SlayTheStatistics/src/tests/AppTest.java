@@ -1,7 +1,7 @@
 package tests;
 
-import gui.RunApp;
 import junit.framework.TestCase;
+import run.RunApp;
 
 public class AppTest extends TestCase {
 	

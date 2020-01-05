@@ -1,5 +1,6 @@
-package gui;
+package run;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -7,15 +8,35 @@ import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 import floors.Floor;
-import run.STSRun;
+import gui.App;
+import gui.FileChooser;
+import gui.Settings;
 
 public class RunApp extends App{
 	private STSRun myRun;
 	
 	public RunApp() {
-		this.myRun = null;
+		checkRun();
 		//hardcoded prevent nullpointers but needs to change.
-		myRun = new STSRun("D:\\Steam\\steamapps\\common\\SlayTheSpire\\runs\\IRONCLAD\\1556227492.run");
+		myRun = new STSRun(Settings.GET_RUN());
+	}
+	
+	/**
+	 * Checks if the currently saved run is valid. If that is not the case it 
+	 * asks the user to select a run.
+	 */
+	private void checkRun() {
+		try {  
+			//if te file does not exist it will error and trigger the program to ask for a path
+			File f = new File(Settings.GET_RUN());
+			if (!f.exists()) {
+				String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Please choose a run file.", false);
+				Settings.saveRun(filePath);
+			}
+		} catch(NullPointerException e){
+			String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Please choose a run file.", false);
+			Settings.saveRun(filePath);
+		}
 	}
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
@@ -38,6 +59,7 @@ public class RunApp extends App{
 	
 	public void setRun(String runName) {
 		myRun = new STSRun(runName);
+		Settings.saveRun(runName);
 	}
 	
 	/**

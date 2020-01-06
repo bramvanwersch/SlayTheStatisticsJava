@@ -1,20 +1,22 @@
-package main;
+package global;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class STSTableModel implements TableModel {
+public class GlobalTableModel implements TableModel {
 	private String[] columnNames;
 	private Object[][] data;
+	private int[] doubleSortColumns;
 
-	public STSTableModel(Object[][] data, String[] columnNames) {
+	public GlobalTableModel(Object[][] data, String[] columnNames, int... doubleSortColumns) {
 		this.data = data;
 		this.columnNames = columnNames;
+		this.doubleSortColumns = doubleSortColumns;
 	}
 	
 	@Override
 	public int getRowCount() {
-		return data[0].length;
+		return data.length;
 	}
 
 	@Override
@@ -38,14 +40,13 @@ public class STSTableModel implements TableModel {
 	}
 	
 	@Override
-	public Class getColumnClass(int column){
-        for (int row = 0; row < getRowCount(); row++){
-            Object o = getValueAt(row, column);
-            if (o != null){
-                return o.getClass();
-            }
-        }
-        return Object.class;
+	public Class<?> getColumnClass(int column){
+		for (int col : doubleSortColumns) {
+			if (col == column) {
+				return Integer.class;
+			}
+		}
+        return String.class;
     }
 
 	@Override
@@ -65,7 +66,6 @@ public class STSTableModel implements TableModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 
 }

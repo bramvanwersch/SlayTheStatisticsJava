@@ -64,3 +64,5 @@ local.properties
 .apt_generated
 
 .sts4-cache/
+/data/
+!/data/checkedRuns.txt

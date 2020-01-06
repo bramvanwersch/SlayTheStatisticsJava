@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import global.GlobalApp;
 import run.RunApp;
 
 import javax.swing.JTabbedPane;
@@ -92,7 +93,7 @@ public class Main extends JFrame {
 	private JMenuBar menuBar;
 	
 	private GlobalApp myGlobalApp;
-	private JRadioButton rdbtnrdBtnCardSummary;
+	private JRadioButton rdbtnCardSummary;
 	private JRadioButton rdbtnRelicSummary;
 	private JButton btnShowSummary;
 	
@@ -181,6 +182,7 @@ public class Main extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Settings.saveCharacter(folderName);
 					changeTabName(0, Settings.CHARACTER + " Summary");
+					rdbtnCardSummary.doClick();
 				}
 			});
 			menuCharacterOptions.add(menuCharacterName);
@@ -215,19 +217,6 @@ public class Main extends JFrame {
 		gbl_tabCharacterSummary.rowWeights = new double[]{0.0, 0.0, 0.0};
 		tabCharacterSummary.setLayout(gbl_tabCharacterSummary);
 		
-		btnShowSummary = new JButton("Show Summary");
-		btnShowSummary.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				myGlobalApp.calculateCharacterSummary(Settings.CHARACTER);
-				fillCharacterSummaryTable();
-			}
-		});
-		GridBagConstraints gbc_btnCalculateSummary = new GridBagConstraints();
-		gbc_btnCalculateSummary.insets = new Insets(0, 0, 5, 5);
-		gbc_btnCalculateSummary.gridx = 0;
-		gbc_btnCalculateSummary.gridy = 0;
-		tabCharacterSummary.add(btnShowSummary, gbc_btnCalculateSummary);
-		
 		lblProblemSummary = new JLabel("");
 		GridBagConstraints gbc_lblProblemSummary = new GridBagConstraints();
 		gbc_lblProblemSummary.insets = new Insets(0, 0, 5, 5);
@@ -235,14 +224,25 @@ public class Main extends JFrame {
 		gbc_lblProblemSummary.gridy = 0;
 		tabCharacterSummary.add(lblProblemSummary, gbc_lblProblemSummary);
 		
-		rdbtnrdBtnCardSummary = new JRadioButton("Card Summary");
+		rdbtnCardSummary = new JRadioButton("Card Summary");
+		rdbtnCardSummary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fillCharacterSummaryTable();
+			}
+		});
+		rdbtnCardSummary.setSelected(true);
 		GridBagConstraints gbc_rdbtnrdBtnCardSummary = new GridBagConstraints();
 		gbc_rdbtnrdBtnCardSummary.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnrdBtnCardSummary.gridx = 0;
 		gbc_rdbtnrdBtnCardSummary.gridy = 1;
-		tabCharacterSummary.add(rdbtnrdBtnCardSummary, gbc_rdbtnrdBtnCardSummary);
+		tabCharacterSummary.add(rdbtnCardSummary, gbc_rdbtnrdBtnCardSummary);
 		
 		rdbtnRelicSummary = new JRadioButton("Relic Summary");
+		rdbtnRelicSummary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fillCharacterSummaryTable();
+			}
+		});
 		GridBagConstraints gbc_rdbtnRelicSummary = new GridBagConstraints();
 		gbc_rdbtnRelicSummary.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnRelicSummary.gridx = 1;
@@ -252,6 +252,10 @@ public class Main extends JFrame {
 		JScrollPane scrollPaneSummary = new JScrollPane();
 		tabCharacterSummary.add(scrollPaneSummary, gbc_scrollPaneSummary_1);
 		scrollPaneSummary.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		ButtonGroup btnGroupCharacterSummary = new ButtonGroup();
+		btnGroupCharacterSummary.add(rdbtnCardSummary);
+		btnGroupCharacterSummary.add(rdbtnRelicSummary);
 		
 		characterSummaryTable = new JTable();
 		scrollPaneSummary.setViewportView(characterSummaryTable);
@@ -687,6 +691,7 @@ public class Main extends JFrame {
 		scrollPaneRun.setViewportView(runTable);
 		
 		rdBtnAll.doClick();
+		rdbtnCardSummary.doClick();
 		updateTextButtons();
 	}
 	
@@ -732,21 +737,10 @@ public class Main extends JFrame {
 	}
 
 	private void fillCharacterSummaryTable() {
-		if (!rdbtnRelicSummary.isSelected() && !rdbtnrdBtnCardSummary.isSelected()) {
-			lblProblemSummary.setText("Please cards or relics or both.");
-			return;
-		}
-		TableModel t = myGlobalApp.getSummaryTableData(Settings.CHARACTER, rdbtnRelicSummary.isSelected(),
-				rdbtnrdBtnCardSummary.isSelected());
+		TableModel t = myGlobalApp.getSummaryTableData(Settings.CHARACTER, rdbtnRelicSummary.isSelected());
 		characterSummaryTable.setModel(t);
-		//Do not allow sorting if both are loaded in.
-		if (rdbtnRelicSummary.isSelected() && rdbtnrdBtnCardSummary.isSelected()) {
-			characterSummaryTable.setRowSorter(null);
-		}
-		else {
-			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
-			characterSummaryTable.setRowSorter(sorter);
-		}
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
+		characterSummaryTable.setRowSorter(sorter);
 	}
 	
 	private void checkDirectory() {

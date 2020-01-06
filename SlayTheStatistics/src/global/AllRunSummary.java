@@ -26,26 +26,12 @@ public class AllRunSummary {
 		recordedRunNames = getAlreadyProcessedRuns();
 	}
 	
-	public ArrayList<Object[]> getCharacterData(String character, boolean relic, boolean card) {
-		ArrayList<Object[]> relicData = null;
-		ArrayList<Object[]> cardData = null;
+	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {
 		if (relic) {
-			 relicData = getCsvSummaryData(character + "_relicStats.csv");
-		}
-		if (card) {
-			cardData = getCsvSummaryData(character + "_cardStats.csv");
-		}
-		if (!relic && !card) {
-			System.out.println("Something went wrong while retrieving card or relic summary. None selected.");
-		}
-		if (relic && card) {
-			return mergeSummaryData(relicData, cardData);
-		}
-		else if (relic) {
-			return relicData;
+			return getCsvSummaryData(character + "_relicStats.csv");
 		}
 		else {
-			return cardData;
+			return getCsvSummaryData(character + "_cardStats.csv");
 		}
 	}
 	
@@ -70,7 +56,8 @@ public class AllRunSummary {
 			}
 			sc.close();     //closes the scanner   
 		} catch(IOException e){  
-			e.printStackTrace();  
+			makeCharacterFile(Settings.CHARACTER, false);
+			return null;
 		}
 		return data;
 	}
@@ -79,53 +66,53 @@ public class AllRunSummary {
 	 * Merges 2 arrayLists of String arrays so they can be shown together in a table.
 	 * @return
 	 */
-	private ArrayList<Object[]> mergeSummaryData(ArrayList<Object[]> relicData, ArrayList<Object[]> cardData){
-		assert (relicData.get(0).length + cardData.get(0).length == 8); //check to make sure that the hard coded
-		ArrayList<Object[]> finalData = new ArrayList<Object[]>();
-		if (cardData.size() >= relicData.size()) {
-			Object[] dummyArray = new Object[relicData.get(0).length];
-			Arrays.fill(dummyArray, "");
-			for (int i = 0; i < cardData.size(); i++) {
-				if (relicData.size() -1 > i ) {
-					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
-				}
-				else {
-					finalData.add(mergedArrays(cardData.get(i), dummyArray));
-				}
-			}
-		}
-		else {
-			Object[] dummyArray = new Object[cardData.get(0).length];
-			Arrays.fill(dummyArray, "");
-			for (int i = 0; i < relicData.size(); i++) {
-				if (relicData.size() -1 > i ) {
-					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
-				}
-				else {
-					finalData.add(mergedArrays(dummyArray, relicData.get(i)));
-				}
-			}
-		}
-		return finalData;
-	}
-	
-	/**
-	 * Merge 2 arrays a1 and a2. They are always the same length.
-	 * @return merged array that is double the size 
-	 */
-	private Object[] mergedArrays(Object[] a1, Object[] a2) {
-		assert (a1.length == a2.length);
-		Object[] mergedArray = new Object[a1.length + a2.length];
-		int index = a1.length;
-
-		for (int i = 0; i < a1.length; i++) {
-		    mergedArray[i] = a1[i];
-		}
-		for (int i = 0; i < a2.length; i++) {
-		    mergedArray[i + index] = a2[i];    
-		}
-		return mergedArray;
-	}
+//	private ArrayList<Object[]> mergeSummaryData(ArrayList<Object[]> relicData, ArrayList<Object[]> cardData){
+//		assert (relicData.get(0).length + cardData.get(0).length == 8); //check to make sure that the hard coded
+//		ArrayList<Object[]> finalData = new ArrayList<Object[]>();
+//		if (cardData.size() >= relicData.size()) {
+//			Object[] dummyArray = new Object[relicData.get(0).length];
+//			Arrays.fill(dummyArray, "");
+//			for (int i = 0; i < cardData.size(); i++) {
+//				if (relicData.size() -1 > i ) {
+//					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
+//				}
+//				else {
+//					finalData.add(mergedArrays(cardData.get(i), dummyArray));
+//				}
+//			}
+//		}
+//		else {
+//			Object[] dummyArray = new Object[cardData.get(0).length];
+//			Arrays.fill(dummyArray, "");
+//			for (int i = 0; i < relicData.size(); i++) {
+//				if (relicData.size() -1 > i ) {
+//					finalData.add(mergedArrays(cardData.get(i), relicData.get(i)));
+//				}
+//				else {
+//					finalData.add(mergedArrays(dummyArray, relicData.get(i)));
+//				}
+//			}
+//		}
+//		return finalData;
+//	}
+//	
+//	/**
+//	 * Merge 2 arrays a1 and a2. They are always the same length.
+//	 * @return merged array that is double the size 
+//	 */
+//	private Object[] mergedArrays(Object[] a1, Object[] a2) {
+//		assert (a1.length == a2.length);
+//		Object[] mergedArray = new Object[a1.length + a2.length];
+//		int index = a1.length;
+//
+//		for (int i = 0; i < a1.length; i++) {
+//		    mergedArray[i] = a1[i];
+//		}
+//		for (int i = 0; i < a2.length; i++) {
+//		    mergedArray[i + index] = a2[i];    
+//		}
+//		return mergedArray;
+//	}
 	
 	public void makeCharacterFile(String character, boolean overwrite) {
 		ReadingRunFile[] runs = getCharacterRuns(character);

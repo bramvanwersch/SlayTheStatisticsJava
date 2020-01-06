@@ -1,4 +1,4 @@
-package gui;
+package global;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +6,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import global.AllRunSummary;
-import global.GlobalTableModel;
+import gui.App;
 
 public class GlobalApp extends App{
 	private AllRunSummary runSummary;
@@ -18,21 +17,28 @@ public class GlobalApp extends App{
 		runSummary = new AllRunSummary();
 	}
 
-	public void calculateCharacterSummary(String character) {
-		runSummary.makeCharacterFile(character, false);
-	}
-
-	public GlobalTableModel getSummaryTableData(String character, boolean relic, boolean card) {
-		ArrayList<Object[]> d = runSummary.getCharacterData(character, relic, card);
+	/**
+	 * 
+	 * @param character
+	 * @param relic
+	 * @return
+	 */
+	public GlobalTableModel getSummaryTableData(String character, boolean relic) {
+		//weird solution that needs to make sure that when the info is not returned because the file is created
+		//the file is requested again.
+		ArrayList<Object[]> d = runSummary.getCharacterData(character, relic);
+		if (d == null) {
+			d = runSummary.getCharacterData(character, relic);
+		}
 		Object[][] data = listToObjectArrayOfArray(d);
 		ArrayList<String> columnNames = new ArrayList<String>();
-		if (card) {
-			columnNames.addAll(cardColumnNames);
-		}
 		if (relic) {
 			columnNames.addAll(relicColumnNames);
 		}
-		return new GlobalTableModel(data,columnNames.toArray(new String[columnNames.size()]),1,2,3,5,6,7);
+		else {
+			columnNames.addAll(cardColumnNames);
+		}
+		return new GlobalTableModel(data,columnNames.toArray(new String[columnNames.size()]),1,2,3);
 	}
 
 }

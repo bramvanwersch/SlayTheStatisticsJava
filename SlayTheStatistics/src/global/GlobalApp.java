@@ -18,18 +18,16 @@ public class GlobalApp extends App{
 	}
 
 	/**
-	 * 
-	 * @param character
-	 * @param relic
-	 * @return
+	 * Function that retrieves the summary information of a character and
+	 * returns a tableModel. If no information is available it is generated 
+	 * when needed.
+	 * @param character name of the character for the summary (this is passed
+	 * on for consistency sake making sure the character cant change halfway 
+	 * trough retrieving the information).
+	 * @param relic if true returns the relic info if false returns the card info.
 	 */
 	public GlobalTableModel getSummaryTableData(String character, boolean relic) {
-		//weird solution that needs to make sure that when the info is not returned because the file is created
-		//the file is requested again.
 		ArrayList<Object[]> d = runSummary.getCharacterData(character, relic);
-		if (d == null) {
-			d = runSummary.getCharacterData(character, relic);
-		}
 		Object[][] data = listToObjectArrayOfArray(d);
 		ArrayList<String> columnNames = new ArrayList<String>();
 		if (relic) {

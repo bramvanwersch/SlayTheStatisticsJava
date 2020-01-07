@@ -27,6 +27,9 @@ public class AllRunSummary {
 	}
 	
 	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {
+		if (getNewFiles(getCharacterRuns(character)).length > 0) {
+			makeCharacterFile(character, false);
+		}
 		if (relic) {
 			return getCsvSummaryData(character + "_relicStats.csv");
 		}
@@ -56,16 +59,11 @@ public class AllRunSummary {
 			}
 			sc.close();     //closes the scanner   
 		} catch(IOException e){  
-			makeCharacterFile(Settings.CHARACTER, false);
 			return null;
 		}
 		return data;
 	}
 	
-	/**
-	 * Merges 2 arrayLists of String arrays so they can be shown together in a table.
-	 * @return
-	 */
 //	private ArrayList<Object[]> mergeSummaryData(ArrayList<Object[]> relicData, ArrayList<Object[]> cardData){
 //		assert (relicData.get(0).length + cardData.get(0).length == 8); //check to make sure that the hard coded
 //		ArrayList<Object[]> finalData = new ArrayList<Object[]>();

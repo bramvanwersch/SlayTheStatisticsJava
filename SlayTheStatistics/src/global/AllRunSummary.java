@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import gui.Settings;
@@ -28,7 +30,7 @@ public class AllRunSummary {
 	
 	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {
 		if (getNewFiles(getCharacterRuns(character)).length > 0) {
-			makeCharacterFile(character);
+			makeCharacterSummaryFile(character);
 		}
 		if (relic) {
 			return getCsvSummaryData(character + "_relicStats.csv");
@@ -112,17 +114,24 @@ public class AllRunSummary {
 //		return mergedArray;
 //	}
 	
-	public void makeCharacterFile(String character) {
+	public void makeCharacterSummaryFile(String character) {
 		ReadingRunFile[] runs = getCharacterRuns(character);
-		if (runs.length > 0) {
-			cardRates = getExistingItemRates(character + "_cardRates.csv");
-			relicRates = getExistingItemRates(character + "_relicRates.csv");
-			countItemStats(runs);
-			writeCsv(character);
-			//ensure that the runs that where just added are added back into the file and the value has all runs.
-			recordAddedRunFiles(runs);
-			recordedRunNames = getAlreadyProcessedRuns();
-		}
+		cardRates = getExistingItemRates(character + "_cardRates.csv");
+		relicRates = getExistingItemRates(character + "_relicRates.csv");
+		countItemStats(runs);
+		writeCsv(character);
+		//ensure that the runs that where just added are added back into the file and the value has all runs.
+		recordAddedRunFiles(runs);
+		recordedRunNames = getAlreadyProcessedRuns();
+	}
+	
+	/**function that creates a massive matrix of items winrate and run
+	 * for R to some calculations on. 
+	 */
+	public void makeAllCharacterDataFile(String character) {
+		ReadingRunFile[] runs = getCharacterRuns(character);
+		
+
 	}
 	
 	private Map<String, ItemSummary> getExistingItemRates(String fileLocation) {
@@ -217,18 +226,17 @@ public class AllRunSummary {
 	
 	private void countItemStats(ReadingRunFile[] runs) {
 		for (int i = 0; i < runs.length; i++) {
-			String deck = runs[i].getGlobalKey("master_deck");
-			String relics = runs[i].getGlobalKey("relics");
-			String vict = runs[i].getGlobalKey("victory");
-			String[] deckArray= getDeckArray(deck);
-			String[] relicArray= getDeckArray(relics);
-			boolean victory = getBoolVict(vict);
+			Set<String> deckArray= new HashSet<String>();
+			Set<String> relicArray= new HashSet<String>();
+			deckArray.addAll(Arrays.asList(getDeckArray(runs[i].getGlobalKey("master_deck"))));
+			relicArray.addAll(Arrays.asList(getDeckArray(runs[i].getGlobalKey("relics"))));
+			boolean victory = Boolean.valueOf(runs[i].getGlobalKey("victory"));
 			addCardsToDict(deckArray, victory);
 			addRelicsToDict(relicArray, victory);
 		}
 	}
 
-	private void addCardsToDict(String[] deckArray, boolean victory) {
+	private void addCardsToDict(Set<String> deckArray, boolean victory) {
 		for (String card: deckArray) {
 			if (victory) {
 				if (cardRates.containsKey(card)){
@@ -249,7 +257,7 @@ public class AllRunSummary {
 		}
 	}
 	
-	private void addRelicsToDict(String[] relicArray, boolean victory) {
+	private void addRelicsToDict(Set<String> relicArray, boolean victory) {
 		for (String relic: relicArray) {
 			if (victory) {
 				if (relicRates.containsKey(relic)){
@@ -285,13 +293,6 @@ public class AllRunSummary {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
-	}
-
-	private boolean getBoolVict(String vict) {
-		if (vict.equals("true")) {
-			return true;
-		}
-		return false;
 	}
 
 	private String[] getDeckArray(String deck) {

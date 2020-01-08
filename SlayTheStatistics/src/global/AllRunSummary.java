@@ -28,7 +28,7 @@ public class AllRunSummary {
 	
 	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {
 		if (getNewFiles(getCharacterRuns(character)).length > 0) {
-			makeCharacterFile(character, false);
+			makeCharacterFile(character);
 		}
 		if (relic) {
 			return getCsvSummaryData(character + "_relicStats.csv");
@@ -59,7 +59,7 @@ public class AllRunSummary {
 			}
 			sc.close();     //closes the scanner   
 		} catch(IOException e){  
-			return null;
+			e.printStackTrace();
 		}
 		return data;
 	}
@@ -112,11 +112,8 @@ public class AllRunSummary {
 //		return mergedArray;
 //	}
 	
-	public void makeCharacterFile(String character, boolean overwrite) {
+	public void makeCharacterFile(String character) {
 		ReadingRunFile[] runs = getCharacterRuns(character);
-		if (!overwrite) {
-			runs = getNewFiles(runs);
-		}
 		if (runs.length > 0) {
 			cardRates = getExistingItemRates(character + "_cardRates.csv");
 			relicRates = getExistingItemRates(character + "_relicRates.csv");

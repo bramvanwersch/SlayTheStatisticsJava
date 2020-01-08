@@ -42,7 +42,10 @@ public class RunApp extends App{
 	}
 	
 	public Object[][] getTableData(String[] keys, String filterKey) {
-		ArrayList<Object[]> data = new ArrayList<Object[]>(100);
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
+		if (!checkRun()) {
+			return new Object[0][];
+		}
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			String[] innerArray = new String[keys.length];
 			innerArray[0] = "" + i;
@@ -72,6 +75,9 @@ public class RunApp extends App{
 	}
 	
 	public String getRun() {
+		if (!checkRun()) {
+			return "no/invalid run selected";
+		}
 		return myRun.getRunName();
 	}
 	
@@ -81,6 +87,9 @@ public class RunApp extends App{
 	}
 	
 	public int[][] getIntGraphValuesHealth(){
+		if (!checkRun()) {
+			return new int[][] {{0},{0}};
+		}
 		int[][] dataValues = new int[2][myRun.getFloorTotal()];
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			int health = myRun.getFloorAtIndex(i).getHealth();
@@ -91,6 +100,9 @@ public class RunApp extends App{
 	}
 	
 	public int[][] getIntGraphValuesGold(){
+		if (!checkRun()) {
+			return new int[][] {{0},{0}};
+		}
 		int[][] dataValues = new int[2][myRun.getFloorTotal()];
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			int health = myRun.getFloorAtIndex(i).getGold();
@@ -101,6 +113,9 @@ public class RunApp extends App{
 	}
 	
 	public int[][] getIntGraphValuesMaxHp(){
+		if (!checkRun()) {
+			return new int[][] {{0},{0}};
+		}
 		int[][] dataValues = new int[2][myRun.getFloorTotal()];
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			int health = myRun.getFloorAtIndex(i).getMaxHp();
@@ -111,6 +126,9 @@ public class RunApp extends App{
 	}
 	
 	public int[][] getIntGraphValuesHealed(){
+		if (!checkRun()) {
+			return new int[][] {{0},{0}};
+		}
 		int[][] dataValues = new int[2][myRun.getFloorTotal()];
 		for (int i = 0; i < myRun.getFloorTotal(); i++) {
 			int health = myRun.getFloorAtIndex(i).getHealed();
@@ -122,6 +140,9 @@ public class RunApp extends App{
 
 	public String[] getTextValues() {
 		//add the cards and relics in a reasonable fassion.
+		if (!checkRun()) {
+			return new String[] {"","","","","","","",""};
+		}
 		String[] textV = new String[8];
 		String[] keys = {"character_chosen","master_decks","ascension_level","relicss","victory","floor_reached",
 				"seed_played","special_seed"};

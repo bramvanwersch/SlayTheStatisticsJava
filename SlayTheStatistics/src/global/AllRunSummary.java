@@ -140,14 +140,14 @@ public class AllRunSummary {
 	}
 	
 	private String[] countItemsForRun(ReadingRunFile run, String[] colNames) {
-		String[] values = new String[colNames.length + 1];
+		String[] values = new String[colNames.length];
 		values[0] = run.toString();
 		ArrayList<String> cardsRelics = new ArrayList<String>();
 		String[] deckArray = getDeckArray(run.getGlobalKey("master_deck"));
 		String[] relicArray = getDeckArray(run.getGlobalKey("relics"));
 		cardsRelics.addAll(Arrays.asList(deckArray));
 		cardsRelics.addAll(Arrays.asList(relicArray));
-		for (int i = 0; i < colNames.length; i++) {
+		for (int i = 0; i < colNames.length - 1; i++) {
 			int total = 0;
 			for (int j = 0; j < cardsRelics.size(); j++) {
 //				System.out.println(cardsRelics.get(j)+ "  "+ colNames[i]);
@@ -155,8 +155,9 @@ public class AllRunSummary {
 					total += 1;
 				}
 			}
-			values[i+1] = total + "";
+			values[i] = total + "";
 		}
+		values[colNames.length -1] = run.getGlobalKey("victory");
 		return values;
 	}
 	
@@ -187,6 +188,7 @@ public class AllRunSummary {
 		} catch(IOException e){  
 			e.printStackTrace();
 		}
+		names.add("Win");
 		return names.toArray(new String[names.size()]);
 	}
 	
@@ -216,7 +218,7 @@ public class AllRunSummary {
 			Scanner sc=new Scanner(fis);    //file to be scanned  
 			//returns true if there is another line to read  
 			while(sc.hasNextLine()) {
-				runNames.add(sc.nextLine());  
+				runNames.add(sc.nextLine());
 			}
 			sc.close();     //closes the scanner  
 		} catch(IOException e){  
@@ -343,7 +345,7 @@ public class AllRunSummary {
 			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//" + character + "_fullSummary.csv", false));
 			for (int i = 0; i < data.length - 1; i++) {
 				writer1.write(arrayToCsvString(data[i]));
-				}
+			}
 		writer1.close();
 		} catch (IOException e) {
 			e.printStackTrace();

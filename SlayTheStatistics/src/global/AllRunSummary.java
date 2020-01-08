@@ -119,7 +119,7 @@ public class AllRunSummary {
 		cardRates = getExistingItemRates(character + "_cardRates.csv");
 		relicRates = getExistingItemRates(character + "_relicRates.csv");
 		countItemStats(runs);
-		writeCsv(character);
+		writeSummaryCsv(character);
 		//ensure that the runs that where just added are added back into the file and the value has all runs.
 		recordAddedRunFiles(runs);
 		recordedRunNames = getAlreadyProcessedRuns();
@@ -130,8 +130,64 @@ public class AllRunSummary {
 	 */
 	public void makeAllCharacterDataFile(String character) {
 		ReadingRunFile[] runs = getCharacterRuns(character);
-		
-
+		String[][] dataMatrix = new String[runs.length + 1][];
+		String[] colNames = getColumnNames(character);
+		dataMatrix[0] = colNames;
+		for (int i = 0; i < runs.length; i++) {
+			dataMatrix[i+1] = countItemsForRun(runs[i], colNames);
+		}
+		writeCsv(dataMatrix, character);
+	}
+	
+	private String[] countItemsForRun(ReadingRunFile run, String[] colNames) {
+		String[] values = new String[colNames.length + 1];
+		values[0] = run.toString();
+		ArrayList<String> cardsRelics = new ArrayList<String>();
+		String[] deckArray = getDeckArray(run.getGlobalKey("master_deck"));
+		String[] relicArray = getDeckArray(run.getGlobalKey("relics"));
+		cardsRelics.addAll(Arrays.asList(deckArray));
+		cardsRelics.addAll(Arrays.asList(relicArray));
+		for (int i = 0; i < colNames.length; i++) {
+			int total = 0;
+			for (int j = 0; j < cardsRelics.size(); j++) {
+//				System.out.println(cardsRelics.get(j)+ "  "+ colNames[i]);
+				if (cardsRelics.get(j).equals(colNames[i])) {
+					total += 1;
+				}
+			}
+			values[i+1] = total + "";
+		}
+		return values;
+	}
+	
+	private String[] getColumnNames(String character){
+		//the summary files should always be available before this fuinction gets called.
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("run");
+		try {  
+			FileInputStream fis1=new FileInputStream(String.format(".//Data//%s_cardStats.csv", character));
+			FileInputStream fis2=new FileInputStream(String.format(".//Data//%s_relicStats.csv", character));
+			Scanner sc_cards = new Scanner(fis1);
+			Scanner sc_relics = new Scanner(fis2);
+			
+			while(sc_cards.hasNextLine()) {
+				//add the values as integers or doubles to ensure proper sorting.
+				//still some parts hardcoded that can give some trouble
+				String[] s = sc_cards.nextLine().split(",");
+				names.add(s[0]);
+			}
+			while(sc_relics.hasNextLine()) {
+				//add the values as integers or doubles to ensure proper sorting.
+				//still some parts hardcoded that can give some trouble
+				String[] s = sc_relics.nextLine().split(",");
+				names.add(s[0]);
+			}
+			sc_cards.close();
+			sc_relics.close();
+		} catch(IOException e){  
+			e.printStackTrace();
+		}
+		return names.toArray(new String[names.size()]);
 	}
 	
 	private Map<String, ItemSummary> getExistingItemRates(String fileLocation) {
@@ -224,6 +280,10 @@ public class AllRunSummary {
 		return runs;
 	}
 	
+	/**
+	 * Takes a set of runs and calculates the winrate of cards and relics based
+	 * on the fact if a card or relic is in a winning run or not.
+	 */
 	private void countItemStats(ReadingRunFile[] runs) {
 		for (int i = 0; i < runs.length; i++) {
 			Set<String> deckArray= new HashSet<String>();
@@ -278,7 +338,28 @@ public class AllRunSummary {
 		}
 	}
 	
-	private void writeCsv(String character) {
+	private void writeCsv(String[][] data, String character) {
+		try {
+			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//" + character + "_fullSummary.csv", false));
+			for (int i = 0; i < data.length - 1; i++) {
+				writer1.write(arrayToCsvString(data[i]));
+				}
+		writer1.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String arrayToCsvString(String[] sa) {
+		String finalString = "";
+		for (String s : sa) {
+			finalString += s + ",";
+		}
+		finalString = finalString.substring(0, finalString.length());
+		return finalString + "\n";
+	}
+	
+	private void writeSummaryCsv(String character) {
 		try {
 			BufferedWriter writer1 = new BufferedWriter(new FileWriter(".//data//" + character + "_cardStats.csv", false));
 			BufferedWriter writer2 = new BufferedWriter(new FileWriter(".//data//" + character + "_relicStats.csv", false));
@@ -296,8 +377,7 @@ public class AllRunSummary {
 	}
 
 	private String[] getDeckArray(String deck) {
-		String[] deckArray= null;
-		deckArray = deck.replace("\"","").replace("[","").replace("]","").split(",");
+		String[] deckArray = deck.replace("\"","").replace("[","").replace("]","").split(",");
 		return deckArray;
 	}
 }

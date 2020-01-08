@@ -39,4 +39,8 @@ public class GlobalApp extends App{
 		return new GlobalTableModel(data,columnNames.toArray(new String[columnNames.size()]),1,2,3);
 	}
 
+	public void getFullFile(String character) {
+		runSummary.makeAllCharacterDataFile(character);
+	}
+
 }

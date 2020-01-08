@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -223,6 +224,18 @@ public class Main extends JFrame {
 		gbc_lblProblemSummary.gridx = 1;
 		gbc_lblProblemSummary.gridy = 0;
 		tabCharacterSummary.add(lblProblemSummary, gbc_lblProblemSummary);
+		
+		Button btnMakeCompleteFile = new Button("Gooo");
+		btnMakeCompleteFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myGlobalApp.getFullFile(Settings.CHARACTER);
+			}
+		});
+		GridBagConstraints gbc_btnMakeCompleteFile = new GridBagConstraints();
+		gbc_btnMakeCompleteFile.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMakeCompleteFile.gridx = 0;
+		gbc_btnMakeCompleteFile.gridy = 0;
+		tabCharacterSummary.add(btnMakeCompleteFile, gbc_btnMakeCompleteFile);
 		
 		rdbtnCardSummary = new JRadioButton("Card Summary");
 		rdbtnCardSummary.addActionListener(new ActionListener() {

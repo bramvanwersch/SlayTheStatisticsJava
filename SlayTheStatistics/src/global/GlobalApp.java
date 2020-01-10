@@ -1,5 +1,8 @@
 package global;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +44,32 @@ public class GlobalApp extends App{
 
 	public void getFullFile(String character) {
 		runSummary.makeAllCharacterDataFile(character);
+	}
+
+	public void runRTest() {
+//		try {
+//			Runtime.getRuntime().exec("D:\\R-3.6.1\\bin\\i386\\Rscript.exe .\\data\\getForestModel.R");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		BufferedReader reader = null;
+        Process shell = null;
+        try {
+            shell = Runtime.getRuntime().exec("D:\\R-3.6.1\\bin\\i386\\Rscript.exe .\\data\\getForestModel.R");
+
+            reader = new BufferedReader(new InputStreamReader(shell.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+
+            }
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 	}
 
 }

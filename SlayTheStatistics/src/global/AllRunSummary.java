@@ -147,7 +147,7 @@ public class AllRunSummary {
 		String[] relicArray = getDeckArray(run.getGlobalKey("relics"));
 		cardsRelics.addAll(Arrays.asList(deckArray));
 		cardsRelics.addAll(Arrays.asList(relicArray));
-		for (int i = 0; i < colNames.length - 1; i++) {
+		for (int i = 1; i < colNames.length - 1; i++) {
 			int total = 0;
 			for (int j = 0; j < cardsRelics.size(); j++) {
 //				System.out.println(cardsRelics.get(j)+ "  "+ colNames[i]);
@@ -357,7 +357,7 @@ public class AllRunSummary {
 		for (String s : sa) {
 			finalString += s + ",";
 		}
-		finalString = finalString.substring(0, finalString.length());
+		finalString = finalString.substring(0, finalString.length() -1);
 		return finalString + "\n";
 	}
 	

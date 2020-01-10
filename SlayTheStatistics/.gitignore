@@ -66,3 +66,4 @@ local.properties
 .sts4-cache/
 data/*
 !data/checkedRuns.txt
+!data/getForestModel.R

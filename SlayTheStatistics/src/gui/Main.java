@@ -225,10 +225,11 @@ public class Main extends JFrame {
 		gbc_lblProblemSummary.gridy = 0;
 		tabCharacterSummary.add(lblProblemSummary, gbc_lblProblemSummary);
 		
-		Button btnMakeCompleteFile = new Button("Gooo");
+		Button btnMakeCompleteFile = new Button("run r test");
 		btnMakeCompleteFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myGlobalApp.getFullFile(Settings.CHARACTER);
+				//myGlobalApp.getFullFile(Settings.CHARACTER);
+				myGlobalApp.runRTest();
 			}
 		});
 		GridBagConstraints gbc_btnMakeCompleteFile = new GridBagConstraints();

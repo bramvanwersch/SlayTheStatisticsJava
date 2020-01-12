@@ -24,13 +24,13 @@ public class STSRun {
 	public STSRun(String runFileLocation) {
 		myRunFile = new ReadingRunFile(runFileLocation, true);
 		floorArray = new Floor[Integer.parseInt(myRunFile.getGlobalKey("floor_reached")) + 1];
-		try {
-			writeFloorDict();
-			writeGlobalDict();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			writeFloorDict();
+//			writeGlobalDict();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		assignFloors();
 	}
 	

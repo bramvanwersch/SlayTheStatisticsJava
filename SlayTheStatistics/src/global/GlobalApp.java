@@ -55,19 +55,19 @@ public class GlobalApp extends App{
 		BufferedReader reader = null;
         Process shell = null;
         try {
-            shell = Runtime.getRuntime().exec("D:\\R-3.6.1\\bin\\i386\\Rscript.exe .\\data\\getForestModel.R");
+            shell = Runtime.getRuntime().exec("D:\\R-3.6.1\\bin\\i386\\Rscript.exe .\\src\\global\\getForestModel.R");
 
             reader = new BufferedReader(new InputStreamReader(shell.getInputStream()));
+            //wait untill the program is done.
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-
+            	System.out.println(line);
             }
+            System.out.println("done with making forests");
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
 	}
 
 }

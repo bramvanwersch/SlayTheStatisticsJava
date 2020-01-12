@@ -5,9 +5,9 @@ library(tree)
 library(randomForest)
 
 #assume this data is always present needs supplying of file name or direct data.
-data <- read.table("D:\\Eclipse STS workplace\\SlayTheStatisticsGit\\SlayTheStatistics\\data\\IRONCLAD_fullSummary.csv", sep = ",", header = TRUE)
+#data <- read.table("D:\\Eclipse STS workplace\\SlayTheStatisticsGit\\SlayTheStatistics\\data\\IRONCLAD_fullSummary.csv", sep = ",", header = TRUE)
 
-#data <- read.table(".\\data\\IRONCLAD_fullSummary.csv", sep = ",", header = TRUE)
+data <- read.table(".\\data\\IRONCLAD_fullSummary.csv", sep = ",", header = TRUE)
 rownames(data) <- data$run
 data <- data[,2:ncol(data)]
 relic_data <- data[,207:ncol(data)]
@@ -19,7 +19,7 @@ accuracy <- function(predictions, answers){
 }
 
 model_pred <- function(data, pred_col, train){
-  forest <- randomForest(Win ~ . ,data = data[train,], importance = TRUE, ntree= 2000, mtry = 10, keep.inbag =TRUE )
+  forest <- randomForest(Win ~ . ,data = data[train,], importance = TRUE, ntree= 2000, mtry = sqrt(pred_col -1), keep.inbag =TRUE )
   predictions <- predict(forest, newdata = data[-train,])
   print(sprintf("the acccuracy of the forest model is: %s",accuracy(predictions, data[-train, pred_col])))
   return (forest$importance[,4])
@@ -28,7 +28,7 @@ model_pred <- function(data, pred_col, train){
 scale_data <- data.frame(scale(data[1:ncol(data) -1]))
 scale_data$Win <- data$Win
 
-ntrain <-round(nrow(scale_data)*3/4)
+ntrain <-round(nrow(scale_data)*9/10)
 train <- sample(1:nrow(scale_data), ntrain)
 all_results <- model_pred(scale_data, ncol(scale_data), train)
 
@@ -50,7 +50,6 @@ relic_results <- model_pred(logical_relic_data, ncol(logical_relic_data), train)
 
 predictors <- cbind(all_results, c(card_results, rep("-",127)), c(rep("-", 206), relic_results))
 colnames(predictors) <- c("all_score","card_score", "relic_score")
-rownames(rownames(data))
 
 print("done")
 write.csv(predictors, file = ".\\data\\forest_gini_results.csv",append = FALSE)

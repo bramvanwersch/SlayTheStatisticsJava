@@ -100,6 +100,7 @@ public class Main extends JFrame {
 	
 	//private String character = "IRONCLAD";
 	private JLabel lblProblemSummary;
+	private JRadioButton rdbtnModelSummary;
 
 
 	/**
@@ -225,18 +226,18 @@ public class Main extends JFrame {
 		gbc_lblProblemSummary.gridy = 0;
 		tabCharacterSummary.add(lblProblemSummary, gbc_lblProblemSummary);
 		
-		Button btnMakeCompleteFile = new Button("run r test");
-		btnMakeCompleteFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//myGlobalApp.getFullFile(Settings.CHARACTER);
-				myGlobalApp.runRTest();
-			}
-		});
-		GridBagConstraints gbc_btnMakeCompleteFile = new GridBagConstraints();
-		gbc_btnMakeCompleteFile.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMakeCompleteFile.gridx = 0;
-		gbc_btnMakeCompleteFile.gridy = 0;
-		tabCharacterSummary.add(btnMakeCompleteFile, gbc_btnMakeCompleteFile);
+//		Button btnMakeCompleteFile = new Button("run r test");
+//		btnMakeCompleteFile.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+////				myGlobalApp.getFullFile(Settings.CHARACTER);
+//				myGlobalApp.getModelPredictors();
+//			}
+//		});
+//		GridBagConstraints gbc_btnMakeCompleteFile = new GridBagConstraints();
+//		gbc_btnMakeCompleteFile.insets = new Insets(0, 0, 5, 5);
+//		gbc_btnMakeCompleteFile.gridx = 0;
+//		gbc_btnMakeCompleteFile.gridy = 0;
+//		tabCharacterSummary.add(btnMakeCompleteFile, gbc_btnMakeCompleteFile);
 		
 		rdbtnCardSummary = new JRadioButton("Card Summary");
 		rdbtnCardSummary.addActionListener(new ActionListener() {
@@ -263,6 +264,19 @@ public class Main extends JFrame {
 		gbc_rdbtnRelicSummary.gridy = 1;
 		tabCharacterSummary.add(rdbtnRelicSummary, gbc_rdbtnRelicSummary);
 		
+		rdbtnModelSummary = new JRadioButton("Model summary");
+		rdbtnModelSummary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fillModelSummaryTable();
+			}
+		});
+		GridBagConstraints gbc_rdbtnModelSummary = new GridBagConstraints();
+		gbc_rdbtnModelSummary.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnModelSummary.gridx = 2;
+		gbc_rdbtnModelSummary.gridy = 1;
+		gbc_rdbtnModelSummary.anchor = GridBagConstraints.WEST;
+		tabCharacterSummary.add(rdbtnModelSummary, gbc_rdbtnModelSummary);
+		
 		JScrollPane scrollPaneSummary = new JScrollPane();
 		tabCharacterSummary.add(scrollPaneSummary, gbc_scrollPaneSummary_1);
 		scrollPaneSummary.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -270,6 +284,7 @@ public class Main extends JFrame {
 		ButtonGroup btnGroupCharacterSummary = new ButtonGroup();
 		btnGroupCharacterSummary.add(rdbtnCardSummary);
 		btnGroupCharacterSummary.add(rdbtnRelicSummary);
+		btnGroupCharacterSummary.add(rdbtnModelSummary);
 		
 		characterSummaryTable = new JTable();
 		scrollPaneSummary.setViewportView(characterSummaryTable);
@@ -708,7 +723,7 @@ public class Main extends JFrame {
 		rdbtnCardSummary.doClick();
 		updateTextButtons();
 	}
-	
+
 	public static void updateGraphs(int width, int heigth) {
 		pnlGold.redraw(pnlGold.getSize().getWidth(), pnlGold.getSize().getHeight());
 		pnlHealed.redraw(pnlHealed.getSize().getWidth(), pnlHealed.getSize().getHeight());
@@ -752,6 +767,14 @@ public class Main extends JFrame {
 
 	private void fillCharacterSummaryTable() {
 		TableModel t = myGlobalApp.getSummaryTableData(Settings.CHARACTER, rdbtnRelicSummary.isSelected());
+		characterSummaryTable.setModel(t);
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
+		characterSummaryTable.setRowSorter(sorter);
+	}
+	
+	
+	private void fillModelSummaryTable() {
+		TableModel t = myGlobalApp.getModelPredictors();
 		characterSummaryTable.setModel(t);
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(characterSummaryTable.getModel());
 		characterSummaryTable.setRowSorter(sorter);

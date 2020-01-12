@@ -15,6 +15,7 @@ public class GlobalApp extends App{
 	private AllRunSummary runSummary;
 	private final List<String> cardColumnNames = Arrays.asList(new String[] {"card", "win", "loss", "winrate"});
 	private final List<String> relicColumnNames = Arrays.asList(new String[] {"relic", "win", "loss", "winrate"});
+	private final List<String> modelColumnNames = Arrays.asList(new String[] {"name", "all score", "card score", "relic score"});
 	
 	public GlobalApp() {
 		runSummary = new AllRunSummary();
@@ -50,8 +51,9 @@ public class GlobalApp extends App{
 	 * Requests Rscript to run a rfile to get random  forest predictions for the cards,
 	 * relics and together. It saves the data in a csv file that shows the most
 	 * important predictors for each of the categories.
+	 * NOTE: this function takes a while to run.
 	 */
-	public void runRTest() {
+	public GlobalTableModel getModelPredictors() {
 		BufferedReader reader = null;
         Process shell = null;
         try {
@@ -68,6 +70,9 @@ public class GlobalApp extends App{
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
+        ArrayList<Object[]> d = runSummary.getCsvSummaryData("forest_gini_results.csv");
+        Object[][] data = listToObjectArrayOfArray(d);
+		return new GlobalTableModel(data,modelColumnNames.toArray(new String[modelColumnNames.size()]),1,2,3);
+    }
 
 }

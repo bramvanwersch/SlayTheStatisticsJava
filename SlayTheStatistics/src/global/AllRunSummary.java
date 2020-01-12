@@ -40,11 +40,11 @@ public class AllRunSummary {
 		}
 	}
 	
-	private ArrayList<Object[]> getCsvSummaryData(String fileName){
+	public ArrayList<Object[]> getCsvSummaryData(String fileName){
 		ArrayList<Object[]> data = new ArrayList<Object[]>();
 		try {  
 			//the file to be opened for reading  
-			FileInputStream fis=new FileInputStream(".//Data//" + fileName );       
+			FileInputStream fis=new FileInputStream(".//data//" + fileName );       
 			Scanner sc = new Scanner(fis);    //file to be scanned  
 			//returns true if there is another line to read
 			
@@ -53,9 +53,9 @@ public class AllRunSummary {
 				//still some parts hardcoded that can give some trouble
 				String[] s = sc.nextLine().split(",");
 				Object[] o = new Object[s.length];
-				o[0] = s[0];
-				o[1] = Integer.valueOf(s[1]);
-				o[2] = Integer.valueOf(s[2]);
+				o[0] = s[0].replace("\"", "");
+				o[1] = Double.valueOf(s[1]);
+				o[2] = Double.valueOf(s[2]);
 				o[3] = Double.valueOf(s[3]);
 				data.add(o);
 			}
@@ -166,8 +166,8 @@ public class AllRunSummary {
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("run");
 		try {  
-			FileInputStream fis1=new FileInputStream(String.format(".//Data//%s_cardStats.csv", character));
-			FileInputStream fis2=new FileInputStream(String.format(".//Data//%s_relicStats.csv", character));
+			FileInputStream fis1=new FileInputStream(String.format(".//data//%s_cardStats.csv", character));
+			FileInputStream fis2=new FileInputStream(String.format(".//data//%s_relicStats.csv", character));
 			Scanner sc_cards = new Scanner(fis1);
 			Scanner sc_relics = new Scanner(fis2);
 			

@@ -48,9 +48,8 @@ ntrain <-round(nrow(logical_relic_data)*3/4)
 train <- sample(1:nrow(logical_relic_data), ntrain)
 relic_results <- model_pred(logical_relic_data, ncol(logical_relic_data), train)
 
-predictors <- cbind(all_results, c(card_results, rep("-",127)), c(rep("-", 206), relic_results))
-colnames(predictors) <- c("all_score","card_score", "relic_score")
+predictors <- cbind(all_results, c(card_results, rep(0,127)), c(rep(0, 206), relic_results))
 
 print("done")
-write.csv(predictors, file = ".\\data\\forest_gini_results.csv",append = FALSE)
+write.table(predictors, file = ".\\data\\forest_gini_results.csv", sep = ",", append = FALSE, col.names = FALSE)
 

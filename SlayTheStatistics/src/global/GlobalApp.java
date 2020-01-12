@@ -46,13 +46,12 @@ public class GlobalApp extends App{
 		runSummary.makeAllCharacterDataFile(character);
 	}
 
+	/**
+	 * Requests Rscript to run a rfile to get random  forest predictions for the cards,
+	 * relics and together. It saves the data in a csv file that shows the most
+	 * important predictors for each of the categories.
+	 */
 	public void runRTest() {
-//		try {
-//			Runtime.getRuntime().exec("D:\\R-3.6.1\\bin\\i386\\Rscript.exe .\\data\\getForestModel.R");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		BufferedReader reader = null;
         Process shell = null;
         try {
@@ -65,7 +64,6 @@ public class GlobalApp extends App{
 
             }
             reader.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

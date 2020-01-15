@@ -77,22 +77,13 @@ public class GraphBuilder extends JPanel{
 	private boolean dataPoints = true;
 
 
-    public GraphBuilder(int[] xData, int[] yData,int width,int height,String[] axisNames, boolean dataPoints) {
+    public GraphBuilder(int[] xData, int[] yData,String[] axisNames, boolean dataPoints) {
     	this.xData =xData;
     	this.yData = yData;
-    	this.pHeigth = (int) height;
-    	this.pWidth= (int) width;
     	this.axisNames = axisNames;
     	this.dataPoints = dataPoints;
     	this.setBackground(Color.WHITE);
     }
-	
-	public void redraw(double width, double height) {
-		this.pWidth = (int) width;
-		this.pHeigth = (int) height;
-		setBounds(new Rectangle(getX(), getY(), (int)width, (int)height));
-		repaint();
-	}
 	
 	public void setData(int[][] xy) {
 		xData = xy[0];
@@ -102,6 +93,8 @@ public class GraphBuilder extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        this.pWidth = (int) getSize().getWidth();
+        this.pHeigth = (int) getSize().getHeight();
     	this.DISTANCE_BORDER = (int) (pHeigth *0.05 +55);
     	this.SIZE_X_AXIS = pWidth - DISTANCE_BORDER - DISTANCE_END;
     	this.SIZE_Y_AXIS = pHeigth - DISTANCE_BORDER -DISTANCE_END;

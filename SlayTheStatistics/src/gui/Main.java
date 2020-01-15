@@ -1,16 +1,12 @@
 package gui;
 
-import java.awt.Button;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -28,19 +24,10 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.JSplitPane;
-import java.awt.GridLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -89,8 +76,6 @@ public class Main extends JFrame {
 	private JLabel lblMaxHealth;
 	private JLabel lblHealthChange;
 	private JLabel lblGoldChange;
-	private JLabel lblSpace1;
-	private JLabel lblSpace2;
 	private JMenuBar menuBar;
 	
 	private GlobalApp myGlobalApp;
@@ -296,7 +281,7 @@ public class Main extends JFrame {
 		JPanel graphPannel = new JPanel();
 		GridBagConstraints gbc_graphPannel = new GridBagConstraints();
 		gbc_graphPannel.weighty = 1;
-		gbc_graphPannel.weightx = 10;
+		gbc_graphPannel.weightx = 20;
 		gbc_graphPannel.insets = new Insets(0, 0, 5, 0);
 		gbc_graphPannel.fill = GridBagConstraints.BOTH;
 		gbc_graphPannel.gridx = 1;
@@ -304,14 +289,6 @@ public class Main extends JFrame {
 		GridBagLayout gbl_graphPannel = new GridBagLayout();
 		graphPannel.setLayout(gbl_graphPannel);
 		tabSummary.add(graphPannel, gbc_graphPannel);
-		
-		graphPannel.addComponentListener(new ComponentAdapter() {
-			@Override
-            public void componentResized(ComponentEvent e){
-            	Component c = e.getComponent();
-            	resizeGraphs((int) (c.getSize().getWidth() * 0.4), (int) (c.getSize().getHeight()*0.35));
-            }
-		});
 		
 		lblHealthChange = new JLabel("Health change:");
 		GridBagConstraints gbc_lblHealthChange = new GridBagConstraints();
@@ -327,31 +304,41 @@ public class Main extends JFrame {
 		gbc_lblGoldChange.weighty = 1.0;
 		gbc_lblGoldChange.weightx = 1.0;
 		gbc_lblGoldChange.insets = new Insets(0, 0, 5, 0);
-		gbc_lblGoldChange.gridx = 1;
+		gbc_lblGoldChange.gridx = 2;
 		gbc_lblGoldChange.gridy = 0;
 		graphPannel.add(lblGoldChange, gbc_lblGoldChange);
 
 		GridBagConstraints gbc_pnlDamageGraph = new GridBagConstraints();
-		gbc_pnlDamageGraph.weighty = 8.0;
-		gbc_pnlDamageGraph.weightx = 8.0;
+		gbc_pnlDamageGraph.weighty = 15;
+		gbc_pnlDamageGraph.weightx = 15;
 		gbc_pnlDamageGraph.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlDamageGraph.fill = GridBagConstraints.BOTH;
 		gbc_pnlDamageGraph.gridx = 0;
 		gbc_pnlDamageGraph.gridy = 1;
 		pnlHealth = new GraphBuilder(myRunApp.getIntGraphValuesHealth()[0],myRunApp.getIntGraphValuesHealth()[1],
-				300,200,new String[] {"Floor","Health"}, false);
+				new String[] {"Floor","Health"}, false);
 		graphPannel.add(pnlHealth, gbc_pnlDamageGraph);
 		
 		GridBagConstraints gbc_pnlGold = new GridBagConstraints();
-		gbc_pnlGold.weighty = 8.0;
-		gbc_pnlGold.weightx = 8.0;
+		gbc_pnlGold.weighty = 15;
+		gbc_pnlGold.weightx = 15;
 		gbc_pnlGold.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlGold.fill = GridBagConstraints.BOTH;
-		gbc_pnlGold.gridx = 1;
+		gbc_pnlGold.gridx = 2;
 		gbc_pnlGold.gridy = 1;
 		pnlGold = new GraphBuilder(myRunApp.getIntGraphValuesGold()[0],myRunApp.getIntGraphValuesGold()[1],
-				300,200,new String[] {"Floor","Gold"}, false);
+				new String[] {"Floor","Gold"}, false);
 		graphPannel.add(pnlGold, gbc_pnlGold);
+		
+		JLabel spacer = new JLabel("           ");
+		GridBagConstraints gbc_spacer = new GridBagConstraints();
+		gbc_spacer.weighty = 1;
+		gbc_spacer.weightx = 1;
+		gbc_spacer.insets = new Insets(0, 0, 5, 0);
+		gbc_spacer.fill = GridBagConstraints.BOTH;
+		gbc_spacer.gridx = 1;
+		gbc_spacer.gridy = 0;
+		graphPannel.add(spacer, gbc_spacer);
 		
 		lblHealth = new JLabel("Max health change:");
 		GridBagConstraints gbc_lblHealth = new GridBagConstraints();
@@ -367,29 +354,29 @@ public class Main extends JFrame {
 		gbc_lblMaxHealth.weighty = 1.0;
 		gbc_lblMaxHealth.weightx = 1.0;
 		gbc_lblMaxHealth.insets = new Insets(0, 0, 5, 0);
-		gbc_lblMaxHealth.gridx = 1;
+		gbc_lblMaxHealth.gridx = 2;
 		gbc_lblMaxHealth.gridy = 2;
 		graphPannel.add(lblMaxHealth, gbc_lblMaxHealth);
 		
 		GridBagConstraints gbc_pnlMaxHealth = new GridBagConstraints();
-		gbc_pnlMaxHealth.weightx = 8.0;
-		gbc_pnlMaxHealth.weighty = 8.0;
+		gbc_pnlMaxHealth.weightx = 15;
+		gbc_pnlMaxHealth.weighty = 15;
 		gbc_pnlMaxHealth.insets = new Insets(0, 0, 0, 5);
 		gbc_pnlMaxHealth.fill = GridBagConstraints.BOTH;
 		gbc_pnlMaxHealth.gridx = 0;
 		gbc_pnlMaxHealth.gridy = 3;
 		pnlMaxHealth = new GraphBuilder(myRunApp.getIntGraphValuesMaxHp()[0],myRunApp.getIntGraphValuesMaxHp()[1],
-				300,200,new String[] {"Floor","Max health"}, false);
+				new String[] {"Floor","Max health"}, false);
 		graphPannel.add(pnlMaxHealth, gbc_pnlMaxHealth);
 		
 		GridBagConstraints gbc_pnlHealed = new GridBagConstraints();
-		gbc_pnlHealed.weighty = 8.0;
-		gbc_pnlHealed.weightx = 8.0;
+		gbc_pnlHealed.weighty = 15;
+		gbc_pnlHealed.weightx = 15;
 		gbc_pnlHealed.fill = GridBagConstraints.BOTH;
-		gbc_pnlHealed.gridx = 1;
+		gbc_pnlHealed.gridx = 2;
 		gbc_pnlHealed.gridy = 3;
 		pnlHealed = new GraphBuilder(myRunApp.getIntGraphValuesHealed()[0],myRunApp.getIntGraphValuesHealed()[1],
-				300,200,new String[] {"Floor","Health healed"}, false);
+				new String[] {"Floor","Health healed"}, false);
 		graphPannel.add(pnlHealed, gbc_pnlHealed);
 		
 		JPanel charSummary = new JPanel();
@@ -724,13 +711,6 @@ public class Main extends JFrame {
 		rdbtnCardSummary.doClick();
 		updateTextButtons();
 		this.pack();
-	}
-
-	public static void resizeGraphs(int width, int heigth) {
-		pnlGold.redraw(width, heigth);
-		pnlHealed.redraw(width, heigth);
-		pnlHealth.redraw(width, heigth);
-		pnlMaxHealth.redraw(width, heigth);
 	}
 	
 	private void setGraphData() {

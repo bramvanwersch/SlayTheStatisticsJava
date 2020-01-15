@@ -93,6 +93,11 @@ public class GraphBuilder extends JPanel{
 		setBounds(new Rectangle(getX(), getY(), (int)width, (int)height));
 		repaint();
 	}
+	
+	public void setData(int[][] xy) {
+		xData = xy[0];
+		yData = xy[1];
+	}
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -156,11 +156,12 @@ public class Main extends JFrame {
 				String filePath = FileChooser.open(Settings.GET_CHARACTER(), "Select a run file.", false);
 				if (filePath != null) {
 					myRunApp.setRun(filePath);
-					//TODO change this part. It feels unnecesairy
-					buildWindow();
-					setBounds(100, 100, 1600, 900);
 					changeTabName(1, "Summary of " + myRunApp.getRun());
 					changeTabName(2, "Run(" + myRunApp.getRun() + ")");
+					setGraphData();
+					rdBtnAll.doClick();
+					rdbtnCardSummary.doClick();
+					updateTextButtons();
 				}
 			}
 		});
@@ -730,6 +731,13 @@ public class Main extends JFrame {
 		pnlHealed.redraw(width, heigth);
 		pnlHealth.redraw(width, heigth);
 		pnlMaxHealth.redraw(width, heigth);
+	}
+	
+	private void setGraphData() {
+		pnlGold.setData(myRunApp.getIntGraphValuesGold());
+		pnlHealed.setData(myRunApp.getIntGraphValuesHealed());
+		pnlHealth.setData(myRunApp.getIntGraphValuesHealth());
+		pnlMaxHealth.setData(myRunApp.getIntGraphValuesMaxHp());
 	}
 	
 	private void updateRunTable(String[] keys, String filter, Object[] columnNames, int... columnWidths) {

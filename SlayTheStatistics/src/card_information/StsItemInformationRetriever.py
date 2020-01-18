@@ -5,11 +5,11 @@ from bs4 import BeautifulSoup
 
 CHARACTER_CARD_NAMES = ["Ironclad_Cards","Silent_Cards","Defect_Cards"]#,"Neutral_Cards"]
 
-def get_item_information(relics = False, cards = False):
-    if relics:
-        pass
-    if cards:
-        get_character_cards()
+def get_item_information(run_relics = False, run_cards = False):
+    if run_relics:
+        relics = get_relics()
+    if run_cards:
+        cards = get_character_cards()
 
 def get_character_cards():
     """
@@ -38,13 +38,35 @@ def get_character_cards():
             if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
             if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
             #remove _cards at the end.
-            norm_item = Item.Item(info[:3] + norm_up[0] + [name[:-6]])
+            norm_item = Item.Card(info[:3] + norm_up[0] + [name[:-6]])
             char_dict[norm_item.name] = norm_item
             #add a +1 to the name to match the name of the upgraded card.
-            up_item = Item.Item([info[0]+"+1"]+info[1:3] + norm_up[1] + [name[:-6]])
+            up_item = Item.Card([info[0]+"+1"]+info[1:3] + norm_up[1] + [name[:-6]])
             char_dict[up_item.name] = up_item
         final.append(char_dict)
     return final
+
+def get_relics():
+    """
+    Mines the relics from the wiki page.
+    :return: a dictionary of relics with names as keys and Relic objects as items.
+    """
+    url = "http://slay-the-spire.wikia.com/wiki/Relics"
+    source_code = urllib.request.urlopen(url)
+    text = str(source_code.read())
+    text = text.replace("\\n", "").replace("\\t","").replace("\\xc2\\xa0", " ")
+    soup = BeautifulSoup(text, "html.parser")
+    soup = soup.find('table').find_all('tr')[1:]
+    relic_dict = {}
+    for item in soup:
+        info = item.find_all("td")
+        #removing image information
+        del info[0]
+        info = [x.get_text() for x in info]
+        relic = Item.Relic(info)
+        # relic_dict[]
+        relic_dict[relic.name] = relic
+    return relic_dict
 
 def upgraded_info(mixed_text):
     """
@@ -75,4 +97,4 @@ def upgraded_info(mixed_text):
     return [normal_text, upgraded_text]
 
 if __name__ == "__main__":
-    get_item_information(relics = True, cards = True)
+    get_item_information(run_relics = True, run_cards = False)

@@ -1,12 +1,12 @@
 import re
 
-CHARACTER_NAMES = ["Ironclad","Silent","Defect","Watcher"]
+CHARACTER_NAMES = ["ironclad","silent","defect","watcher"]
 
 class Item:
     def __init__(self, name, rarity, description):
         self.name = name
         self.rarity = rarity
-        self.description = description
+        self.description = description.lower()
 
     def number_effects(self):
         """
@@ -25,7 +25,7 @@ class Item:
             number_effects.append(sentence_effect)
         return number_effects
 
-    def item_description_as_array(self):
+    def description_sentences(self):
         """
         Splits the description into words and sentences
         :return: An array of arrays containing words in there sentences as strings.
@@ -33,49 +33,21 @@ class Item:
         splt_text = self.description.split(".")
         final_split = []
         for sentence in splt_text:
-            words = sentence.split(" ")
-            words = [x for x in words if x != ""]
-            #remove some odd characters
-            words = [x.replace(",", "").replace(")", "").replace("(", "").replace("\\", "").replace("'", "").replace("-", "")for x in words]
+            words = self.description_words(sentence)
             if words: final_split.append(words)
         return final_split
 
-class Relic(Item):
-    def __init__(self, info):
-        Item.__init__(self,info[0],info[1],info[2])
-
-    @property
-    def character(self):
-        if "(" in self.rarity:
-            r = self.rarity
-            m = re.search("\(.+\)",r)
-            if m:
-                #naming is inconsistent this is the best way.
-                for name in CHARACTER_NAMES:
-                    if name in m.group(0):
-                        return name
-        return "any"
-
-class Card(Item):
-    def __init__(self, info):
-        Item.__init__(self,info[0], info[1],info[4])
-        self.type = info[2]
-        self.mana = info[3]
-        self.character = info[5]
-
-class IroncladCard(Card):
-    def __init__(self, item):
-        Card.__init__(self, info)
-
-class SilentCard(Card):
-    def __init__(self, item):
-        Card.__init__(self, info)
-
-class DefectCard(Card):
-    def __init__(self, info):
-        Card.__init__(self, info)
-
-class WatcherCard(Card):
-    def __init__(self, info):
-        Card.__init__(self, info)
-
+    def description_words(self, sentence = False):
+        """
+        splits a sentence into words that are devided by spaces
+        :param sentence: default the description and optionaly a self provided sentence
+        :return: an array of strings being the individual words.
+        """
+        if not sentence:
+            sentence = self.description
+        words = sentence.split(" ")
+        words = [x for x in words if x != ""]
+        # remove some odd characters
+        words = [x.replace(",", "").replace(")", "").replace("(", "").replace("\\", "").replace("'", "")\
+                 .replace("-", "").replace(".","") for x in words]
+        return words

@@ -1,18 +1,19 @@
 import urllib.request
 import re
-import Item
+import Card
+import Relic
 from bs4 import BeautifulSoup
 
-CHARACTER_CARD_NAMES = ["Ironclad","Silent","Defect", "Watcher"]#,"Neutral_Cards"]
+#TODO: change because jsut for tests
+CHARACTER_CARD_NAMES = ["Ironclad"]#,"Silent","Defect", "Watcher"]#,"Neutral_Cards"]
 
 def get_item_information(run_relics = False, run_cards = False):
     if run_relics:
         relics = get_relics()
     if run_cards:
-        all_cards = []
+        all_cards = {}
         for character in CHARACTER_CARD_NAMES:
-            all_cards.append(get_character_cards(character))
-    print(all_cards)
+            all_cards[character] = get_character_cards(character)
 
 def get_character_cards(name):
     """
@@ -39,12 +40,12 @@ def get_character_cards(name):
         #replace no mana cost cards whit unplayable
         if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
         if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
-        #remove _cards at the end.
-        norm_item = Item.Card(info[:3] + norm_up[0] + [name])
-        char_dict[norm_item.name] = norm_item
+        character_card_class = getattr(Item, name+"Card")
+        norm_card = Item.Card(info[:3] + norm_up[0])
+        char_dict[norm_card.name] = norm_card
         #add a +1 to the name to match the name of the upgraded card.
-        up_item = Item.Card([info[0]+"+1"]+info[1:3] + norm_up[1] + [name])
-        char_dict[up_item.name] = up_item
+        up_card = character_card_class([info[0]+"+1"]+info[1:3] + norm_up[1])
+        char_dict[up_card.name] = up_card
     return char_dict
 
 def get_relics():

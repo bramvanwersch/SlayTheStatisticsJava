@@ -3,48 +3,49 @@ import re
 import Item
 from bs4 import BeautifulSoup
 
-CHARACTER_CARD_NAMES = ["Ironclad_Cards","Silent_Cards","Defect_Cards"]#,"Neutral_Cards"]
+CHARACTER_CARD_NAMES = ["Ironclad","Silent","Defect", "Watcher"]#,"Neutral_Cards"]
 
 def get_item_information(run_relics = False, run_cards = False):
     if run_relics:
         relics = get_relics()
     if run_cards:
-        cards = get_character_cards()
+        all_cards = []
+        for character in CHARACTER_CARD_NAMES:
+            all_cards.append(get_character_cards(character))
+    print(all_cards)
 
-def get_character_cards():
+def get_character_cards(name):
     """
     Get all the normal and upgraded cards for all of the characters in CHARACTER_CARD_NAMES
     :return: a array of dictionaries for each character in the order of the characters ub CHARACTER_CARD_NAMES
     """
     final = []
-    for name in CHARACTER_CARD_NAMES:
-        char_dict = {}
-        url = "http://slay-the-spire.wikia.com/wiki/" + name
-        source_code = urllib.request.urlopen(url)
-        text = str(source_code.read())
-        text = text.replace("\\n", "").replace("\\t","").replace("\\xc2\\xa0", " ")
-        html_text = BeautifulSoup(text, "html.parser")
-        #first entry is an empty match.
-        html_text = html_text.find('table').find_all("tr")[1:]
-        for item in html_text:
-            info = item.find_all("td")
-            #removing image information
-            del info[1]
-            #removing hyperlinks and html borders
-            info = [x.get_text() for x in info]
-            #getting normal and upgraded inforation. Taking only this part because sometimes empty matches at the end.
-            norm_up = upgraded_info(info[3:5])
-            #replace no mana cost cards whit unplayable
-            if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
-            if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
-            #remove _cards at the end.
-            norm_item = Item.Card(info[:3] + norm_up[0] + [name[:-6]])
-            char_dict[norm_item.name] = norm_item
-            #add a +1 to the name to match the name of the upgraded card.
-            up_item = Item.Card([info[0]+"+1"]+info[1:3] + norm_up[1] + [name[:-6]])
-            char_dict[up_item.name] = up_item
-        final.append(char_dict)
-    return final
+    char_dict = {}
+    url = "http://slay-the-spire.wikia.com/wiki/" + name + "_Cards"
+    source_code = urllib.request.urlopen(url)
+    text = str(source_code.read())
+    text = text.replace("\\n", "").replace("\\t","").replace("\\xc2\\xa0", " ")
+    html_text = BeautifulSoup(text, "html.parser")
+    #first entry is an empty match.
+    html_text = html_text.find('table').find_all("tr")[1:]
+    for item in html_text:
+        info = item.find_all("td")
+        #removing image information
+        del info[1]
+        #removing hyperlinks and html borders
+        info = [x.get_text() for x in info]
+        #getting normal and upgraded inforation. Taking only this part because sometimes empty matches at the end.
+        norm_up = upgraded_info(info[3:5])
+        #replace no mana cost cards whit unplayable
+        if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
+        if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
+        #remove _cards at the end.
+        norm_item = Item.Card(info[:3] + norm_up[0] + [name])
+        char_dict[norm_item.name] = norm_item
+        #add a +1 to the name to match the name of the upgraded card.
+        up_item = Item.Card([info[0]+"+1"]+info[1:3] + norm_up[1] + [name])
+        char_dict[up_item.name] = up_item
+    return char_dict
 
 def get_relics():
     """
@@ -66,6 +67,7 @@ def get_relics():
         relic = Item.Relic(info)
         # relic_dict[]
         relic_dict[relic.name] = relic
+        print(relic.character)
     return relic_dict
 
 def upgraded_info(mixed_text):
@@ -97,4 +99,4 @@ def upgraded_info(mixed_text):
     return [normal_text, upgraded_text]
 
 if __name__ == "__main__":
-    get_item_information(run_relics = True, run_cards = False)
+    get_item_information(run_relics = False, run_cards = True)

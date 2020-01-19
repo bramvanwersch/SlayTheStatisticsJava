@@ -14,15 +14,15 @@ class Item:
         :return: an array of arrays that contains the numbers and effects for each sentence.
         """
         number_effects = []
-        for line in self.item_description_as_array():
+        for line in self.description_sentences():
             number_indexes = [x for x in range(len(line)) if line[x].isdigit()]
             sentence_effect = []
             for index in number_indexes:
                 try:
-                    sentence_effect.append("{} {}".format(line[index], line[index + 1]))
+                    sentence_effect.append("{} {} {}".format(line[index -1], line[index], line[index + 1]))
                 except IndexError:
                     sentence_effect.append(line[index])
-            number_effects.append(sentence_effect)
+            if sentence_effect: number_effects.append(sentence_effect)
         return number_effects
 
     def description_sentences(self):
@@ -43,7 +43,7 @@ class Item:
         :param sentence: default the description and optionaly a self provided sentence
         :return: an array of strings being the individual words.
         """
-        if not sentence:
+        if sentence == False:
             sentence = self.description
         words = sentence.split(" ")
         words = [x for x in words if x != ""]

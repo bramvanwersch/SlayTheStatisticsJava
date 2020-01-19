@@ -1,8 +1,8 @@
 import Item
 
-class Card(Item):
+class Card(Item.Item):
     def __init__(self, info):
-        Item.__init__(self,info[0], info[1],info[4])
+        Item.Item.__init__(self,info[0], info[1],info[4])
         self.type = info[2]
         self.mana = info[3]
 
@@ -12,13 +12,6 @@ class Card(Item):
         :return: a boolean telling if the card has an exhaust property
         """
         return "exhaust" in self.description_words()
-
-    @property
-    def vulnerable(self):
-        """
-        :return: a boolean telling if the card has an exhaust property
-        """
-        return "vulnerable" in self.description_words()
 
 class IroncladCard(Card):
     def __init__(self, info):

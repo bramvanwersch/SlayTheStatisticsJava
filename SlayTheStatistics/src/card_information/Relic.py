@@ -1,6 +1,6 @@
 import Item
 
-class Relic(Item):
+class Relic(Item.Item):
     def __init__(self, info):
         Item.__init__(self,info[0],info[1],info[2])
 

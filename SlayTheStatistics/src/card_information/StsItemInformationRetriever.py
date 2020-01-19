@@ -40,8 +40,8 @@ def get_character_cards(name):
         #replace no mana cost cards whit unplayable
         if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
         if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
-        character_card_class = getattr(Item, name+"Card")
-        norm_card = Item.Card(info[:3] + norm_up[0])
+        character_card_class = getattr(Card, name+"Card")
+        norm_card = character_card_class(info[:3] + norm_up[0])
         char_dict[norm_card.name] = norm_card
         #add a +1 to the name to match the name of the upgraded card.
         up_card = character_card_class([info[0]+"+1"]+info[1:3] + norm_up[1])

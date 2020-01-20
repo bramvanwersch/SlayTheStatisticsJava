@@ -1,19 +1,40 @@
 import re
 
-
 class Item:
     def __init__(self, name, rarity, description):
+        # these do not capture all effects but these are certain without false hits except for conditional effects.
+        self.__POSITIVE_EFFECTS = ["apply","deal","gain","draw","add", "channel", "heal"]
+        self.__NEGTIVE_EFFECTS = ["exhaust", "lose","remove", "discard"]
+        self.__EFFECT_MODIFIERS = ["all","twice","each","random", "shuffle","additional","increase","time","times","double"]
+        self.__CONDITIONAL_MODIFIERS = ["whenever","next","if","for","next","equal","choose","discarded","only","kills","until"]
         self.name = name
         self.rarity = rarity
         self.description = description.lower()
-        self.__numericalEffects = self.__calculateEffects()
-        self.__CHARACTER_NAMES = ["ironclad","silent","defect","watcher"]
+        self.__numericalEffects = {}
+        self.__calculateEffects()
 
     def getNumericalEffect(self, key):
+        """
+        Retrieve a numerical effect of a certain type by a key of the effect (damage, block).
+        :param key: a string representing the ket for which a value is saved
+        :return: an integer that quantifies the effect of the item
+        """
         return self.__numerical_effects[key]
 
     def __calculateEffects(self):
-        pass
+        effects = self.__numberEffects()
+
+        for effect in effects:
+            if effect[0] in self.__POSITIVE_EFFECTS:
+                try:
+                    self.__numericalEffects[effect[2]] = int(effect[1])
+                    #incass of X effects
+                except ValueError:
+                    self.__numericalEffects[effect[2]] = effect[1]
+            elif effect[0] in self.__NEGTIVE_EFFECTS:
+                self.__numericalEffects[effect[2]] = -1 * int(effect[1])
+            else:
+                continue
 
     def __numberEffects(self):
         """
@@ -21,19 +42,18 @@ class Item:
         :return: an array of arrays that contains the numbers and effects for each sentence.
         """
         number_effects = []
-        for line in self.description_sentences():
+        for line in self._descriptionSentences():
             number_indexes = [x for x in range(len(line)) if line[x].isdigit() or line[x] == "x"]
             for index in number_indexes:
                 # precaution dont expect this scenario
                 if index - 1 < 0 and index + 1 >= len(line):
                     number_effects.append(line[index])
                 elif index - 1 < 0:
-                    number_effects.append("{} {}".format(line[index], line[index + 1]))
+                    number_effects.append([line[index], line[index + 1]])
                 elif index + 1 >= len(line):
-                    number_effects.append("{} {}".format(line[index -1], line[index]))
+                    number_effects.append([line[index -1], line[index]])
                 else:
-                    number_effects.append("{} {} {}".format(line[index -1], line[index], line[index + 1]))
-
+                    number_effects.append([line[index -1], line[index], line[index + 1]])
         return number_effects
 
     def _descriptionSentences(self):
@@ -44,11 +64,11 @@ class Item:
         splt_text = self.description.split(".")
         final_split = []
         for sentence in splt_text:
-            words = self.description_words(sentence)
+            words = self.descriptionWords(sentence)
             if words: final_split.append(words)
         return final_split
 
-    def _descriptionWords(self, sentence = False):
+    def descriptionWords(self, sentence = False):
         """
         splits a sentence into words that are devided by spaces
         :param sentence: default the description and optionaly a self provided sentence

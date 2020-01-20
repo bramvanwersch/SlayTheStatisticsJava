@@ -5,20 +5,23 @@ import Relic
 from bs4 import BeautifulSoup
 
 #TODO: change because jsut for tests
-CHARACTER_CARD_NAMES = ["Ironclad"]#,"Silent","Defect", "Watcher"]#,"Neutral_Cards"]
+CHARACTER_CARD_NAMES = ["Silent","Defect", "Watcher","Ironclad"]#,"Neutral_Cards"]
 
-def getItemInformation(run_relics = False, run_cards = False):
+def getItemInformation(run_relics = False, run_cards = False, characters = CHARACTER_CARD_NAMES):
+    relics, all_cards = {},{}
     if run_relics:
         relics = getRelics()
     if run_cards:
         all_cards = {}
-        for character in CHARACTER_CARD_NAMES:
+        for character in characters:
             all_cards[character] = getCharacterCards(character)
+    return [relics, all_cards]
 
 def getCharacterCards(name):
     """
     Get all the normal and upgraded cards for all of the characters in CHARACTER_CARD_NAMES
-    :return: a array of dictionaries for each character in the order of the characters ub CHARACTER_CARD_NAMES
+    :param name a String giving a character name
+    :return: a dictionaries for the character provided by name
     """
     final = []
     char_dict = {}
@@ -65,10 +68,9 @@ def getRelics():
         #removing image information
         del info[0]
         info = [x.get_text() for x in info]
-        relic = Item.Relic(info)
+        relic = Relic.Relic(info)
         # relic_dict[]
         relic_dict[relic.name] = relic
-        print(relic.character)
     return relic_dict
 
 def upgradedInfo(mixed_text):
@@ -99,5 +101,26 @@ def upgradedInfo(mixed_text):
             upgraded_text[1] = upgraded_text[1].replace("(", " ").replace(")"," ")
     return [normal_text, upgraded_text]
 
+def testFucntion():
+    all_cards = getItemInformation(run_relics = False, run_cards = True)[1]
+    word_dict = {}
+    ban_list = ["a","gain","card","deal","block","damage","apply","deal","gain","draw","add", "channel", "heal",\
+                "exhaust", "lose","remove", "discard"]
+    for character_cards in all_cards.keys():
+        cards_dict = all_cards[character_cards]
+        for key in cards_dict.keys():
+            words = cards_dict[key].descriptionWords()
+            for word in words:
+                if word.isdigit() or word in ban_list:
+                    continue
+                elif word in word_dict.keys():
+                    word_dict[word] += 1
+                else:
+                    word_dict[word] = 1
+    for key in sorted(word_dict, key=lambda x: int(word_dict[x])):
+        print("{} : {}".format(key, word_dict[key]))
+
+
 if __name__ == "__main__":
-    getItemInformation(run_relics = False, run_cards = True)
+    testFucntion()
+   # getItemInformation(run_relics = False, run_cards = True)

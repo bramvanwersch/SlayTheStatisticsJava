@@ -11,7 +11,15 @@ class Card(Item.Item):
         """
         :return: a boolean telling if the card has an exhaust property
         """
-        return "exhaust" in self.description_words()
+        return "exhaust." in self.description_words()
+
+    @property
+    def innate(self):
+        return "ïnnate." in self.description_words()
+
+    @property #check if this is the correct name
+    def ethereal(self):
+        return "ethereal." in self.description_words()
 
 class IroncladCard(Card):
     def __init__(self, info):
@@ -33,4 +41,18 @@ class WatcherCard(Card):
         Card.__init__(self, info)
         self.character = "Watcher"
 
+    @property
+    def retain(self):
+        return "retain" in self.description_words()
 
+
+"""
+firs word for direction of effect
+second word for number of effect
+third word for the effect
+if no numbers are available check for certain keywords that notify a effect
+check for global modifiers like turn or something to that effect.
+There are single key words that notify of a certain effect
+Check for enemies on wiki and check for the effects those have.
+Also check for potions.
+"""

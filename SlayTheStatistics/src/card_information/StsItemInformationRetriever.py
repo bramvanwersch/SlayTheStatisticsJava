@@ -46,6 +46,7 @@ def get_character_cards(name):
         #add a +1 to the name to match the name of the upgraded card.
         up_card = character_card_class([info[0]+"+1"]+info[1:3] + norm_up[1])
         char_dict[up_card.name] = up_card
+        print(norm_card.number_effects(),up_card.number_effects())
     return char_dict
 
 def get_relics():

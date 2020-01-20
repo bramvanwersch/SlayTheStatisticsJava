@@ -11,15 +11,15 @@ class Card(Item.Item):
         """
         :return: a boolean telling if the card has an exhaust property
         """
-        return "exhaust." in self.description_words()
+        return "exhaust." in self._descriptionWords()
 
     @property
     def innate(self):
-        return "ïnnate." in self.description_words()
+        return "ïnnate." in self._descriptionWords()
 
     @property #check if this is the correct name
     def ethereal(self):
-        return "ethereal." in self.description_words()
+        return "ethereal." in self._descriptionWords()
 
 class IroncladCard(Card):
     def __init__(self, info):
@@ -43,7 +43,7 @@ class WatcherCard(Card):
 
     @property
     def retain(self):
-        return "retain" in self.description_words()
+        return "retain" in self._descriptionWords()
 
 
 """

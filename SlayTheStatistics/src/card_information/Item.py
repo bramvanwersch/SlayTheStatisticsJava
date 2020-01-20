@@ -1,14 +1,21 @@
 import re
 
-CHARACTER_NAMES = ["ironclad","silent","defect","watcher"]
 
 class Item:
     def __init__(self, name, rarity, description):
         self.name = name
         self.rarity = rarity
         self.description = description.lower()
+        self.__numericalEffects = self.__calculateEffects()
+        self.__CHARACTER_NAMES = ["ironclad","silent","defect","watcher"]
 
-    def number_effects(self):
+    def getNumericalEffect(self, key):
+        return self.__numerical_effects[key]
+
+    def __calculateEffects(self):
+        pass
+
+    def __numberEffects(self):
         """
         Gets the number and words around it for a card to determine what the quantifiable effect is.
         :return: an array of arrays that contains the numbers and effects for each sentence.
@@ -29,7 +36,7 @@ class Item:
 
         return number_effects
 
-    def description_sentences(self):
+    def _descriptionSentences(self):
         """
         Splits the description into words and sentences
         :return: An array of arrays containing words in there sentences as strings.
@@ -41,7 +48,7 @@ class Item:
             if words: final_split.append(words)
         return final_split
 
-    def description_words(self, sentence = False):
+    def _descriptionWords(self, sentence = False):
         """
         splits a sentence into words that are devided by spaces
         :param sentence: default the description and optionaly a self provided sentence

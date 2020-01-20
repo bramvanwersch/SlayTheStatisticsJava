@@ -7,15 +7,15 @@ from bs4 import BeautifulSoup
 #TODO: change because jsut for tests
 CHARACTER_CARD_NAMES = ["Ironclad"]#,"Silent","Defect", "Watcher"]#,"Neutral_Cards"]
 
-def get_item_information(run_relics = False, run_cards = False):
+def getItemInformation(run_relics = False, run_cards = False):
     if run_relics:
-        relics = get_relics()
+        relics = getRelics()
     if run_cards:
         all_cards = {}
         for character in CHARACTER_CARD_NAMES:
-            all_cards[character] = get_character_cards(character)
+            all_cards[character] = getCharacterCards(character)
 
-def get_character_cards(name):
+def getCharacterCards(name):
     """
     Get all the normal and upgraded cards for all of the characters in CHARACTER_CARD_NAMES
     :return: a array of dictionaries for each character in the order of the characters ub CHARACTER_CARD_NAMES
@@ -36,7 +36,7 @@ def get_character_cards(name):
         #removing hyperlinks and html borders
         info = [x.get_text() for x in info]
         #getting normal and upgraded inforation. Taking only this part because sometimes empty matches at the end.
-        norm_up = upgraded_info(info[3:5])
+        norm_up = upgradedInfo(info[3:5])
         #replace no mana cost cards whit unplayable
         if norm_up[0][0] == "": norm_up[0] = ["Unplayable"] + [norm_up[0][1]]
         if norm_up[1][0] == "": norm_up[1] = ["Unplayable"] + [norm_up[1][1]]
@@ -46,10 +46,9 @@ def get_character_cards(name):
         #add a +1 to the name to match the name of the upgraded card.
         up_card = character_card_class([info[0]+"+1"]+info[1:3] + norm_up[1])
         char_dict[up_card.name] = up_card
-        print(norm_card.number_effects(),up_card.number_effects())
     return char_dict
 
-def get_relics():
+def getRelics():
     """
     Mines the relics from the wiki page.
     :return: a dictionary of relics with names as keys and Relic objects as items.
@@ -72,7 +71,7 @@ def get_relics():
         print(relic.character)
     return relic_dict
 
-def upgraded_info(mixed_text):
+def upgradedInfo(mixed_text):
     """
     Function for getting the upgraded and normal version of a card. The information gives
     both in one text. based on the brackets diferentiating the two is possible at least for
@@ -101,4 +100,4 @@ def upgraded_info(mixed_text):
     return [normal_text, upgraded_text]
 
 if __name__ == "__main__":
-    get_item_information(run_relics = False, run_cards = True)
+    getItemInformation(run_relics = False, run_cards = True)

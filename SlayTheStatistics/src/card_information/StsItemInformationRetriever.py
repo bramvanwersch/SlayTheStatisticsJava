@@ -80,9 +80,6 @@ def upgradedInfo(mixed_text):
     description
     :param mixed_text array of 2 strings, one being the mined mana cost and the other being the mined description.
     :returns an array of arrays containing a list of normal information and a list of upgraded information
-
-    NOTE: this does not solve all problems eg. card(s) solved double(triple) not solved. These bracket problems
-    are hard to estimate when to include what.
     """
     normal_text, upgraded_text = [],[]
     for x in range(len(mixed_text)):
@@ -100,14 +97,32 @@ def upgradedInfo(mixed_text):
         #this does not solve all problems eg. card(s) solved double(triple) not solved.
         if x == 1:
             normal_text[1] = re.sub("(\([A-z0-9\.\+ ]+?\))","",normal_text[1])
-            upgraded_text[1] = upgraded_text[1].replace("(", "").replace(")"," ")
+            up_text_vals = re.findall("\((.+?)\)", upgraded_text[1])
+            for val in up_text_vals:
+                # all values that need addition instead of replacement.
+                print(val, upgraded_text)
+                if val in ["s","+1","+3", "2", "It costs 0 this turn."]:
+                    upgraded_text[1] = upgraded_text[1].replace("(", "",1).replace(")"," ",1)
+                # all values to be ignored
+                elif "not" in val:
+                    upgraded_text[1] = re.sub("[A-z]+\.? ?\(.+?\)", "", upgraded_text[1], 1)
+                elif val in ["BETA"]:
+                    continue
+                #all values that need to replace the word infront of the bracket (only can do one word).
+                else:
+                    #regex for matching a potential word followed by potentialy a point or space
+                    upgraded_text[1] = re.sub("[A-z]*?\.? ?\(.+?\)", " " + val, upgraded_text[1], 1)
+                print(upgraded_text)
     return [normal_text, upgraded_text]
 
-def testFucntion():
+def countDescriptionWords():
+    """
+    Function for making the program that helps distinguish different words present in the description of cards
+    """
     all_cards = getItemInformation(run_relics = False, run_cards = True)[1]
     word_dict = {}
-    ban_list = ["a","gain","card","deal","block","damage","apply","deal","gain","draw","add", "channel", "heal",\
-                "exhaust", "lose","remove", "discard"]
+    # ban_list = ["a","gain","card","deal","block","damage","apply","deal","gain","draw","add", "channel", "heal",\
+    #             "exhaust", "lose","remove", "discard"]
     for character_cards in all_cards.keys():
         cards_dict = all_cards[character_cards]
         for key in cards_dict.keys():
@@ -122,7 +137,22 @@ def testFucntion():
     for key in sorted(word_dict, key=lambda x: int(word_dict[x])):
         print("{} : {}".format(key, word_dict[key]))
 
+def getDescriptionWithWord(*words):
+    all_cards = getItemInformation(run_relics = False, run_cards = True)[1]
+    for word in words:
+        descriptions = []
+        for character_cards in all_cards.keys():
+            cards_dict = all_cards[character_cards]
+            for key in cards_dict.keys():
+                if word in cards_dict[key].descriptionWords():
+                    descriptions.append(cards_dict[key].description)
+        print("{}:\n".format(word))
+        for description in descriptions:
+            print("- {}".format(description))
+
 
 if __name__ == "__main__":
-    testFucntion()
+    #countDescriptionWords()
+    getDescriptionWithWord("all", "twice", "each", "random", "shuffle", "additional", "increase", "time", "times",
+     "double")
    # getItemInformation(run_relics = False, run_cards = True)

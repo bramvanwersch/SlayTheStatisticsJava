@@ -100,7 +100,6 @@ def upgradedInfo(mixed_text):
             up_text_vals = re.findall("\((.+?)\)", upgraded_text[1])
             for val in up_text_vals:
                 # all values that need addition instead of replacement.
-                print(val, upgraded_text)
                 if val in ["s","+1","+3", "2", "It costs 0 this turn."]:
                     upgraded_text[1] = upgraded_text[1].replace("(", "",1).replace(")"," ",1)
                 # all values to be ignored
@@ -112,7 +111,6 @@ def upgradedInfo(mixed_text):
                 else:
                     #regex for matching a potential word followed by potentialy a point or space
                     upgraded_text[1] = re.sub("[A-z]*?\.? ?\(.+?\)", " " + val, upgraded_text[1], 1)
-                print(upgraded_text)
     return [normal_text, upgraded_text]
 
 def countDescriptionWords():

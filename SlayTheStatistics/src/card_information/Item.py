@@ -11,7 +11,8 @@ class Item:
                                         "until","loses"]
         self.name = name
         self.rarity = rarity
-        self.description = description.lower()
+        self.description = ""
+        self.__format_description(description)
         self.__numericalEffects = {}
         self.__calculateEffects()
 
@@ -23,9 +24,14 @@ class Item:
         """
         return self.__numerical_effects[key]
 
+    def __format_description(self, description):
+        description = description.lower()
+        description = description.replace(",", " ").replace(")", " ").replace("(", " ").replace("\\", " ").replace("'", " ")\
+                 .replace("-", " ").replace(".",". ")
+        self.description = " ".join(description.split()).strip()
+
     def __calculateEffects(self):
         effects = self.__numberEffects()
-
         for effect in effects:
             if effect[0] in self.__POSITIVE_EFFECTS:
                 try:
@@ -45,7 +51,7 @@ class Item:
         """
         number_effects = []
         for line in self._descriptionSentences():
-            number_indexes = [x for x in range(len(line)) if line[x].isdigit() or line[x] == "x"]
+            number_indexes = [x for x in range(len(line)) if line[x].isdigit() or line[x] == "x" or line[x] == "x+1"]
             for index in number_indexes:
                 # precaution dont expect this scenario
                 if index - 1 < 0 and index + 1 >= len(line):
@@ -80,7 +86,4 @@ class Item:
             sentence = self.description
         words = sentence.split(" ")
         words = [x for x in words if x != ""]
-        # remove some odd characters
-        words = [x.replace(",", "").replace(")", "").replace("(", "").replace("\\", "").replace("'", "")\
-                 .replace("-", "").replace(".","") for x in words]
         return words

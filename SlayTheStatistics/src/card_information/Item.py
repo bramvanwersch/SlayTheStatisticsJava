@@ -5,8 +5,10 @@ class Item:
         # these do not capture all effects but these are certain without false hits except for conditional effects.
         self.__POSITIVE_EFFECTS = ["apply","deal","gain","draw","add", "channel", "heal"]
         self.__NEGTIVE_EFFECTS = ["exhaust", "lose","remove", "discard"]
-        self.__EFFECT_MODIFIERS = ["all","twice","each","random", "shuffle","additional","increase","time","times","double"]
-        self.__CONDITIONAL_MODIFIERS = ["whenever","next","if","for","next","equal","choose","discarded","only","kills","until"]
+        self.__EFFECT_MODIFIERS = ["all","twice","each","random", "shuffle","additional","increase","time","times",
+                                   "double"]
+        self.__CONDITIONAL_MODIFIERS = ["whenever","next","if","for","next","equal","choose","discarded","only","kills",
+                                        "until","loses"]
         self.name = name
         self.rarity = rarity
         self.description = description.lower()

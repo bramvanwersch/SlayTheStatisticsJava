@@ -76,13 +76,13 @@ def getRelics():
 def upgradedInfo(mixed_text):
     """
     Function for getting the upgraded and normal version of a card. The information gives
-    both in one text. based on the brackets diferentiating the two is possible at least for
-    the numbers
-
+    both in one text. This is done based on the brackets in the text. Both for the mana cost and the
+    description
+    :param mixed_text array of 2 strings, one being the mined mana cost and the other being the mined description.
     :returns an array of arrays containing a list of normal information and a list of upgraded information
 
-    NOTE: does not properly seperate text for upgraded and normal cards. So descriptions of cards can be
-    innacurate. That is at this moment not that important
+    NOTE: this does not solve all problems eg. card(s) solved double(triple) not solved. These bracket problems
+    are hard to estimate when to include what.
     """
     normal_text, upgraded_text = [],[]
     for x in range(len(mixed_text)):
@@ -96,9 +96,11 @@ def upgradedInfo(mixed_text):
         else:
             normal_text += [re.sub("([0-9]+\([0-9]+\))", "{}", mixed_text[x]).format(*norm_val)]
             upgraded_text += [re.sub("[0-9]+\([0-9]+\)", "{}", mixed_text[x]).format(*up_val)]
+        #when looking at the description try to remove between brackets text to make description nicer.
+        #this does not solve all problems eg. card(s) solved double(triple) not solved.
         if x == 1:
             normal_text[1] = re.sub("(\([A-z0-9\.\+ ]+?\))","",normal_text[1])
-            upgraded_text[1] = upgraded_text[1].replace("(", " ").replace(")"," ")
+            upgraded_text[1] = upgraded_text[1].replace("(", "").replace(")"," ")
     return [normal_text, upgraded_text]
 
 def testFucntion():

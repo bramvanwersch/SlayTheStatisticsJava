@@ -5,9 +5,9 @@ class Item:
         # these do not capture all effects but these are certain without false hits except for conditional effects.
         self.__POSITIVE_EFFECTS = ["apply","deal","gain","draw","add", "channel", "heal"]
         self.__NEGTIVE_EFFECTS = ["exhaust", "lose","remove", "discard"]
-        self.__EFFECT_MODIFIERS = ["all","twice","each","random", "shuffle","additional","increase","time","times",
+        self.__EFFECT_MODIFIERS = ["all","twice","for each","random", "shuffle","additional","increase","time","times",
                                    "double"]
-        self.__CONDITIONAL_MODIFIERS = ["whenever","next","if","for","next","equal","choose","discarded","only","kills",
+        self.__CONDITIONAL_MODIFIERS = ["whenever","next","if","next","equal","choose","discarded","only","kills",
                                         "until","loses"]
         self.name = name
         self.rarity = rarity
@@ -23,6 +23,13 @@ class Item:
         :return: an integer that quantifies the effect of the item
         """
         return self.__numerical_effects[key]
+
+    def getAllEffects(self):
+        """
+        Give all the keys saved for an item.
+        :return:
+        """
+        return self.__numericalEffects.keys()
 
     def __format_description(self, description):
         description = description.lower()
@@ -46,7 +53,8 @@ class Item:
 
     def __numberEffects(self):
         """
-        Gets the number and words around it for a card to determine what the quantifiable effect is.
+        Gets the number and words around it for a card to determine what the quantifiable effect is. Invluding the x
+        and x+1 effects.
         :return: an array of arrays that contains the numbers and effects for each sentence.
         """
         number_effects = []

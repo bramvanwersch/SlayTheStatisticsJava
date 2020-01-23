@@ -13,6 +13,10 @@ class Relic(Item.Item):
 
     @character.setter
     def character(self, value):
+        """
+        Sets the character to the default value 'any' or to the value in the rarity
+        :param value: the default value
+        """
         if "(" in self.rarity:
             r = self.rarity.lower()
             m = re.search("\(.+\)", r)

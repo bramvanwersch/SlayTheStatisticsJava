@@ -52,4 +52,6 @@ check for global modifiers like turn or something to that effect.
 There are single key words that notify of a certain effect
 Check for enemies on wiki and check for the effects those have.
 Also check for potions.
+enemy information:
+https://docs.google.com/spreadsheets/d/1ZsxNXebbELpcCi8N7FVOTNGdX_K9-BRC_LMgx4TORo4/edit#gid=1989923881
 """

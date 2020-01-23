@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 
 #TODO: change because jsut for tests
 CHARACTER_CARD_NAMES = ["Silent","Defect", "Watcher","Ironclad"]#,"Neutral_Cards"]
+BASE_HEADER = ["Name","Character","Type","Rarity","Cost","Description"]
+
 
 def getItemInformation(run_relics = False, run_cards = False, characters = CHARACTER_CARD_NAMES):
     relics, all_cards = {},{}
@@ -142,15 +144,39 @@ def getDescriptionWithWord(*words):
         for character_cards in all_cards.keys():
             cards_dict = all_cards[character_cards]
             for key in cards_dict.keys():
-                if word in cards_dict[key].descriptionWords():
+                if word in cards_dict[key].description:
                     descriptions.append(cards_dict[key].description)
         print("{}:\n".format(word))
         for description in descriptions:
             print("- {}".format(description))
 
+def writeCardCsvFile(file_name):
+    f = open("..\\..\\data\\" + file_name, "w")
+    card_info = []
+    effects = []
+    for character in cards.keys():
+        character_dict = cards[character]
+        for card_name in character_dict.keys():
+            card = character_dict[card_name]
+            effects += card.getAllEffects()
+            # card_info = []
+            # card_info += [card.name, card.character, card.type, card.rarity, card.mana, card.description]
+            # for effect in card.getAllEffects():
+            #     for i in range(len(header)):
+            #         if header[i] == effect:
+            #             card_info.append()
+            # print(card.getAllEffects())
+    effects = set(effects)
+    f.write("\t".join(BASE_HEADER + effects))
+    f.close()
+
 
 if __name__ == "__main__":
     #countDescriptionWords()
-    getDescriptionWithWord("all", "twice", "each", "random", "shuffle", "additional", "increase", "time", "times",
-     "double")
-   # getItemInformation(run_relics = False, run_cards = True)
+    # getDescriptionWithWord("all", "twice", "for each", "random", "shuffle", "additional", "increase", "time", "times",
+    #  "double")
+    relics, cards = getItemInformation(run_relics = False, run_cards = True)
+    writeCardCsvFile("card_values.txt")
+
+
+#for each pattern: for each (name of thing) (thing done to it) --> generally speaking

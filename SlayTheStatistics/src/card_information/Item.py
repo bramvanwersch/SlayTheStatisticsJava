@@ -22,7 +22,7 @@ class Item:
         :param key: a string representing the ket for which a value is saved
         :return: an integer that quantifies the effect of the item
         """
-        return self.__numerical_effects[key]
+        return self.__numericalEffects[key]
 
     def getAllEffects(self):
         """

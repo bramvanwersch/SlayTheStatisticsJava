@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 
 #TODO: change because jsut for tests
 CHARACTER_CARD_NAMES = ["Silent","Defect", "Watcher","Ironclad"]#,"Neutral_Cards"]
-BASE_HEADER = ["Name","Character","Type","Rarity","Cost","Description"]
+CARD_HEADER = ["Name","Character","Type","Rarity","Cost","Description"]
+RELIC_HEADER = ["Name","Character","Rarity","Description"]
 
 
 def getItemInformation(run_relics = False, run_cards = False, characters = CHARACTER_CARD_NAMES):
@@ -152,22 +153,50 @@ def getDescriptionWithWord(*words):
 
 def writeCardCsvFile(file_name):
     f = open("..\\..\\data\\" + file_name, "w")
-    card_info = []
     effects = []
     for character in cards.keys():
         character_dict = cards[character]
         for card_name in character_dict.keys():
             card = character_dict[card_name]
             effects += card.getAllEffects()
-            # card_info = []
-            # card_info += [card.name, card.character, card.type, card.rarity, card.mana, card.description]
-            # for effect in card.getAllEffects():
-            #     for i in range(len(header)):
-            #         if header[i] == effect:
-            #             card_info.append()
-            # print(card.getAllEffects())
     effects = set(effects)
-    f.write("\t".join(BASE_HEADER + effects))
+    header = CARD_HEADER
+    header += [x for x in effects]
+    f.write("\t".join(header) + "\n")
+    for character in cards.keys():
+        character_dict = cards[character]
+        for card_name in character_dict.keys():
+            card = character_dict[card_name]
+            card_info = []
+            card_info += [card.name, card.character, card.type, card.rarity, card.mana, card.description]
+            for effect in effects:
+                if effect in card.getAllEffects():
+                    card_info.append(str(card.getNumericalEffect(effect)))
+                else:
+                    card_info.append("0")
+            f.write("\t".join(card_info) + "\n")
+    f.close()
+
+def writeRelicCsvFile(file_name):
+    f = open("..\\..\\data\\" + file_name, "w")
+    effects = []
+    for relic_name in relics.keys():
+        relic = relics[relic_name]
+        effects += relic.getAllEffects()
+    effects = set(effects)
+    header = RELIC_HEADER
+    header += [x for x in effects]
+    f.write("\t".join(header) + "\n")
+    for relic_name in relics.keys():
+        relic = relics[relic_name]
+        relic_info = []
+        relic_info += [relic.name, relic.character, relic.rarity, relic.description]
+        for effect in effects:
+            if effect in relic.getAllEffects():
+                relic_info.append(str(relic.getNumericalEffect(effect)))
+            else:
+                relic_info.append("0")
+        f.write("\t".join(relic_info) + "\n")
     f.close()
 
 
@@ -175,8 +204,9 @@ if __name__ == "__main__":
     #countDescriptionWords()
     # getDescriptionWithWord("all", "twice", "for each", "random", "shuffle", "additional", "increase", "time", "times",
     #  "double")
-    relics, cards = getItemInformation(run_relics = False, run_cards = True)
-    writeCardCsvFile("card_values.txt")
+    relics, cards = getItemInformation(run_relics = True, run_cards = True)
+    writeCardCsvFile("card_values.tsv")
+    writeRelicCsvFile("relic_values.tsv")
 
 
 #for each pattern: for each (name of thing) (thing done to it) --> generally speaking

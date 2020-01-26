@@ -13,6 +13,11 @@ public class Column<T>{
 	}
 	
     @SuppressWarnings("unchecked")
+	public T[] get() {
+    	return (T[]) data;
+    }
+	
+    @SuppressWarnings("unchecked")
 	public T get(int i) {
     	return (T) data[i];
     }

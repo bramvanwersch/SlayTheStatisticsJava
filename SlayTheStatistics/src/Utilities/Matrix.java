@@ -40,18 +40,23 @@ public class Matrix {
 		return (Any) columns.get(x).get(y);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <Any> Any get(int x) {
+		return (Any) columns.get(x).get();
+	}
+	
 	/**
 	 * Checks if a column can be added based on the lenght defined by the matrix.
 	 */
 	private void checkColumnSize() {
-		if (columns.size() >= size[1]) {
-			throw new IndexOutOfBoundsException("Column Tried to one column to many"
-					+ " max column size is " + size[1]);
+		if (columns.size() >= size[0]) {
+			throw new IndexOutOfBoundsException("Tried to add one column to many"
+					+ " max column size is " + size[0]);
 		}
 	}
 	
 	private void checkRowSize(int l) {
-		if (l != size[0]) {
+		if (l != size[1]) {
 			throw new IndexOutOfBoundsException("Column data is to long or to short."
 					+ " Expected lenght is " + size[1] + " got " + l);
 		}
@@ -64,21 +69,4 @@ public class Matrix {
 //			}
 //		}
 //	}
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Matrix m= new Matrix(2,2);
-					m.addColumn(new String[] {"wauw","omg"}, 0);
-					m.addColumn(new Matrix[] {new Matrix(0,0),new Matrix(0,0)},1);
-				//	m.addColumnData(1,new String[] {"f","a"});
-					String l = m.get(1, 0);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-	}
 }

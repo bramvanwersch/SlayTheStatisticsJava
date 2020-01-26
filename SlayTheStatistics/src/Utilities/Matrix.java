@@ -86,12 +86,4 @@ public class Matrix {
 					+ " Expected lenght is " + size[1] + " got " + l);
 		}
 	}
-	
-//	private void checkName(String n) {
-//		for (String name : columnNames) {
-//			if (n.equals(name)) {
-//				throw new IllegalArgumentException("column name aleardy exists");
-//			}
-//		}
-//	}
 }

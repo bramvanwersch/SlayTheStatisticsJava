@@ -18,7 +18,7 @@ public class Matrix {
 	}
 	
 	public void addColumn(Object[] data, int index) {
-		checkColumnSize(columns.size());
+		checkColumnSize();
 		columns.add(index, new Column(size[1]));
 		addColumnData(index, data);
 	}
@@ -28,33 +28,32 @@ public class Matrix {
 		columns.get(index).setData(data);
 	}
 	
-	public Object get(int x, int y) {
-		return columns.get(x).get(y);
+	/**
+	 * Returns the value at position x,y in the matrix. If the requested type cannot be returned 
+	 * a ClassCastException will be raised.
+	 * @param x column of the matrix
+	 * @param y row of the matrix
+	 * @return the value in the requested type. 
+	 */
+	@SuppressWarnings("unchecked")
+	public <Any> Any get(int x, int y) {
+		return (Any) columns.get(x).get(y);
 	}
 	
-	public <Any> Any get(int x, int y, Class<Any> c){
-		Object v = columns.get(x).get(y);
-		try {
-			if (c == String.class) {
-				return (Any) v.toString();
-			}
-		}catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
-	}
-	
-	private void checkColumnSize(int l) {
-		if (l > size[1]) {
-			throw new IndexOutOfBoundsException("Column data is to long or to short."
-					+ " Expected lenght is " + size[1] + " got " + l);
+	/**
+	 * Checks if a column can be added based on the lenght defined by the matrix.
+	 */
+	private void checkColumnSize() {
+		if (columns.size() >= size[1]) {
+			throw new IndexOutOfBoundsException("Column Tried to one column to many"
+					+ " max column size is " + size[1]);
 		}
 	}
 	
 	private void checkRowSize(int l) {
 		if (l != size[0]) {
-			throw new IndexOutOfBoundsException("Added one row to many." 
-					+ " Max size is " + size[0]);
+			throw new IndexOutOfBoundsException("Column data is to long or to short."
+					+ " Expected lenght is " + size[1] + " got " + l);
 		}
 	}
 	
@@ -72,9 +71,9 @@ public class Matrix {
 				try {
 					Matrix m= new Matrix(2,2);
 					m.addColumn(new String[] {"wauw","omg"}, 0);
+					m.addColumn(new Matrix[] {new Matrix(0,0),new Matrix(0,0)},1);
 				//	m.addColumnData(1,new String[] {"f","a"});
-					String g = m.get(0, 0, String.class);
-					System.out.println(g);
+					String l = m.get(1, 0);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

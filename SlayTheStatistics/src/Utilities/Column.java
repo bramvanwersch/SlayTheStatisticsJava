@@ -4,7 +4,6 @@ public class Column<T>{
 	private String name;
 	private Object[] data;
 	
-	@SuppressWarnings("unchecked")
 	public Column(int size) {
 		this.data = new Object[size];
 	}

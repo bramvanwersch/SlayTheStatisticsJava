@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Matrix {
-	private List<Column> columns;
+	protected List<Column> columns;
 	private int[] size;
 	
 	public Matrix(int cols, int rows) {
-		columns = new ArrayList<Column>();
+		columns = new ArrayList<Column>(cols);
 		this.size = new int[] {cols, rows};
 	}
 	

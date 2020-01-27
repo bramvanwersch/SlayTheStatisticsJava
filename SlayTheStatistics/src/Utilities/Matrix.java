@@ -46,23 +46,28 @@ public class Matrix {
 	
 	/**
 	 * Returns the value at position x,y in the matrix. If the requested type cannot be returned 
-	 * a ClassCastException will be raised.
+	 * a ClassCastException will be raised. An IllegalArgumentException will be raised if the 
+	 * column does not contain data.
 	 * @param x column of the matrix
 	 * @param y row of the matrix
 	 * @return the value in the requested type. 
 	 */
 	@SuppressWarnings("unchecked")
 	public <Any> Any get(int x, int y) {
+		checkColumnContainsData(x);
 		return (Any) columns.get(x).get(y);
 	}
 	
 	/**
-	 * Returns a column by index as an array of the given type.
+	 * Returns a column by index as an array of the given type. If the requested type cannot
+	 * be returned a ClassCastException will be raised. An IllegalArgumentException will be
+	 * raised if the column does not contain data.
 	 * @param x the column to be returned
 	 * @return a array of the requested type.
 	 */
 	@SuppressWarnings("unchecked")
 	public <Any> Any get(int x) {
+		checkColumnContainsData(x);
 		return (Any) columns.get(x).get();
 	}
 	
@@ -84,6 +89,16 @@ public class Matrix {
 		if (l != size[1]) {
 			throw new IndexOutOfBoundsException("Column data is to long or to short."
 					+ " Expected lenght is " + size[1] + " got " + l);
+		}
+	}
+	
+	/**
+	 * Checks if the column contains data to return
+	 * @param colName
+	 */
+	private void checkColumnContainsData(int index) {
+		if (index >= columns.size()) {
+			throw new IllegalArgumentException("Cannot retrieve empty value(s)");
 		}
 	}
 }

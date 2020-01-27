@@ -33,6 +33,38 @@ public class DataFrame extends Matrix{
 	}
 	
 	/**
+	 * for replacing a column by name
+	 * @param name of the column
+	 * @param data to replace it with.
+	 */
+	public void replaceColumn(String name, Object[] data) {
+		checkColumnNameExist(name);
+		replaceColumn(columnNames.indexOf(name), data);
+	}
+	
+	/**
+	 * combination for replacing name and data of a column
+	 * @param oldName the name to replace
+	 * @param newName the name to change it to.
+	 * @param data to replace it with.
+	 */
+	public void replaceColumn(String oldName, String newName, Object[] data) {
+		replaceColumnName(oldName, newName);
+		replaceColumn(newName, data);
+	}
+	
+	/**
+	 * change a columnName
+	 * @param oldName the name to replace
+	 * @param newName the name to change it to.
+	 */
+	public void replaceColumnName(String oldName, String newName) {
+		checkColumnNameExist(oldName);
+		checkDoubleName(newName);
+		columnNames.set(columnNames.indexOf(oldName), newName);
+	}
+	
+	/**
 	 * Takes the first row of the matrix and assignes the column names to it.
 	 * Then removes the row.
 	 */
@@ -84,7 +116,7 @@ public class DataFrame extends Matrix{
 	 * @param name of the column
 	 */
 	public void addNamedColumn(Object[] data, String name) {
-		checkName(name);
+		checkDoubleName(name);
 		columnNames.add(columns.size(), name);
 		addColumn(data);
 	}
@@ -97,7 +129,7 @@ public class DataFrame extends Matrix{
 	 * @param index of the column to be added.
 	 */
 	public void addNamedColumn(Object[] data, String name, int index) {
-		checkName(name);
+		checkDoubleName(name);
 		columnNames.add(index, name);
 		addColumn(data, index);
 	}
@@ -133,7 +165,7 @@ public class DataFrame extends Matrix{
 	 * unwanted behaviour
 	 * @param n the name to be checked.
 	 */
-	private void checkName(String n) {
+	private void checkDoubleName(String n) {
 		for (String name : columnNames) {
 			if (n.equals(name)) {
 				throw new IllegalArgumentException("Column name " + n + " aleardy exists");

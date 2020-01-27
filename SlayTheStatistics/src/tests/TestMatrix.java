@@ -28,7 +28,7 @@ public class TestMatrix extends TestCase {
 		}
 	}
 	
-	public void testAddData() {
+	public void testAddColumnData() {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
 		String x = m.getValue(0,0);
@@ -37,7 +37,7 @@ public class TestMatrix extends TestCase {
 		assertEquals(Arrays.toString(xl), Arrays.toString(new String[] {"1"}));
 	}
 	
-	public void testGetFailed1() {
+	public void testGetColumnFailed1() {
 		Matrix m = new Matrix(2,1);
 		m.addColumn(new String[] {"1"});
 		try {
@@ -48,7 +48,7 @@ public class TestMatrix extends TestCase {
 		}
 	}
 	
-	public void testGetFailed2() {
+	public void testGetColumnFailed2() {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
 		try {
@@ -59,7 +59,7 @@ public class TestMatrix extends TestCase {
 		}
 	}
 	
-	public void testGetFailed3() {
+	public void testGetColumnFailed3() {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
 		try {
@@ -134,6 +134,14 @@ public class TestMatrix extends TestCase {
 		m.addColumn(new String[] {"1","2"});
 		String[] r1 = m.getRow(0);
 		assertEquals(Arrays.toString(r1), Arrays.toString(new String[] {"1","1"}));
+	}
+	
+	public void testReplace() {
+		Matrix m = new Matrix(1,1);
+		m.addColumn(new String[] {"1"});
+		m.replaceColumn(0, new String[] {"2"});
+		String v = m.getValue(0, 0);
+		assertEquals(v, "2");
 	}
 }
 

@@ -3,6 +3,7 @@ package tests;
 import java.util.Arrays;
 
 import Utilities.DataFrame;
+import Utilities.Matrix;
 import Utilities.NoDataException;
 import junit.framework.TestCase;
 
@@ -80,5 +81,28 @@ public class DataFrameTest extends TestCase {
 		assertEquals(v1, "2");
 	}
 	
+	public void testReplaceColumn1() {
+		DataFrame df = new DataFrame(1,1);
+		df.addNamedColumn(new String[] {"1"},"name");
+		df.replaceColumn("name", new String[] {"2"});
+		String v = df.getValue("name", 0);
+		assertEquals(v, "2");
+	}
+	
+	public void testReplaceColumn2() {
+		DataFrame df = new DataFrame(1,1);
+		df.addNamedColumn(new String[] {"1"},"name");
+		df.replaceColumn("name", "name2", new String[] {"2"});
+		String v = df.getValue("name2", 0);
+		assertEquals(v, "2");
+	}
+	
+	public void testReplaceColumnName() {
+		DataFrame df = new DataFrame(1,1);
+		df.addNamedColumn(new String[] {"1"},"name");
+		df.replaceColumnName("name", "name2");
+		String v = df.getValue("name2", 0);
+		assertEquals(v, "1");
+	}
 	
 }

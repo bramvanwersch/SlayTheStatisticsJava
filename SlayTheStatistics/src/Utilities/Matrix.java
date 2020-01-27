@@ -18,6 +18,17 @@ public class Matrix {
 	}
 	
 	/**
+	 * replaces a column at the given index
+	 * @param x is the index
+	 * @param data the data to replace it with
+	 */
+	public void replaceColumn(int x, Object[] data) {
+		checkColumnIndex(x);
+		checkRowSize(data.length);
+		columns.get(x).setData(data);
+	}
+	
+	/**
 	 * Takes a string of values that are separated by some sort of seperator
 	 * and converts them into a matrix.
 	 * @param values as one big string

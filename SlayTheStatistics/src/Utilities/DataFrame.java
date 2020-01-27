@@ -25,7 +25,7 @@ public class DataFrame extends Matrix{
 	 */
 	private void addDefaultColumnNames(int noNames) {
 		for (int i = 0; i < noNames; i++) {
-			columnNames.add("col" + (i + 1));
+			columnNames.add("col" + i);
 		}
 	}
 	

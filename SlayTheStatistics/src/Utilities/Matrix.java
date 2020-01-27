@@ -54,6 +54,7 @@ public class Matrix {
 	 */
 	@SuppressWarnings("unchecked")
 	public <Any> Any get(int x, int y) {
+		checkCoordinates(x, y);
 		checkColumnContainsData(x);
 		return (Any) columns.get(x).get(y);
 	}
@@ -67,6 +68,7 @@ public class Matrix {
 	 */
 	@SuppressWarnings("unchecked")
 	public <Any> Any get(int x) {
+		checkColumnIndex(x);
 		checkColumnContainsData(x);
 		return (Any) columns.get(x).get();
 	}
@@ -93,12 +95,44 @@ public class Matrix {
 	}
 	
 	/**
-	 * Checks if the column contains data to return
+	 * Checks if the column contains data to return.
 	 * @param colName
 	 */
 	private void checkColumnContainsData(int index) {
 		if (index >= columns.size()) {
-			throw new IllegalArgumentException("Cannot retrieve empty value(s)");
+			throw new NoDataException("Cannot retrieve empty value(s)");
+		}
+	}
+	
+	/**
+	 * checks if the given coordinates are within the matrix size
+	 * @param x the column number
+	 * @param y the row number
+	 */
+	private void checkCoordinates(int x, int y) {
+		checkColumnIndex(x);
+		checkRowIndex(y);
+	}
+	
+	/**
+	 * checks if the column index is within the matrix size
+	 * @param x the column number
+	 */
+	private void checkColumnIndex(int x){
+		if (x >= size[0] || x < 0) {
+			throw new IndexOutOfBoundsException(String.format("No sutch column %s in matrix of dimensions [%s,%s]",
+					x, size[0], size[1]));
+		}
+	}
+	
+	/**
+	 * checks if the row index is within the matrix size
+	 * @param y the row number
+	 */
+	private void checkRowIndex(int y){
+		if (y >= size[1] || y < 0) {
+			throw new IndexOutOfBoundsException(String.format("No sutch row %s in matrix of dimensions [%s,%s]",
+					y, size[0], size[1]));
 		}
 	}
 }

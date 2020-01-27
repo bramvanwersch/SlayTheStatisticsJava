@@ -70,6 +70,33 @@ public class TestMatrix extends TestCase {
 		}
 	}
 	
+	public void testSeperatedValuesToMatrix1() {
+		String sepVals = "1\n2\n3\n";
+		Matrix m = new Matrix(sepVals, ",");
+		assertEquals(m.get(0,0), "1");
+		assertEquals(m.get(0,1), "2");
+		assertEquals(m.get(0,2), "3");
+	}
+	
+	public void testSeperatedValuesToMatrix2() {
+		String sepVals = "1,2\n2,3\n3,4\n";
+		Matrix m = new Matrix(sepVals, ",");
+		String[] c1 = m.get(0);
+		String[] c2 = m.get(1);
+		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1","2","3"}));
+		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2","3","4"}));
+	}
+	
+	public void testSeperatedValuesToMatrixFailed() {
+		String sepVals = "1\n2,3\n3,4\n";
+		try {
+			Matrix m = new Matrix(sepVals, ",");
+			fail("IllegalArgumentException expected");
+		}catch (IllegalArgumentException e){
+			assertEquals("Cannot process properly. Rows have different lengths", e.getMessage());
+		}
+	}
+	
 	
 	
 }

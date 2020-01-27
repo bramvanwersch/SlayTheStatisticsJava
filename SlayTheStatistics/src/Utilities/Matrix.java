@@ -12,6 +12,37 @@ public class Matrix {
 		this.size = new int[] {cols, rows};
 	}
 	
+	public Matrix(String values, String sep) {
+		columns = new ArrayList<Column>();
+		separatedValuesToMatrix(values, sep);
+	}
+	
+	/**
+	 * Takes a string of values that are separated by some sort of seperator
+	 * and converts them into a matrix.
+	 * @param values as one big string
+	 * @param sep as seperator for the values.
+	 */
+	private void separatedValuesToMatrix(String values, String sep) {
+		String[] rows = values.split("\n");
+		int noColumns = rows[0].split(sep).length;
+		String[][] strColumns = new String[noColumns][rows.length];
+		for (int i = 0; i < rows.length; i++) {
+			String[] rowValues = rows[i].split(sep);
+			if (rowValues.length != noColumns) {
+				throw new IllegalArgumentException("Cannot process properly. Rows have different lengths");
+			}
+			for (int j = 0; j < rowValues.length; j++) {
+				strColumns[j][i] = rowValues[j];
+			}
+		}
+		//make sure size is set before.
+		this.size = new int[] {noColumns, rows.length};
+		for (String[] column : strColumns) {
+			addColumn(column);
+		}
+	}
+	
 	/**
 	 * Adds a column class to the matrix if the maximum amount of columns
 	 * was not reached yet.

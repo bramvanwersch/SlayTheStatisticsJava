@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Matrix {
 	protected List<Column> columns;
-	private int[] size;
+	protected int[] size;
 	
 	public Matrix(int cols, int rows) {
 		columns = new ArrayList<Column>(cols);
@@ -41,6 +41,22 @@ public class Matrix {
 		for (String[] column : strColumns) {
 			addColumn(column);
 		}
+	}
+	
+	/**
+	 * removes the value at index for each column resulting in a row being removed.
+	 * @param index where the value has to be removed.
+	 */
+	public void removeRow(int index) {
+		checkRowIndex(index);
+		for (Column column : columns) {
+			column.remove(index);
+		}
+		this.size[1] -= 1;
+	}
+	
+	public void removeColumn(int index) {
+		
 	}
 	
 	/**

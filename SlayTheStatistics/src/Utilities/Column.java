@@ -34,4 +34,19 @@ public class Column<T>{
 	public T get(int i) {
     	return (T) data[i];
     }
+    
+    /**
+     * Remove a value from index in the column. This is done when removing rows. 
+     * @param index of the value to be removed.
+     */
+    public void remove(int index){
+    	Object [] tempD = new Object[data.length -1];
+    	for (int i = 0; i < tempD.length; i++) {
+    		if (i == index) {
+    			continue;
+    		}
+    		tempD[i] = data[i];
+    	}
+    	this.data = tempD;
+    }
 }

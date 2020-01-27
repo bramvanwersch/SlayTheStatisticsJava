@@ -44,6 +44,14 @@ public class Matrix {
 	}
 	
 	/**
+	 * Get the dimensions of the matrix
+	 * @return an array containing column and row size in that order.
+	 */
+	public int[] dimensions() {
+		return this.size;
+	}
+	
+	/**
 	 * removes the value at index for each column resulting in a row being removed.
 	 * @param index where the value has to be removed.
 	 */
@@ -55,8 +63,14 @@ public class Matrix {
 		this.size[1] -= 1;
 	}
 	
+	/**
+	 * Function for removing a column at index
+	 * @param index of the column to be removed.
+	 */
 	public void removeColumn(int index) {
-		
+		checkColumnIndex(index);
+		columns.remove(index);
+		this.size[0] -= 1;
 	}
 	
 	/**

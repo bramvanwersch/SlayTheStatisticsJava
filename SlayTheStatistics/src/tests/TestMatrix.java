@@ -104,7 +104,7 @@ public class TestMatrix extends TestCase {
 		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {0,1}));
 	}
 	
-	public void testRowRemoval() {
+	public void testRowRemoval1() {
 		Matrix m = new Matrix(2,2);
 		m.addColumn(new String[] {"1","2"});
 		m.addColumn(new String[] {"1","2"});
@@ -114,6 +114,18 @@ public class TestMatrix extends TestCase {
 		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {2,1}));
 		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"2"}));
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2"}));
+	}
+	
+	public void testRowRemoval2() {
+		Matrix m = new Matrix(2,2);
+		m.addColumn(new String[] {"1","2"});
+		m.addColumn(new String[] {"1","2"});
+		m.removeRow(1);
+		String[] c1 = m.get(0);
+		String[] c2 = m.get(0);
+		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {2,1}));
+		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1"}));
+		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"1"}));
 	}
 	
 	

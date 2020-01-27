@@ -38,7 +38,8 @@ public class Column<T>{
     }
     
     /**
-     * Remove a value from index in the column. This is done when removing rows. 
+     * Remove a value from index in the column. The index to be removed is overwritten
+     * and then the last index of the array is removed.
      * @param index of the value to be removed.
      */
     public void remove(int index){

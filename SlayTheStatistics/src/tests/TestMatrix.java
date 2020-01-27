@@ -128,6 +128,12 @@ public class TestMatrix extends TestCase {
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"1"}));
 	}
 	
-	
+	public void testGetRow() {
+		Matrix m = new Matrix(2,2);
+		m.addColumn(new String[] {"1","2"});
+		m.addColumn(new String[] {"1","2"});
+		String[] r1 = m.getRow(0);
+		assertEquals(Arrays.toString(r1), Arrays.toString(new String[] {"1","1"}));
+	}
 }
 

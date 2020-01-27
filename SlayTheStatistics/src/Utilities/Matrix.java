@@ -135,6 +135,21 @@ public class Matrix {
 	}
 	
 	/**
+	 * Give the row at a given index as an array of strings. Because no consistent
+	 * data type can be guaranteed a String array is returned
+	 * @param y is the index of the row.
+	 * @return
+	 */
+	public String[] getRow(int y) {
+		checkRowIndex(y);
+		String[] row = new String[columns.size()];
+		for (int i = 0; i < columns.size(); i++) {
+			row[i] =  columns.get(i).get(y).toString();
+		}
+		return row;
+	}
+	
+	/**
 	 * Checks if a column can be added based on the lenght defined by the matrix.
 	 */
 	private void checkColumnSize() {

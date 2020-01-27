@@ -114,7 +114,7 @@ public class Matrix {
 	 * @return the value in the requested type. 
 	 */
 	@SuppressWarnings("unchecked")
-	public <Any> Any get(int x, int y) {
+	public <Any> Any getValue(int x, int y) {
 		checkCoordinates(x, y);
 		checkColumnContainsData(x);
 		return (Any) columns.get(x).get(y);
@@ -128,7 +128,7 @@ public class Matrix {
 	 * @return a array of the requested type.
 	 */
 	@SuppressWarnings("unchecked")
-	public <Any> Any get(int x) {
+	public <Any> Any getColumn(int x) {
 		checkColumnIndex(x);
 		checkColumnContainsData(x);
 		return (Any) columns.get(x).get();

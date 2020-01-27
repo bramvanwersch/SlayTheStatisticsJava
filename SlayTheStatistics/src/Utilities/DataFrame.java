@@ -16,8 +16,32 @@ public class DataFrame extends Matrix{
 	public DataFrame(int cols, int rows) {
 		super(cols, rows);
 		this.columnNames = new ArrayList<String>(cols);
-		addDefaultColumnNames(cols);
+		addDefaultColumnNames(size[0]);
 	}
+	
+	public DataFrame(String values, String sep, boolean header) {
+		super(values, sep);
+		this.columnNames = new ArrayList<String>();
+		if (header) {
+			addHeader();
+		}
+		else {
+			addDefaultColumnNames(size[0]);
+		}
+	}
+	
+	private String[] addHeader() {
+		//check unique names
+		
+		return null;
+	}
+	
+	@Override
+	public void removeColumn(int index) {
+		
+	}
+	
+	
 	
 	/**
 	 * Generates default names for each column numbering from 1 to noNames
@@ -62,9 +86,9 @@ public class DataFrame extends Matrix{
 	 * @param colName the name of the column.
 	 * @return an array of the downcasted type of the column
 	 */
-	public <Any> Any get(String colName) {
+	public <Any> Any getColumn(String colName) {
 		checkColumnNameExist(colName);
-		return get(columnNames.indexOf(colName));
+		return getColumn(columnNames.indexOf(colName));
 	}
 	
 	/**
@@ -75,9 +99,9 @@ public class DataFrame extends Matrix{
 	 * @param colName the name of the column.
 	 * @return a value of the downcasted value in the column.
 	 */
-	public <Any> Any get(String colName, int y) {
+	public <Any> Any getValue(String colName, int y) {
 		checkColumnNameExist(colName);
-		return get(columnNames.indexOf(colName), y);
+		return getValue(columnNames.indexOf(colName), y);
 	}
 	
 	/**

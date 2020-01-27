@@ -31,8 +31,8 @@ public class TestMatrix extends TestCase {
 	public void testAddData() {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
-		String x = m.get(0,0);
-		String[] xl = m.get(0);
+		String x = m.getValue(0,0);
+		String[] xl = m.getColumn(0);
 		assertEquals(x, "1");
 		assertEquals(Arrays.toString(xl), Arrays.toString(new String[] {"1"}));
 	}
@@ -41,7 +41,7 @@ public class TestMatrix extends TestCase {
 		Matrix m = new Matrix(2,1);
 		m.addColumn(new String[] {"1"});
 		try {
-			m.get(1);
+			m.getColumn(1);
 			fail("NoDataException expected");
 		}catch (NoDataException e) {
 			assertEquals("Cannot retrieve empty value(s)",e.getMessage());
@@ -52,7 +52,7 @@ public class TestMatrix extends TestCase {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
 		try {
-			m.get(1);
+			m.getColumn(1);
 			fail("NoDataException expected");
 		}catch (IndexOutOfBoundsException e) {
 			assertEquals("No sutch column 1 in matrix of dimensions [1,1]",e.getMessage());
@@ -63,7 +63,7 @@ public class TestMatrix extends TestCase {
 		Matrix m = new Matrix(1,1);
 		m.addColumn(new String[] {"1"});
 		try {
-			m.get(0,1);
+			m.getValue(0,1);
 			fail("NoDataException expected");
 		}catch (IndexOutOfBoundsException e) {
 			assertEquals("No sutch row 1 in matrix of dimensions [1,1]",e.getMessage());
@@ -73,16 +73,16 @@ public class TestMatrix extends TestCase {
 	public void testSeperatedValuesToMatrix1() {
 		String sepVals = "1\n2\n3\n";
 		Matrix m = new Matrix(sepVals, ",");
-		assertEquals(m.get(0,0), "1");
-		assertEquals(m.get(0,1), "2");
-		assertEquals(m.get(0,2), "3");
+		assertEquals(m.getValue(0,0), "1");
+		assertEquals(m.getValue(0,1), "2");
+		assertEquals(m.getValue(0,2), "3");
 	}
 	
 	public void testSeperatedValuesToMatrix2() {
 		String sepVals = "1,2\n2,3\n3,4\n";
 		Matrix m = new Matrix(sepVals, ",");
-		String[] c1 = m.get(0);
-		String[] c2 = m.get(1);
+		String[] c1 = m.getColumn(0);
+		String[] c2 = m.getColumn(1);
 		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1","2","3"}));
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2","3","4"}));
 	}
@@ -109,8 +109,8 @@ public class TestMatrix extends TestCase {
 		m.addColumn(new String[] {"1","2"});
 		m.addColumn(new String[] {"1","2"});
 		m.removeRow(0);
-		String[] c1 = m.get(0);
-		String[] c2 = m.get(0);
+		String[] c1 = m.getColumn(0);
+		String[] c2 = m.getColumn(0);
 		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {2,1}));
 		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"2"}));
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2"}));
@@ -121,8 +121,8 @@ public class TestMatrix extends TestCase {
 		m.addColumn(new String[] {"1","2"});
 		m.addColumn(new String[] {"1","2"});
 		m.removeRow(1);
-		String[] c1 = m.get(0);
-		String[] c2 = m.get(0);
+		String[] c1 = m.getColumn(0);
+		String[] c2 = m.getColumn(0);
 		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {2,1}));
 		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1"}));
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"1"}));

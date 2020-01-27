@@ -2,7 +2,9 @@ package Utilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Is a matrix with named columns. The names of each column are created in advance to allow the user
@@ -30,18 +32,40 @@ public class DataFrame extends Matrix{
 		}
 	}
 	
-	private String[] addHeader() {
-		//check unique names
-		
-		return null;
+	/**
+	 * Takes the first row of the matrix and assignes the column names to it.
+	 * Then removes the row.
+	 */
+	private void addHeader() {
+		String[] header = getRow(0);
+		Set<String> setHeader = new HashSet<String>();
+		setHeader.addAll(Arrays.asList(header));
+		if (setHeader.size() != header.length) {
+			throw new IllegalArgumentException("Header contains duplicate values. Cannot create the dataframe.");
+		}
+		removeRow(0);
+		this.columnNames.addAll(Arrays.asList(header));
 	}
 	
+	/**
+	 * removes a column by its name
+	 * @param colName of the column
+	 */
+	public void removeColumn(String colName) {
+		checkColumnNameExist(colName);
+		removeColumn(columnNames.indexOf(colName));
+	}
+	
+	/**
+	 * Overrides the Matrix method and simply removes the columnName aswell.
+	 */
 	@Override
 	public void removeColumn(int index) {
-		
+		checkColumnIndex(index);
+		columns.remove(index);
+		columnNames.remove(index);
+		this.size[0] -= 1;
 	}
-	
-	
 	
 	/**
 	 * Generates default names for each column numbering from 1 to noNames

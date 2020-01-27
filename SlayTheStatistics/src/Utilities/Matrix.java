@@ -194,7 +194,7 @@ public class Matrix {
 	 * checks if the column index is within the matrix size
 	 * @param x the column number
 	 */
-	private void checkColumnIndex(int x){
+	protected void checkColumnIndex(int x){
 		if (x >= size[0] || x < 0) {
 			throw new IndexOutOfBoundsException(String.format("No sutch column %s in matrix of dimensions [%s,%s]",
 					x, size[0], size[1]));

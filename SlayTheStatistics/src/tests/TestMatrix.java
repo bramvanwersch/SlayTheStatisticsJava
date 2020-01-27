@@ -97,6 +97,24 @@ public class TestMatrix extends TestCase {
 		}
 	}
 	
+	public void testColumnRemoval() {
+		Matrix m = new Matrix(1,1);
+		m.addColumn(new String[] {"1"});
+		m.removeColumn(0);
+		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {0,1}));
+	}
+	
+	public void testRowRemoval() {
+		Matrix m = new Matrix(2,2);
+		m.addColumn(new String[] {"1","2"});
+		m.addColumn(new String[] {"1","2"});
+		m.removeRow(0);
+		String[] c1 = m.get(0);
+		String[] c2 = m.get(0);
+		assertEquals(Arrays.toString(m.dimensions()), Arrays.toString(new int[] {2,1}));
+		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"2"}));
+		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2"}));
+	}
 	
 	
 }

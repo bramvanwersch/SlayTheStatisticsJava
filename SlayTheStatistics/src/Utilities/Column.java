@@ -1,5 +1,7 @@
 package Utilities;
 
+import java.util.Arrays;
+
 public class Column<T>{
 	private Object[] data;
 	
@@ -40,13 +42,14 @@ public class Column<T>{
      * @param index of the value to be removed.
      */
     public void remove(int index){
-    	Object [] tempD = new Object[data.length -1];
-    	for (int i = 0; i < tempD.length; i++) {
+    	int removal = 0;
+    	for (int i = 0; i < data.length; i++) {
     		if (i == index) {
+    			removal = 1;
     			continue;
     		}
-    		tempD[i] = data[i];
+    		data[i - removal] = data[i];
     	}
-    	this.data = tempD;
+    	data = Arrays.copyOf(data, data.length-1);
     }
 }

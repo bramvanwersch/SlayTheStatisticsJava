@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class ColumnTypePreferences {
 	private List<Class<?>> types;
-	private final Class<?>[] ALLOWED_TYPES = new Class<?>[] {Integer.class, Double.class, Object.class, String.class}; 
+	private final Class<?>[] ALLOWED_TYPES = new Class<?>[] {Integer.class, Double.class}; 
 	private List<HashSet<Integer>> columnIndexes;
 	
 	public ColumnTypePreferences() {

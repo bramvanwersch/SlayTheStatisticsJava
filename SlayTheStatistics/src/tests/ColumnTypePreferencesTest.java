@@ -5,9 +5,16 @@ import junit.framework.TestCase;
 
 public class ColumnTypePreferencesTest extends TestCase {
 	
-	public void testAddPreference() {
+	public void testAddPreference1() {
 		ColumnTypePreferences ctp = new ColumnTypePreferences();
 		ctp.addPreference(Integer.class, 1,2,3,4);
+		assertEquals(ctp.getIndexes(Integer.class).toString(), "[1, 2, 3, 4]");
+	}
+	
+	public void testAddPreference2() {
+		ColumnTypePreferences ctp = new ColumnTypePreferences();
+		ctp.addPreference(Integer.class, 1,2);
+		ctp.addPreference(Integer.class, 3,4);
 		assertEquals(ctp.getIndexes(Integer.class).toString(), "[1, 2, 3, 4]");
 	}
 	
@@ -30,8 +37,7 @@ public class ColumnTypePreferencesTest extends TestCase {
 			fail("IllegalArgumentExceptionExpected");
 		}catch (IllegalArgumentException e) {
 			assertEquals("Invalid type as preference class tests.ColumnTypePreferencesTest. It should"
-					+ " be one of the following: [class java.lang.Integer, class java.lang.Double, "
-					+ "class java.lang.Object, class java.lang.String]",
+					+ " be one of the following: [class java.lang.Integer, class java.lang.Double]",
 					e.getMessage());
 		}
 	}

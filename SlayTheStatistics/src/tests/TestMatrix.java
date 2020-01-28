@@ -72,7 +72,8 @@ public class TestMatrix extends TestCase {
 	
 	public void testSeperatedValuesToMatrix1() {
 		String sepVals = "1\n2\n3\n";
-		Matrix m = new Matrix(sepVals, ",");
+		Matrix m = new Matrix(1,3);
+		m.addStringMatrix(sepVals, ",");
 		assertEquals(m.getValue(0,0), "1");
 		assertEquals(m.getValue(0,1), "2");
 		assertEquals(m.getValue(0,2), "3");
@@ -80,9 +81,21 @@ public class TestMatrix extends TestCase {
 	
 	public void testSeperatedValuesToMatrix2() {
 		String sepVals = "1,2\n2,3\n3,4\n";
-		Matrix m = new Matrix(sepVals, ",");
+		Matrix m = new Matrix(2,3);
+		m.addStringMatrix(sepVals, ",");
 		String[] c1 = m.getColumn(0);
 		String[] c2 = m.getColumn(1);
+		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1","2","3"}));
+		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2","3","4"}));
+	}
+	
+	public void testSeperatedValuesToMatrix3() {
+		String sepVals = "1,2\n2,3\n3,4\n";
+		Matrix m = new Matrix(2,3);
+		m.setColumnTypePreference(Integer.class, 0,1);
+		m.addStringMatrix(sepVals, ",");
+		Integer[] c1 = m.getColumn(0);
+		Integer[] c2 = m.getColumn(1);
 		assertEquals(Arrays.toString(c1), Arrays.toString(new String[] {"1","2","3"}));
 		assertEquals(Arrays.toString(c2), Arrays.toString(new String[] {"2","3","4"}));
 	}
@@ -90,7 +103,8 @@ public class TestMatrix extends TestCase {
 	public void testSeperatedValuesToMatrixFailed() {
 		String sepVals = "1\n2,3\n3,4\n";
 		try {
-			Matrix m = new Matrix(sepVals, ",");
+			Matrix m = new Matrix(2,3);
+			m.addStringMatrix(sepVals, ",");
 			fail("IllegalArgumentException expected");
 		}catch (IllegalArgumentException e){
 			assertEquals("Cannot process properly. Rows have different lengths", e.getMessage());
@@ -143,5 +157,6 @@ public class TestMatrix extends TestCase {
 		String v = m.getValue(0, 0);
 		assertEquals(v, "2");
 	}
+	
 }
 

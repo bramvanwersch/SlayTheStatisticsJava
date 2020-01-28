@@ -14,9 +14,7 @@ public class Matrix {
 		this.size = new int[] {cols, rows};
 	}
 	
-	public Matrix(String values, String sep) {
-		columns = new ArrayList<Column>();
-		this.ctp = new ColumnTypePreferences();
+	public void addStringMatrix(String values, String sep) {
 		separatedValuesToMatrix(values, sep);
 	}
 	
@@ -62,13 +60,13 @@ public class Matrix {
 				strColumns[j][i] = rowValues[j];
 			}
 		}
-		//make sure size is set before.
-		this.size = new int[] {noColumns, rows.length};
 		if (ctp.anyPreferences()) {
 			addPreferedColumnTypes(strColumns);
 		}
-		for (String[] column : strColumns) {
-			addColumn(column);
+		else {
+			for (String[] column : strColumns) {
+				addColumn(column);
+			}
 		}
 	}
 	
@@ -89,6 +87,7 @@ public class Matrix {
 				addColumn(dColumn);
 			}
 			else {
+				System.out.println("bad");
 				addColumn(column);
 			}
 			//need more if more types are aded/needed

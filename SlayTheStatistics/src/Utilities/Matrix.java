@@ -6,15 +6,30 @@ import java.util.List;
 public class Matrix {
 	protected List<Column> columns;
 	protected int[] size;
+	private ColumnTypePreferences ctp;
 	
 	public Matrix(int cols, int rows) {
 		columns = new ArrayList<Column>(cols);
+		this.ctp = new ColumnTypePreferences();
 		this.size = new int[] {cols, rows};
 	}
 	
 	public Matrix(String values, String sep) {
 		columns = new ArrayList<Column>();
+		this.ctp = new ColumnTypePreferences();
 		separatedValuesToMatrix(values, sep);
+	}
+	
+	/**
+	 * Sets a columntypepreference for every index in this matrix. This means that when columns 
+	 * are loaded consisting of strings or objects they can be converted into a
+	 * defined set of types. This has to be done before data is loaded and is 
+	 * made for seperated data not neccesairily for loading single columns.
+	 * @param type
+	 * @param indexes
+	 */
+	public void setColumnTypePreference(Class<?> type, Integer... indexes) {
+		this.ctp.addPreference(type, indexes);
 	}
 	
 	/**

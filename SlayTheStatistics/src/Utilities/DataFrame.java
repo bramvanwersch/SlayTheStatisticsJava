@@ -33,6 +33,20 @@ public class DataFrame extends Matrix{
 	}
 	
 	/**
+	 * Sets a column type preference for every name in columns the names are converted to index.
+	 * @param type
+	 * @param columns
+	 */
+	public void setColumnTypePreference(Class<?> type,String... columns ) {
+		Integer[] iColumns = new Integer[columns.length];
+		for (int i = 0; i < columns.length; i++) {
+			checkColumnNameExist(columns[i]);
+			iColumns[i] = columnNames.indexOf(columns[i]);
+		}
+		setColumnTypePreference(type, iColumns);
+	}
+	
+	/**
 	 * for replacing a column by name
 	 * @param name of the column
 	 * @param data to replace it with.

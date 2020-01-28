@@ -16,32 +16,27 @@ import java.util.Set;
 public class ColumnTypePreferences {
 	private List<Class<?>> types;
 	private final Class<?>[] ALLOWED_TYPES = new Class<?>[] {Integer.class, Double.class, Object.class, String.class}; 
-	private List<HashSet<String>> columnNames;
 	private List<HashSet<Integer>> columnIndexes;
 	
 	public ColumnTypePreferences() {
 		this.types = new ArrayList<Class<?>>();
-		this.columnNames = new ArrayList<HashSet<String>>();
 		this.columnIndexes = new ArrayList<HashSet<Integer>>();
 	}
 	
-	public void addPreference(Class<?> c, String... names) {
-		checkDoubleNames(names);
-		checkType(c);
-		HashSet<String> setNames = new HashSet<String>(Arrays.asList(names));
-		types.add(c);
-		columnNames.add(setNames);
-	}
-	
-	public void addPreference(Class<?> c, Integer... indexes) {
+	public void addPreference(Class<?> type, Integer... indexes) {
 		checkDoubleIndexes(indexes);
-		checkType(c);
+		checkType(type);
 		HashSet<Integer> setIndexes = new HashSet<Integer>(Arrays.asList(indexes));
-		types.add(c);
-		columnIndexes.add(setIndexes);
+		if (types.contains(type)) {
+			columnIndexes.get(types.indexOf(type)).addAll(Arrays.asList(indexes));
+		}
+		else {
+			types.add(type);
+			columnIndexes.add(setIndexes);
+		}
 	}
 	
-	public Integer[] getIntegerIndexes() {
+	public Integer[] getIndexes() {
 		ArrayList<Integer> temp1 = new ArrayList<Integer>();
 		for (int i = 0; i < types.size(); i++) {
 			if (types.get(i) == Integer.class) {
@@ -49,10 +44,6 @@ public class ColumnTypePreferences {
 			}
 		}
 		return temp1.toArray(new Integer[temp1.size()]);
-	}
-	
-	public void namesToIndex(List<String> colNames) {
-		
 	}
 	
 	private void checkType(Class<?> type) {
@@ -63,18 +54,6 @@ public class ColumnTypePreferences {
 		}
 		throw new IllegalArgumentException(String.format("Invalid type as preference %s. It should be"
 				+ " one of the following: %s", type, Arrays.toString(ALLOWED_TYPES)));
-	}
-	
-	private void checkDoubleNames(String[] names) {
-		for (int i = 0; i < columnNames.size(); i++) {
-			Set<String> prefNames = columnNames.get(i);
-			for (String name : names) {
-				if (prefNames.contains(name)) {
-					throw new IllegalArgumentException(String.format("Cannot add column %s as preference"
-							+ " %s already has a preference for %s",name,name, types.get(i)));
-				}
-			}
-		}
 	}
 	
 	private void checkDoubleIndexes(Integer[] indexes) {

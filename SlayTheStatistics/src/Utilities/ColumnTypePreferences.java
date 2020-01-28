@@ -2,6 +2,7 @@ package Utilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,14 +37,16 @@ public class ColumnTypePreferences {
 		}
 	}
 	
-	public Integer[] getIndexes() {
-		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+	@SuppressWarnings("unchecked")
+	public <T> T[] getIndexes(Class<?> type) {
+		checkType(type);
+		ArrayList<T> temp1 = new ArrayList<T>();
 		for (int i = 0; i < types.size(); i++) {
-			if (types.get(i) == Integer.class) {
-				temp1.addAll(columnIndexes.get(i));
+			if (types.get(i) == type) {
+				temp1.addAll((Collection<T>) columnIndexes.get(i));
 			}
 		}
-		return temp1.toArray(new Integer[temp1.size()]);
+		return temp1.toArray((T[]) new Object[temp1.size()]);
 	}
 	
 	private void checkType(Class<?> type) {
@@ -61,7 +64,6 @@ public class ColumnTypePreferences {
 			Set<Integer> prefIndexes = columnIndexes.get(i);
 			for (int index : indexes) {
 				if (prefIndexes.contains(index)) {
-					System.out.println(types.get(i));
 					throw new IllegalArgumentException(String.format("Cannot add column %s as preference"
 							+ " %s already has a preference for %s",index, index, types.get(i)));
 				}

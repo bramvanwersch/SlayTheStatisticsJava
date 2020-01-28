@@ -38,15 +38,20 @@ public class ColumnTypePreferences {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T[] getIndexes(Class<?> type) {
+	public ArrayList<Integer> getIndexes(Class<?> type) {
 		checkType(type);
-		ArrayList<T> temp1 = new ArrayList<T>();
+		ArrayList<Integer> temp1 = new ArrayList<Integer>();
 		for (int i = 0; i < types.size(); i++) {
 			if (types.get(i) == type) {
-				temp1.addAll((Collection<T>) columnIndexes.get(i));
+				temp1.addAll((Collection<Integer>) columnIndexes.get(i));
+				return temp1;
 			}
 		}
-		return temp1.toArray((T[]) new Object[temp1.size()]);
+		return temp1;
+	}
+	
+	public boolean anyPreferences() {
+		return types.size() > 0;
 	}
 	
 	private void checkType(Class<?> type) {

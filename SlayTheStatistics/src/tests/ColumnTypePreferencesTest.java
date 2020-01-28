@@ -1,6 +1,8 @@
 package tests;
 
 import java.util.Arrays;
+import java.util.Set;
+
 
 import Utilities.ColumnTypePreferences;
 import junit.framework.TestCase;
@@ -10,7 +12,7 @@ public class ColumnTypePreferencesTest extends TestCase {
 	public void testAddPreference() {
 		ColumnTypePreferences ctp = new ColumnTypePreferences();
 		ctp.addPreference(Integer.class, 1,2,3,4);
-		assertEquals(Arrays.toString(ctp.getIndexes(Integer.class)), Arrays.toString(new Integer[] {1,2,3,4}));
+		assertEquals(ctp.getIndexes(Integer.class).toString(), "[1, 2, 3, 4]");
 	}
 	
 	public void testAddPreferenceFailed1() {

@@ -1,12 +1,12 @@
 package tests;
 
-import global.AllRunSummary;
+import global.RunSummarys;
 import junit.framework.TestCase;
 
 public class AllRunSummaryTest extends TestCase {
 	
 	public void createAllRunSummary() {
-		AllRunSummary mySum = new AllRunSummary();
+		RunSummarys mySum = new RunSummarys();
 		assertNotNull(mySum);
 	}
 }

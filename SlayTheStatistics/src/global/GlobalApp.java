@@ -12,13 +12,13 @@ import javax.swing.table.DefaultTableModel;
 import gui.App;
 
 public class GlobalApp extends App{
-	private AllRunSummary runSummary;
+	private RunSummarys runSummary;
 	private final List<String> cardColumnNames = Arrays.asList(new String[] {"card", "win", "loss", "winrate"});
 	private final List<String> relicColumnNames = Arrays.asList(new String[] {"relic", "win", "loss", "winrate"});
 	private final List<String> modelColumnNames = Arrays.asList(new String[] {"name", "all score", "card score", "relic score"});
 	
 	public GlobalApp() {
-		runSummary = new AllRunSummary();
+		runSummary = new RunSummarys();
 	}
 
 	/**

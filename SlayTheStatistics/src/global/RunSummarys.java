@@ -17,12 +17,12 @@ import java.util.regex.Pattern;
 import gui.Settings;
 import run.ReadingRunFile;
 
-public class AllRunSummary {
+public class RunSummarys {
 	private Map<String, ItemSummary> cardRates;
 	private Map<String, ItemSummary> relicRates;
 	private String[] recordedRunNames;
 	
-	public AllRunSummary() {
+	public RunSummarys() {
 		cardRates = new HashMap<String, ItemSummary>();
 		relicRates = new HashMap<String, ItemSummary>();
 		recordedRunNames = getAlreadyProcessedRuns();
@@ -172,14 +172,10 @@ public class AllRunSummary {
 			Scanner sc_relics = new Scanner(fis2);
 			
 			while(sc_cards.hasNextLine()) {
-				//add the values as integers or doubles to ensure proper sorting.
-				//still some parts hardcoded that can give some trouble
 				String[] s = sc_cards.nextLine().split(",");
 				names.add(s[0]);
 			}
 			while(sc_relics.hasNextLine()) {
-				//add the values as integers or doubles to ensure proper sorting.
-				//still some parts hardcoded that can give some trouble
 				String[] s = sc_relics.nextLine().split(",");
 				names.add(s[0]);
 			}

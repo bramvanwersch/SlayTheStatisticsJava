@@ -7,8 +7,8 @@ public class ArrayConversions {
 	 * @param ss is the array of strings
 	 * @return integer array of same lenght
 	 */
-	public static int[] stringToInteger(String[] ss){
-		int[] is = new int[ss.length];
+	public static Integer[] stringToInteger(String[] ss){
+		Integer[] is = new Integer[ss.length];
 		for (int i = 0; i < ss.length; i++) {
 			is[i] = Integer.parseInt(ss[i]);
 		}
@@ -20,8 +20,8 @@ public class ArrayConversions {
 	 * @param ss is the array of strings
 	 * @return double array of same lenght
 	 */
-	public static double[] stringToDouble(String[] ss) {
-		double[] is = new double[ss.length];
+	public static Double[] stringToDouble(String[] ss) {
+		Double[] is = new Double[ss.length];
 		for (int i = 0; i < ss.length; i++) {
 			is[i] = Double.parseDouble(ss[i]);
 		}

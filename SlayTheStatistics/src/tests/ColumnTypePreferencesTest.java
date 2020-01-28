@@ -1,9 +1,5 @@
 package tests;
 
-import java.util.Arrays;
-import java.util.Set;
-
-
 import Utilities.ColumnTypePreferences;
 import junit.framework.TestCase;
 

@@ -64,11 +64,37 @@ public class Matrix {
 		}
 		//make sure size is set before.
 		this.size = new int[] {noColumns, rows.length};
+		if (ctp.anyPreferences()) {
+			addPreferedColumnTypes(strColumns);
+		}
 		for (String[] column : strColumns) {
 			addColumn(column);
 		}
 	}
 	
+	/**
+	 * Adds a colum in the preferred data type. If it cannot be converted then an 
+	 * IllegalArgumentException will be raised.
+	 * @param strColumns the columns to be added.
+	 */
+	private void addPreferedColumnTypes(String[][] strColumns) {
+		for (int i = 0; i < strColumns.length; i++) {
+			String[] column = strColumns[i];
+			if (ctp.getIndexes(Integer.class).contains(i)) {
+				Integer[] iColumn = ArrayConversions.stringToInteger(column);
+				addColumn(iColumn);
+			}
+			else if (ctp.getIndexes(Double.class).contains(i)) {
+				Double[] dColumn = ArrayConversions.stringToDouble(column);
+				addColumn(dColumn);
+			}
+			else {
+				addColumn(column);
+			}
+			//need more if more types are aded/needed
+		}
+	}
+
 	/**
 	 * Get the dimensions of the matrix
 	 * @return an array containing column and row size in that order.

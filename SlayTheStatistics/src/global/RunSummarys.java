@@ -29,7 +29,7 @@ public class RunSummarys {
 	}
 	
 	private void loadData() {
-		
+		//TODO: preload data into matrixes. I got bored.
 	}
 	
 	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {

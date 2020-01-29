@@ -87,7 +87,6 @@ public class Matrix {
 				addColumn(dColumn);
 			}
 			else {
-				System.out.println("bad");
 				addColumn(column);
 			}
 			//need more if more types are aded/needed

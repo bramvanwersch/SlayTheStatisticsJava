@@ -50,7 +50,8 @@ public class DataFrameTest extends TestCase {
 	
 	public void testSeparatedValuesToDataFrame() {
 		String sepVals = "this is one\n1\n2\n3\n";
-		DataFrame df = new DataFrame(sepVals, "," , true);
+		DataFrame df = new DataFrame(1,3);
+		df.addStringMatrix(sepVals, "," , true);
 		String v1 = df.getValue("this is one", 0);
 		assertEquals(v1, "1");
 	}
@@ -58,7 +59,8 @@ public class DataFrameTest extends TestCase {
 	public void testSeparatedValuesToDataFrameFailed() {
 		String sepVals = "this is one,this is one\n1,1\n2,2\n3,3\n";
 		try {
-			DataFrame df = new DataFrame(sepVals, "," , true);
+			DataFrame df = new DataFrame(2,3);
+			df.addStringMatrix(sepVals, "," , true);
 			fail("IllegalArgumentException expected");
 		}catch (IllegalArgumentException e) {
 			assertEquals("Header contains duplicate values. Cannot create the dataframe.",e.getMessage());
@@ -67,7 +69,8 @@ public class DataFrameTest extends TestCase {
 	
 	public void testRemoveColumn1() {
 		String sepVals = "this is one,this is two\n1,1\n2,2\n3,3\n";
-		DataFrame df = new DataFrame(sepVals, "," , false);
+		DataFrame df = new DataFrame(2,4);
+		df.addStringMatrix(sepVals, "," , false);
 		df.removeColumn(0);
 		String v1 = df.getValue(0, 0);
 		assertEquals(v1, "this is two");
@@ -75,7 +78,8 @@ public class DataFrameTest extends TestCase {
 	
 	public void testRemoveColumn2() {
 		String sepVals = "this is one,this is two\n1,2\n1,2\n1,2\n";
-		DataFrame df = new DataFrame(sepVals, "," , true);
+		DataFrame df = new DataFrame(2,3);
+		df.addStringMatrix(sepVals, "," , true);
 		df.removeColumn("this is one");
 		String v1 = df.getValue(0, 0);
 		assertEquals(v1, "2");

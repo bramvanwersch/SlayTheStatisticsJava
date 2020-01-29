@@ -21,13 +21,16 @@ public class DataFrame extends Matrix{
 		addDefaultColumnNames(size[0]);
 	}
 	
-	public DataFrame(String values, String sep, boolean header) {
-		super(values, sep);
-		this.columnNames = new ArrayList<String>();
+	//FIX HEADER PROBELM AND REST OF FUNCTION CALL TO MATRIX
+	public void addStringMatrix(String values, String sep, boolean header) {
 		if (header) {
-			addHeader();
+			String[] headerlessValues = Arrays.copyOfRange(values.split("\n"), 1, values.split("\n").length);
+			addStringMatrix(String.join("\n", headerlessValues), sep);
+			String[] headerValues = values.split("\n")[0].split(sep);
+			addHeader(headerValues);
 		}
 		else {
+			addStringMatrix(values, sep);
 			addDefaultColumnNames(size[0]);
 		}
 	}
@@ -82,14 +85,13 @@ public class DataFrame extends Matrix{
 	 * Takes the first row of the matrix and assignes the column names to it.
 	 * Then removes the row.
 	 */
-	private void addHeader() {
-		String[] header = getRow(0);
+	private void addHeader(String[] header) {
+		this.columnNames = new ArrayList<String>();
 		Set<String> setHeader = new HashSet<String>();
 		setHeader.addAll(Arrays.asList(header));
 		if (setHeader.size() != header.length) {
 			throw new IllegalArgumentException("Header contains duplicate values. Cannot create the dataframe.");
 		}
-		removeRow(0);
 		this.columnNames.addAll(Arrays.asList(header));
 	}
 	

@@ -28,6 +28,10 @@ public class RunSummarys {
 		recordedRunNames = getAlreadyProcessedRuns();
 	}
 	
+	private void loadData() {
+		
+	}
+	
 	public ArrayList<Object[]> getCharacterData(String character, boolean relic) {
 		if (getNewFiles(getCharacterRuns(character)).length > 0) {
 			makeCharacterSummaryFile(character);
